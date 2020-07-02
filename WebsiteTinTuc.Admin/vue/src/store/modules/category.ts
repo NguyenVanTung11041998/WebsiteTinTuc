@@ -33,7 +33,7 @@ class CategoryModule extends ListModule<CategoryState, any, Category>{
             await Ajax.delete('/api/services/app/Category/Delete?Id=' + payload.data);
         },
         async get(context: ActionContext<CategoryState, any>, payload: any) {
-            let reponse = await Ajax.get('/api/services/app/Category/Get?Id=' + payload.id);
+            let reponse = await Ajax.get('/api/services/app/Category/GetCategoryById?Id=' + payload.id);
             return reponse.data.result as Category;
         }
     };

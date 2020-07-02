@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
@@ -12,6 +13,7 @@ using WebsiteTinTuc.Admin.TinTucApplication.Categories.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Categories
 {
+    [AbpAuthorize]
     public class CategoryAppService : AdminAppServiceBase, ICategoryAppService
     {
         public async Task CreateOrEditAsync(CategoryRequest input)

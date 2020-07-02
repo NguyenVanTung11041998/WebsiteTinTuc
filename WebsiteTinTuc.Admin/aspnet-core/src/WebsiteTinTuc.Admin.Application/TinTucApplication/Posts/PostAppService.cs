@@ -14,7 +14,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
     public class PostAppService : AdminAppServiceBase, IPostAppService
     {
         [RequestSizeLimit(1000_000_000)]
-        public async Task CreateOrEditAsync(PostRequest input)
+        public async Task CreateOrEditAsync([FromForm]PostRequest input)
         {
             bool checkExits = await WorkScope.GetAll<Post>().AnyAsync(x => x.Title == input.Title && x.Id != input.Id);
             if (checkExits)

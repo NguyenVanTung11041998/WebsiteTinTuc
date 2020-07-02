@@ -6,7 +6,7 @@
           <Row :gutter="16">
             <Col span="6">
               <FormItem :label="L('Keyword')+':'" style="width:100%">
-                <Input v-model="pageRequest.keyword" :placeholder="L('Tên danh mục')" />
+                <Input v-model="pageRequest.keyword" :placeholder="L('Tên hashtag')" />
               </FormItem>
             </Col>
           </Row>
@@ -42,7 +42,7 @@
         </div>
       </div>
     </Card>
-    <create-or-edit-category v-model="createOrEditModalShow" @save-success="saveSuccess" />
+    <create-or-edit-hashtag v-model="createOrEditModalShow" @save-success="saveSuccess" />
   </div>
 </template>
 <script lang="ts">
@@ -50,16 +50,17 @@ import { Component, Vue, Inject, Prop, Watch } from "vue-property-decorator";
 import Util from "@/lib/util";
 import AbpBase from "@/lib/abpbase";
 import PageRequest from "@/store/entities/page-request";
-import CreateOrEditCategory from "./create-or-edit-category.vue";
+import CreateOrEditHashtag from "./create-or-edit-hashtag.vue";
+import Hashtag from "../../../store/entities/hashtag";
 import Category from "../../../store/entities/category";
 class PageCategoryRequest extends PageRequest {
   keyword: string;
 }
 
 @Component({
-  components: { CreateOrEditCategory }
+  components: { CreateOrEditHashtag }
 })
-export default class Categories extends AbpBase {
+export default class Hashtags extends AbpBase {
   edit() {
     this.createOrEditModalShow = true;
   }
@@ -68,25 +69,25 @@ export default class Categories extends AbpBase {
 
   createOrEditModalShow: boolean = false;
   get list() {
-    return this.$store.state.category.list;
+    return this.$store.state.hashtag.list;
   }
   get loading() {
-    return this.$store.state.category.loading;
+    return this.$store.state.hashtag.loading;
   }
 
   create() {
-    const category = { name: "" } as Category;
-    this.$store.commit("category/setCategory", category);
+    const hashtag = { name: "" } as Hashtag;
+    this.$store.commit("hashtag/setHashtag", hashtag);
     this.createOrEditModalShow = true;
   }
 
   pageChange(page: number) {
-    this.$store.commit("category/setCurrentPage", page);
+    this.$store.commit("hashtag/setCurrentPage", page);
     this.getPage();
   }
 
   pagesizeChange(pagesize: number) {
-    this.$store.commit("category/setPageSize", pagesize);
+    this.$store.commit("hashtag/setPageSize", pagesize);
     this.getPage();
   }
 
@@ -101,22 +102,22 @@ export default class Categories extends AbpBase {
       pageSize: this.pageSize
     };
     await this.$store.dispatch({
-      type: "category/getAll",
+      type: "hashtag/getAll",
       data: param
     });
   }
   get pageSize() {
-    return this.$store.state.category.pageSize;
+    return this.$store.state.hashtag.pageSize;
   }
   get totalCount() {
-    return this.$store.state.category.totalCount;
+    return this.$store.state.hashtag.totalCount;
   }
   get currentPage() {
-    return this.$store.state.category.currentPage;
+    return this.$store.state.hashtag.currentPage;
   }
   columns = [
     {
-      title: this.L("Tên danh mục"),
+      title: this.L("Tên hashtag"),
       key: "name"
     },
     {
@@ -144,8 +145,8 @@ export default class Categories extends AbpBase {
               },
               on: {
                 click: () => {
-                  const category = {...params.row};
-                  this.$store.commit("category/setCategory", category);
+                  const hashtag = {...params.row};
+                  this.$store.commit("hashtag/setHashtag", hashtag);
                   this.edit();
                 }
               }
@@ -163,12 +164,12 @@ export default class Categories extends AbpBase {
                 click: async () => {
                   this.$Modal.confirm({
                     title: this.L("Thông báo"),
-                    content: this.L(`Xóa danh mục ${params.row.name}`),
+                    content: this.L(`Xóa hashtag ${params.row.name}`),
                     okText: this.L("Yes"),
                     cancelText: this.L("No"),
                     onOk: async () => {
                       await this.$store.dispatch({
-                        type: "category/delete",
+                        type: "hashtag/delete",
                         data: params.row.id
                       });
                       await this.getPage();
