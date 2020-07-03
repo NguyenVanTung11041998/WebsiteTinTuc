@@ -52,7 +52,6 @@ import AbpBase from "@/lib/abpbase";
 import PageRequest from "@/store/entities/page-request";
 import CreateOrEditHashtag from "./create-or-edit-hashtag.vue";
 import Hashtag from "../../../store/entities/hashtag";
-import Category from "../../../store/entities/category";
 class PageCategoryRequest extends PageRequest {
   keyword: string;
 }

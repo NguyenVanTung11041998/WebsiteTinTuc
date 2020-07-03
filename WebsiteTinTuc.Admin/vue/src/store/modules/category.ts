@@ -6,7 +6,8 @@ import PageResult from '@/store/entities/page-result';
 import Category from '../entities/category'
 
 interface CategoryState extends ListState<Category> {
-    category: Category
+    category: Category;
+    categories: Category[];
 }
 class CategoryModule extends ListModule<CategoryState, any, Category>{
     state = {
@@ -15,7 +16,8 @@ class CategoryModule extends ListModule<CategoryState, any, Category>{
         pageSize: 10,
         list: new Array<Category>(),
         loading: false,
-        category: new Category()
+        category: new Category(),
+        categories: new Array<Category>()
     }
     actions = {
         async getAll(context: ActionContext<CategoryState, any>, payload: any) {
@@ -35,6 +37,12 @@ class CategoryModule extends ListModule<CategoryState, any, Category>{
         async get(context: ActionContext<CategoryState, any>, payload: any) {
             let reponse = await Ajax.get('/api/services/app/Category/GetCategoryById?Id=' + payload.id);
             return reponse.data.result as Category;
+        },
+        async getAllCategories(context: ActionContext<CategoryState, any>) {
+            let reponse = await Ajax.get('/api/services/app/Category/GetAllCategory');
+            const data = reponse.data.result as Category[];
+            context.state.categories = data
+            return data;
         }
     };
     mutations = {
@@ -46,6 +54,9 @@ class CategoryModule extends ListModule<CategoryState, any, Category>{
         },
         setCategory(state: CategoryState, category: Category) {
             state.category = category;
+        },
+        setAllCategory(state: CategoryState, categories: Category[]) {
+            state.categories = categories;
         }
     }
 }

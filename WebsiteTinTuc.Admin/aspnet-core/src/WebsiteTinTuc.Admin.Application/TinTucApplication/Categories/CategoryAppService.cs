@@ -5,6 +5,7 @@ using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Entities;
@@ -77,6 +78,18 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Categories
             int totalCount = await queryCategory.CountAsync();
             var categories = await queryCategory.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
             return new PagedResultDto<CategoryDto>(totalCount, categories);
+        }
+
+        public async Task<List<CategoryDto>> GetAllCategoryAsync()
+        {
+            return await WorkScope.GetAll<Category>()
+                                    .Select(x => new CategoryDto
+                                    {
+                                        CategoryUrl = x.CategoryUrl,
+                                        Id = x.Id,
+                                        Name = x.Name,
+                                        CreationTime = x.CreationTime
+                                    }).ToListAsync();
         }
     }
 }
