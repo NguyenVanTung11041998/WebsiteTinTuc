@@ -6,10 +6,10 @@
                     <Form ref="queryForm" :label-width="100" label-position="left" inline>
                         <Row :gutter="16">
                             <Col span="8">
-                                <FormItem :label="L('Từ khóa')+':'" style="width:100%">
-                                    <Input v-model="pageRequest.keyword" :placeholder="L('Tên bài viết')" @on-enter="getPage" />
-                                </FormItem>
-                            </Col>  
+                            <FormItem :label="L('Từ khóa')+':'" style="width:100%">
+                                <Input v-model="pageRequest.keyword" :placeholder="L('Tên bài viết')" @on-enter="getPage" />
+                            </FormItem>
+                            </Col>
                         </Row>
                         <Row>
                             <Button @click="create" type="primary" size="large">{{L('Thêm mới')}}</Button>
@@ -19,7 +19,7 @@
                     <div class="margin-top-10">
                         <Table :loading="loading" :columns="columns" :no-data-text="L('Không có dữ liệu')" border :data="list">
                         </Table>
-                        <Page  show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize" :current="currentPage"></Page>
+                        <Page show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize" :current="currentPage"></Page>
                     </div>
                 </div>
             </Card>
@@ -28,23 +28,23 @@
     </div>
 </template>
 <script lang="ts">
-    import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
+    import { Component, Vue, Inject, Prop, Watch } from 'vue-property-decorator';
     import Util from '../../../lib/util';
     import AbpBase from '../../../lib/abpbase';
     import PageRequest from '../../../store/entities/page-request';
     import UpdatePost from './update-post.vue';
     import Post from "../../../store/entities/post";
-    
-    class PagePostRequest extends PageRequest{
-        keyword:string = '';
+
+    class PagePostRequest extends PageRequest {
+        keyword: string = '';
     }
-    
+
     @Component({
-        components:{ UpdatePost }
+        components: { UpdatePost }
     })
     export default class Posts extends AbpBase {
-        pageRequest:PagePostRequest = new PagePostRequest();   
-        updateModalShow:boolean = false;
+        pageRequest: PagePostRequest = new PagePostRequest();
+        updateModalShow: boolean = false;
 
         edit() {
             this.updateModalShow = true;
@@ -52,16 +52,16 @@
 
         async create() {
             this.$store.commit("post/update", new Post());
-            await this.getAllCategories(1);
-            await this.getAllHashtags(1);
+            await this.getAllCategories();
+            await this.getAllHashtags();
             this.edit();
         }
         pageChange(page: number) {
-            this.$store.commit('post/setCurrentPage',page);
+            this.$store.commit('post/setCurrentPage', page);
             this.getPage();
         }
         pagesizeChange(pagesize: number) {
-            this.$store.commit('post/setPageSize',pagesize);
+            this.$store.commit('post/setPageSize', pagesize);
             this.getPage();
         }
 
@@ -72,10 +72,9 @@
             })
         }
 
-        async getAllHashtags(type: number) {
+        async getAllHashtags() {
             await this.$store.dispatch({
-                type: "post/getAllHashtags",
-                hashTagType: type
+                type: "post/getAllHashtags"
             });
         }
 
@@ -85,16 +84,15 @@
                 pageSize: this.pageSize,
                 searchText: this.pageRequest.keyword
             }
-            
+
             await this.$store.dispatch({
                 type: 'post/getAll',
                 data: param
             });
         }
-        async getAllCategories(categoryType) {
+        async getAllCategories() {
             await this.$store.dispatch({
-                type: "post/getAllCategories",
-                categoryType: categoryType
+                type: "post/getAllCategories"
             });
         }
         get list() {
@@ -116,76 +114,83 @@
             return this.$store.state.post.postById;
         }
         columns = [
-        {
-            title: this.L('Tiêu đề bài viết'),
-            key: 'title',
-            width: 250
-        },
-        {
-            title: this.L('Ngày đăng'),
-            key: 'creationTime',
-            width: 150
-        },
-        {
-            title: this.L('Mô tả bài viết'),
-            key: 'description'
-        },
-        {
-            title: this.L('Số lượt xem'),
-            key: 'numberOfViews',
-            width: 130
-        },
-        {
-            title:this.L('Thao tác'),
-            key:'Actions',
-            width:150,
-            render:(h:any,params:any) => {
-                return h('div', [
-                    h('Button', {
-                        props: {
-                            type:'primary',
-                            size:'small'
-                        },
-                        style: {
-                            marginRight:'5px'
-                        },
-                        on: {
-                            click: async () => {
-                                await this.getPostById(params.row.id);
-                                await this.getAllCategories(1);
-                                await this.getAllHashtags(1);
-                                let rowData = this.postById;
-                                this.$store.commit("post/update", rowData);
-                                this.edit();
+            {
+                title: this.L('Tiêu đề bài viết'),
+                key: 'title',
+                width: 250
+            },
+            {
+                title: this.L('Ngày đăng'),
+                key: 'creationTime',
+                width: 150
+            },
+            {
+                title: this.L('Mô tả bài viết'),
+                key: 'description'
+            },
+            {
+                title: this.L('Số lượt xem'),
+                key: 'numberOfViews',
+                width: 130
+            },
+            {
+                title: this.L('Số lượt thích'),
+                key: 'numberOfLikes',
+                width: 100
+            },
+            {
+                title: this.L('Thao tác'),
+                key: 'Actions',
+                width: 150,
+                render: (h: any, params: any) => {
+                    return h('div', [
+                        h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: async () => {
+                                    await this.getPostById(params.row.id);
+                                    await this.getAllCategories();
+                                    await this.getAllHashtags();
+                                    let rowData = this.postById;
+                                    this.$store.commit("post/setPost", rowData);
+                                    this.edit();
+                                }
                             }
-                        }
-                    }, this.L('Sửa')),
-                    h('Button', {
-                        props: {
-                            type:'error',
-                            size:'small'
-                        },
-                        on: {
-                            click:async () => {
-                                this.$Modal.confirm({
-                                    title:this.L('Tips'),
-                                    content:this.L('DeletePostConfirm'),
-                                    okText:this.L('Yes'),
-                                    cancelText:this.L('No'),
-                                    onOk:async () => {
-                                        await this.$store.dispatch({
-                                            type:'post/deletePost',
-                                            data:params.row
-                                        });
-                                        await this.getPage();
-                                    }
-                                })
+                        }, this.L('Sửa')),
+                        h('Button', {
+                            props: {
+                                type: 'error',
+                                size: 'small'
+                            },
+                            on: {
+                                click: async () => {
+                                    this.$Modal.confirm({
+                                        title: this.L('Tips'),
+                                        content: this.L('DeletePostConfirm'),
+                                        okText: this.L('Yes'),
+                                        cancelText: this.L('No'),
+                                        onOk: async () => {
+                                            await this.$store.dispatch({
+                                                type: 'post/delete',
+                                                data: params.row
+                                            });
+                                            await this.getPage();
+                                        }
+                                    })
+                                }
                             }
-                        }
-                    }, this.L('Xóa'))
-                ]);
+                        }, this.L('Xóa'))
+                    ]);
+                }
             }
-        }]
+        ]
+
         async created() {
             this.getPage();
         }

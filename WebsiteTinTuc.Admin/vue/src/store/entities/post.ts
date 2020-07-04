@@ -10,4 +10,5 @@ export default class Post {
     numberOfLikes: number;
     numberOfComments: number;
     objectFile?: IObjectFile;
+    creationTime: Date;
 }

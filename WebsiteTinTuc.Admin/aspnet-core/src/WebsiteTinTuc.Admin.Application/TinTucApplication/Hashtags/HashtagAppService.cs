@@ -5,16 +5,18 @@ using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
+using WebsiteTinTuc.Admin.Models;
 using WebsiteTinTuc.Admin.TinTucApplication.Hashtags.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
 {
     [AbpAuthorize]
-    public class HashtagAppService : AdminAppServiceBase
+    public class HashtagAppService : AdminAppServiceBase, IHashtagAppService
     {
         public async Task SaveHashtagAsync(HashtagRequest input)
         {
@@ -80,6 +82,18 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
             int totalCount = await hashtags.CountAsync();
             var categories = await hashtags.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
             return new PagedResultDto<HashtagModel>(totalCount, categories);
+        }
+
+        public async Task<List<HashtagModel>> GetAllHashtags()
+        {
+            return await WorkScope.GetAll<Hashtag>()
+                        .Select(x => new HashtagModel
+                        {
+                            HashtagUrl = x.HashtagUrl,
+                            Id = x.Id,
+                            Name = x.Name,
+                            CreationTime = x.CreationTime
+                        }).ToListAsync();
         }
     }
 }

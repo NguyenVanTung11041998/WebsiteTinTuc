@@ -9,6 +9,7 @@ import role from './modules/role';
 import tenant from './modules/tenant';
 import category from './modules/category';
 import hashtag from './modules/hashtag';
+import post from './modules/post';
 const store = new Vuex.Store({
     state: {
         //
@@ -27,7 +28,8 @@ const store = new Vuex.Store({
         role,
         tenant,
         category,
-        hashtag
+        hashtag,
+        post
     }
 });
 

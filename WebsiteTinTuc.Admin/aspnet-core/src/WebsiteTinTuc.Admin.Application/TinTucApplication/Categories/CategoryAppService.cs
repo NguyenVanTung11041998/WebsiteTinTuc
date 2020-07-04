@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
+using WebsiteTinTuc.Admin.Models;
 using WebsiteTinTuc.Admin.TinTucApplication.Categories.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Categories

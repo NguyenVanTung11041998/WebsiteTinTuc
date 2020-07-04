@@ -1,11 +1,16 @@
-﻿using Abp.Authorization;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Constans;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
+using WebsiteTinTuc.Admin.Models;
 using WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
@@ -112,6 +117,27 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                     await WorkScope.InsertAsync(postCategory);
                 }
             }
+        }
+
+        public async Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PageRequest input)
+        {
+            var queryPost = WorkScope.GetAll<Post>()
+                .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title.Contains(input.SearchText))
+                .Select(x => new PostDto
+                {
+                    Content = x.Content.Length > 100 ? x.Content.Substring(0, 100) : x.Content,
+                    Id = x.Id,
+                    CreationTime = x.CreationTime,
+                    Description = x.Description,
+                    NumberOfComments = x.NumberOfComments,
+                    NumberOfLikes = x.NumberOfLikes,
+                    NumberOfViews = x.NumberOfViews,
+                    PostUrl = x.PostUrl,
+                    Title = x.Title
+                });
+            int totalCount = await queryPost.CountAsync();
+            var posts = await queryPost.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
+            return new PagedResultDto<PostDto>(totalCount, posts);
         }
     }
 }

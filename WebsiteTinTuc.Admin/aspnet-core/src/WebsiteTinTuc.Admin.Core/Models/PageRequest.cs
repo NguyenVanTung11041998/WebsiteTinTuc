@@ -1,4 +1,4 @@
-﻿namespace WebsiteTinTuc.Admin.Helpers
+﻿namespace WebsiteTinTuc.Admin.Models
 {
     public class PageRequest
     {

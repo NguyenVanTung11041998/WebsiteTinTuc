@@ -5,9 +5,12 @@ import Ajax from '../../lib/ajax'
 import PageResult from '@/store/entities/page-result';
 import Hashtag from '../entities/hashtag'
 import Post from '../entities/post';
+import Category from '../entities/category';
 
 interface PostState extends ListState<Post> {
     post: Post;
+    hashtags: Hashtag[];
+    categories: Category[];
 }
 class PostModule extends ListModule<PostState, any, Post>{
     state = {
@@ -16,7 +19,9 @@ class PostModule extends ListModule<PostState, any, Post>{
         pageSize: 10,
         list: new Array<Post>(),
         loading: false,
-        post: new Post()
+        post: new Post(),
+        hashtags: new Array<Hashtag>(),
+        categories: new Array<Category>()
     };
     getters = {
         post(state: PostState) {
@@ -26,9 +31,9 @@ class PostModule extends ListModule<PostState, any, Post>{
     actions = {
         async getAll(context: ActionContext<PostState, any>, payload: any) {
             context.state.loading = true;
-            let reponse = await Ajax.get('/api/services/app/Post/GetAllPostPaging', { params: payload.data });
+            let response = await Ajax.get('/api/services/app/Post/GetAllPostPaging', { params: payload.data });
             context.state.loading = false;
-            let page = reponse.data.result as PageResult<Post>;
+            let page = response.data.result as PageResult<Post>;
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
@@ -39,8 +44,20 @@ class PostModule extends ListModule<PostState, any, Post>{
             await Ajax.delete('/api/services/app/Post/Delete?Id=' + payload.data);
         },
         async get(context: ActionContext<PostState, any>, payload: any) {
-            let reponse = await Ajax.get('/api/services/app/Post/GetHashtagById?Id=' + payload.id);
-            return reponse.data.result as Hashtag;
+            let response = await Ajax.get('/api/services/app/Post/GetPostById?Id=' + payload.id);
+            return response.data.result as Hashtag;
+        },
+        async getAllCategories(context: ActionContext<PostState, any>) {
+            let response = await Ajax.get('/api/services/app/Category/ GetAllCategory');
+            const data = response.data.result as Category[];
+            context.state.categories = data;
+            return data;
+        },
+        async getAllHashtags(context: ActionContext<PostState, any>) {
+            let response = await Ajax.get('/api/services/app/Hashtag/GetAllHashtags');
+            const data = response.data.result as Hashtag[];
+            context.state.hashtags = data;
+            return data;
         }
     };
     mutations = {
