@@ -6,9 +6,9 @@
                     <Form ref="queryForm" :label-width="100" label-position="left" inline>
                         <Row :gutter="16">
                             <Col span="8">
-                            <FormItem :label="L('Từ khóa')+':'" style="width:100%">
-                                <Input v-model="pageRequest.keyword" :placeholder="L('Tên bài viết')" @on-enter="getPage" />
-                            </FormItem>
+                                <FormItem :label="L('Từ khóa')+':'" style="width:100%">
+                                    <Input v-model="pageRequest.keyword" :placeholder="L('Tên bài viết')" @on-enter="getPage" />
+                                </FormItem>
                             </Col>
                         </Row>
                         <Row>
@@ -51,7 +51,7 @@
         }
 
         async create() {
-            this.$store.commit("post/update", new Post());
+            this.$store.commit("post/setPost", new Post());
             await this.getAllCategories();
             await this.getAllHashtags();
             this.edit();
@@ -117,7 +117,7 @@
             {
                 title: this.L('Tiêu đề bài viết'),
                 key: 'title',
-                width: 250
+                width: 200
             },
             {
                 title: this.L('Ngày đăng'),
@@ -136,7 +136,7 @@
             {
                 title: this.L('Số lượt thích'),
                 key: 'numberOfLikes',
-                width: 100
+                width: 150
             },
             {
                 title: this.L('Thao tác'),

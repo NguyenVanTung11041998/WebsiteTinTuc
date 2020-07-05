@@ -3,6 +3,7 @@ using Abp.Authorization;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -138,6 +139,14 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             int totalCount = await queryPost.CountAsync();
             var posts = await queryPost.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
             return new PagedResultDto<PostDto>(totalCount, posts);
+        }
+
+        [RequestSizeLimit(1000_000_000)]
+        public async Task<string> UploadImage([FromForm]IFormFile file)
+        {
+            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, ConstantVariable.PostFolder);
+            string fileName = await UploadFiles.UploadAsync(fileLocation, file);
+            return $"{ConstantVariable.PostFolder}/{fileName}";
         }
     }
 }

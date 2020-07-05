@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import App from './app.vue';
+import BootstrapVue from 'bootstrap-vue';
+import ViewUI from 'view-design';
 import iView from 'iview';
 import { router } from './router/index';
 import 'famfamfam-flags/dist/sprite/famfamfam-flags.css';
@@ -16,6 +18,11 @@ if (!abp.utils.getCookieValue('Abp.Localization.CultureName')) {
   let language = navigator.language;
   abp.utils.setCookieValue('Abp.Localization.CultureName', language, new Date(new Date().getTime() + 5 * 365 * 86400000), abp.appPath);
 }
+
+import 'view-design/dist/styles/iview.css';
+Vue.use(BootstrapVue);
+import locale from 'view-design/dist/locale/en-US';
+Vue.use(ViewUI, {locale: locale});
 
 Ajax.get('/AbpUserConfiguration/GetAll').then(data => {
   Util.abp = Util.extend(true, Util.abp, data.data.result);

@@ -11,6 +11,7 @@ interface PostState extends ListState<Post> {
     post: Post;
     hashtags: Hashtag[];
     categories: Category[];
+    imageUrl: string;
 }
 class PostModule extends ListModule<PostState, any, Post>{
     state = {
@@ -21,11 +22,18 @@ class PostModule extends ListModule<PostState, any, Post>{
         loading: false,
         post: new Post(),
         hashtags: new Array<Hashtag>(),
-        categories: new Array<Category>()
+        categories: new Array<Category>(),
+        imageUrl: '#'
     };
     getters = {
         post(state: PostState) {
             return state.post;
+        },
+        hashtags(state: PostState) {
+            return state.hashtags;
+        },
+        categories(state: PostState) {
+            return state.categories;
         }
     };
     actions = {
@@ -48,7 +56,7 @@ class PostModule extends ListModule<PostState, any, Post>{
             return response.data.result as Hashtag;
         },
         async getAllCategories(context: ActionContext<PostState, any>) {
-            let response = await Ajax.get('/api/services/app/Category/ GetAllCategory');
+            let response = await Ajax.get('/api/services/app/Category/GetAllCategory');
             const data = response.data.result as Category[];
             context.state.categories = data;
             return data;
@@ -58,6 +66,10 @@ class PostModule extends ListModule<PostState, any, Post>{
             const data = response.data.result as Hashtag[];
             context.state.hashtags = data;
             return data;
+        },
+        async uploadImage({ commit }, payload: any) {
+            const response = await Ajax.post('/api/services/app/Post/UploadImage', payload.data);
+            commit('setImage', response.data.result);
         }
     };
     mutations = {
@@ -69,6 +81,9 @@ class PostModule extends ListModule<PostState, any, Post>{
         },
         setPost(state: PostState, post: Post) {
             state.post = post;
+        },
+        setImage(state: PostState, imageUrl: string) {
+            state.imageUrl = imageUrl;
         }
     }
 }

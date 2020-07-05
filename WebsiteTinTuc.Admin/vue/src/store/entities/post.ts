@@ -11,4 +11,6 @@ export default class Post {
     numberOfComments: number;
     objectFile?: IObjectFile;
     creationTime: Date;
+    categories: string[];
+    hashtags: string[];
 }

@@ -10,10 +10,6 @@
                     <FormItem :label="L('Mô tả bài viết:')" prop="description">
                         <Input v-model="post.description" type="textarea" :rows="3" placeholder="Nhập mô tả..." :maxlength="230" :minlength="175" />
                     </FormItem>
-                    <div>
-                        <span>Sự kiện:</span>
-                        <Checkbox v-model="post.isEvent" style="margin-left: 10px;" label=""></Checkbox>
-                    </div>
                 </div>
                 <div class="col-6">
                     <FormItem :label="L('Thể loại:')">
@@ -27,22 +23,21 @@
                         </Select>
                     </FormItem>
                     <FormItem :label="L('Ảnh Thumbnail:')" prop="thumbnail">
-                        <div class="image-cover mx-0 mb-2" v-if="post.thumbnail">
-                            <img :src="post.thumbnail ? getLinkPath(post.thumbnail) : '#'" alt="Thumbnail" />
+                        <div class="image-cover mx-0 mb-2" v-if="post.objectFile">
+                            <img :src="post.objectFile ? getLinkPath(post.objectFile) : '#'" alt="Thumbnail" />
                             <span>
                                 <img src="../../../assets/x-button.png"
-                                     alt
-                                     @click="removeImage(post.thumbnail)" />
+                                    @click="removeImage(post.objectFile)" />
                             </span>
                         </div>
 
-                        <div class="input-button" :class="{'d-none' : post.thumbnail}">
-                            <b-form-file class
-                                         id="uploadIcon"
-                                         v-model="thumbnailFile"
-                                         size="sm"
-                                         @change="onChangeThumbnail"
-                                         plain></b-form-file>
+                        <div class="input-button"  v-if="!post.objectFile" :class="{'d-none' : post.objectFile}">
+                            <b-form-file
+                                id="uploadIcon"
+                                v-model="thumbnailFile"
+                                size="sm"
+                                @change="onChangeThumbnail"
+                                plain />
                             <label for="uploadIcon" class="custom-input">
                                 <span></span>
                                 <span></span>
@@ -73,7 +68,7 @@
                                 paste_data_images: true,
                                 images_upload_url: '/api/services/app/Post/UploadImage',
                                 images_upload_handler: saveImage
-                            }"></editor>
+                            }" />
                     </FormItem>
                 </div>
             </div>
@@ -94,6 +89,9 @@
     import { Action, Getter, namespace } from "vuex-class";
     import PageRequest from "../../../store/entities/page-request";
     import Editor from '@tinymce/tinymce-vue';
+    import { FileType } from '../../../store/enums/fileType';
+import Category from '../../../store/entities/category';
+import Hashtag from '../../../store/entities/hashtag';
 
     class PagePostRequest extends PageRequest {
         keyword: string = "";
@@ -103,9 +101,9 @@
     })
     export default class UpdatePost extends AbpBase {
         @Prop({ type: Boolean, default: false }) value: boolean;
-        @Getter("allCategories", { namespace: "post" }) public allCategories!: any;
-        @Getter("post", { namespace: "post" }) public post!: any;
-        @Getter("allHashtags", { namespace: "post" }) public allHashtags!: any;
+        @Getter("categories", { namespace: "post" }) public allCategories!: Category[];
+        @Getter("post", { namespace: "post" }) public post!: Post;
+        @Getter("hashtags", { namespace: "post" }) public allHashtags!: Hashtag[];
 
         public deleteFiles: any = [];
         public thumbnailFile: File = null;
@@ -159,19 +157,10 @@
             success(Util.getLinkPath(this.imageUrl));
         }
 
-        removeImage(file: IObjectFile, index = 0) {
-            if (file.fileType == 2) {
-                this.post.thumbnail = null;
+        removeImage(file: IObjectFile) {
+            if (file.fileType == FileType.thumbnail) {
+                this.post.objectFile = null;
                 this.thumbnailFile = null;
-            }
-            if (file.fileType == 1) {
-                this.deleteFiles.push(file.id);
-                this.post.assets = this.post.assets.filter(
-                    item => !isEqual(file, item)
-                );
-                this.assetsFile = this.assetsFile.filter(
-                    item => !isEqual(file.file, item)
-                );
             }
         }
         resetModel() {
@@ -192,12 +181,11 @@
                 forEach(this.hashtags, (hashtag: string) => {
                     requestData.append("hashtags", hashtag);
                 });
-                requestData.append("isEvent", this.post.isEvent ? this.post.isEvent : "false");
                 requestData.append('title', this.post.title);
                 requestData.append('description', this.post.description);
                 requestData.append('content', this.post.content);
-                if (this.post && this.post.thumbnail) {
-                    const thumbnailFile = this.post.thumbnail;
+                if (this.post && this.post.objectFile) {
+                    const thumbnailFile = this.post.objectFile;
                     if (thumbnailFile) {
                         requestData.append("thumbnail", thumbnailFile.file);
                     }
@@ -230,22 +218,11 @@
         }
 
         onChangeThumbnail(event: any) {
-            this.post.thumbnail = {
+            this.post.objectFile = {
                 id: "",
                 file: event.target.files[0],
-                fileType: 2
-            };
-        }
-
-        onChangeAssets(event: any) {
-            this.post.assets = this.post.assets || [];
-            for (let i = 0; i < event.target.files.length; i++) {
-                this.post.assets.push({
-                    id: "",
-                    file: event.target.files[i],
-                    fileType: 1
-                });
-            }
+                fileType: FileType.thumbnail
+            } as IObjectFile;
         }
 
         postRule = {
@@ -268,41 +245,36 @@
         overflow: hidden;
         border-radius: 4px;
         margin-right: 20px;
-        img
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
 
-    {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
+        span {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            position: absolute;
+            bottom: 100%;
+            overflow: hidden;
+            transition: 0.2s;
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.2);
+            }
 
-    span {
-        display: inline-block;
-        height: 10px;
-        width: 10px;
-        position: absolute;
-        bottom: 100%;
-        overflow: hidden;
-        transition: 0.2s;
-        cursor: pointer;
-        &:hover
-
-    {
-        transform: scale(1.2);
-    }
-
-    img {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        object-position: center;
-        object-fit: cover;
-    }
-
-    }
+            img {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                object-position: center;
+                object-fit: cover;
+            }
+        }
     }
 
     .input-button {
@@ -315,52 +287,47 @@
         position: relative;
         border-radius: 4px;
         margin-right: 20px;
-        input
+        input {
+            position: absolute;
+            z-index: -1;
+        }
 
-    {
-        position: absolute;
-        z-index: -1;
-    }
+        .custom-input {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px dashed #a5a5a5;
+            border-radius: 50%;
+            transition: 0.1s;
+            &:hover {
+                width: 100%;
+                height: 100%;
+            }
 
-    .custom-input {
-        position: relative;
-        width: 90%;
-        height: 90%;
-        margin: 0;
-        cursor: pointer;
-        border: 2px dashed #a5a5a5;
-        border-radius: 50%;
-        transition: 0.1s;
-        &:hover
+            span:first-child {
+                display: inline-block;
+                height: 2px;
+                width: 60%;
+                background-color: #a5a5a5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(90deg);
+            }
 
-    {
-        width: 100%;
-        height: 100%;
-    }
-
-    span:first-child {
-        display: inline-block;
-        height: 2px;
-        width: 60%;
-        background-color: #a5a5a5;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(90deg);
-    }
-
-    span:last-child {
-        display: inline-block;
-        height: 2px;
-        width: 60%;
-        background-color: #a5a5a5;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    }
+            span:last-child {
+                display: inline-block;
+                height: 2px;
+                width: 60%;
+                background-color: #a5a5a5;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
     }
 
     #uploadIcon {

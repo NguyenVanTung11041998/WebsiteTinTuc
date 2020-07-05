@@ -20,6 +20,9 @@ const store = new Vuex.Store({
     actions: {
 
     },
+    getters: {
+        
+    },
     modules: {
         app,
         session,
