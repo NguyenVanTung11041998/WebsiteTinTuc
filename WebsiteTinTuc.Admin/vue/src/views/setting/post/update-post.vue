@@ -26,12 +26,10 @@
                         <div class="image-cover mx-0 mb-2" v-if="post.objectFile">
                             <img :src="post.objectFile ? getLinkPath(post.objectFile) : '#'" alt="Thumbnail" />
                             <span>
-                                <img src="../../../assets/x-button.png"
-                                    @click="removeImage(post.objectFile)" />
+                                <img src="../../../assets/x-button.png" @click="removeImage(post.objectFile)" />
                             </span>
                         </div>
-
-                        <div class="input-button"  v-if="!post.objectFile" :class="{'d-none' : post.objectFile}">
+                        <div class="input-button" v-if="!post.objectFile" :class="{'d-none' : post.objectFile}">
                             <b-form-file
                                 id="uploadIcon"
                                 v-model="thumbnailFile"
@@ -110,6 +108,7 @@ import Hashtag from '../../../store/entities/hashtag';
         public assetsFile: File[] = [];
         public postCategories: any = [];
         public hashtags: any = [];
+        public isTest = false;
         pageRequest: PagePostRequest = new PagePostRequest();
 
         created() {

@@ -137,7 +137,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                     Title = x.Title
                 });
             int totalCount = await queryPost.CountAsync();
-            var posts = await queryPost.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
+            var posts = await queryPost.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize).ToListAsync();
             return new PagedResultDto<PostDto>(totalCount, posts);
         }
 
