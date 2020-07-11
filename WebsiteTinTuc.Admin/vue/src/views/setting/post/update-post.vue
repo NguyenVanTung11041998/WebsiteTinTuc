@@ -88,8 +88,8 @@
     import PageRequest from "../../../store/entities/page-request";
     import Editor from '@tinymce/tinymce-vue';
     import { FileType } from '../../../store/enums/fileType';
-import Category from '../../../store/entities/category';
-import Hashtag from '../../../store/entities/hashtag';
+    import Category from '../../../store/entities/category';
+    import Hashtag from '../../../store/entities/hashtag';
 
     class PagePostRequest extends PageRequest {
         keyword: string = "";
@@ -145,14 +145,14 @@ import Hashtag from '../../../store/entities/hashtag';
             });
         }
 
-        saveImage(blobInfo, success) {
+        async saveImage(blobInfo, success) {
             const requestData = new FormData();
             requestData.append('file', blobInfo.blob());
-            this.$store.dispatch({
+            await this.$store.dispatch({
                 type: 'post/uploadImage',
                 data: requestData
             });
-
+            
             success(Util.getLinkPath(this.imageUrl));
         }
 

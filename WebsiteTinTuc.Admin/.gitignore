@@ -7,3 +7,4 @@ bin/
 aspnet-core/src/WebsiteTinTuc.Admin.Web.Host/App_Data/Logs/
 aspnet-core/src/WebsiteTinTuc.Admin.Web.Mvc/App_Data/Logs/
 aspnet-core/src/WebsiteTinTuc.Admin.Migrator/Logs/Logs.txt
+Posts/

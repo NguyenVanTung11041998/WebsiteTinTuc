@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import appconst from './appconst'
+import appconst from './appconst';
+import URL from "./url";
+
 class Util{
     abp:any=window.abp;
     loadScript(url:string){
@@ -290,5 +292,5 @@ class Util{
         else return url;
     }
 }
-const util=new Util();
+const util = new Util();
 export default util;

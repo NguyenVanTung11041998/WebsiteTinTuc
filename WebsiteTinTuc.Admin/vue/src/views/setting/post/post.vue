@@ -51,7 +51,8 @@
         }
 
         async create() {
-            this.$store.commit("post/setPost", new Post());
+            let post = { objectFile: null } as Post;
+            this.$store.commit("post/setPost", post);
             await this.getAllCategories();
             await this.getAllHashtags();
             this.edit();
