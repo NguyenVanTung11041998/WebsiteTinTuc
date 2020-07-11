@@ -193,7 +193,7 @@
         ]
 
         async created() {
-            this.getPage();
+            await this.getPage();
         }
     }
 </script>

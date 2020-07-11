@@ -60,7 +60,7 @@
                                 toolbar1: 'undo redo | formatselect | bold italic backcolor| image media | \
                                         charmap | table | Link | alignleft aligncenter alignright alignjustify | \
                                         bullist numlist outdent indent ',
-                                toolbar2: 'removeformat |  paste code | searchreplace | wordcount | fullscreen | help',
+                                toolbar2: 'removeformat | paste code | searchreplace | wordcount | fullscreen | help',
                                 automatic_upload: true,
                                 image_title: true,
                                 paste_data_images: true,
@@ -105,10 +105,8 @@
 
         public deleteFiles: any = [];
         public thumbnailFile: File = null;
-        public assetsFile: File[] = [];
         public postCategories: any = [];
         public hashtags: any = [];
-        public isTest = false;
         pageRequest: PagePostRequest = new PagePostRequest();
 
         created() {
@@ -165,7 +163,6 @@
         resetModel() {
             this.deleteFiles = [];
             this.thumbnailFile = null;
-            this.assetsFile = [];
             this.postCategories = [];
         }
 
@@ -183,11 +180,8 @@
                 requestData.append('title', this.post.title);
                 requestData.append('description', this.post.description);
                 requestData.append('content', this.post.content);
-                if (this.post && this.post.objectFile) {
-                    const thumbnailFile = this.post.objectFile;
-                    if (thumbnailFile) {
-                        requestData.append("thumbnail", thumbnailFile.file);
-                    }
+                if (this.post && this.post.objectFile && this.post.objectFile.file) {
+                    requestData.append("thumbnail", this.post.objectFile.file);
                 }
 
                 forEach(this.deleteFiles, (f: string) => {
