@@ -21,7 +21,7 @@
     <text name="LeaveEmptyToSwitchToHost" value="留空以切换到Host"/>
     <text name="LogIn" value="登录" />
     <text name="LoginFailed" value="登录失败!" />
-    <text name="AppName" >Admin</text>
+    <text name="AppName">Admin</text>
     <text name="UserNamePlaceholder" >请输入账户</text>
     <text name="PasswordPlaceholder" >请输入密码</text>
     <text name="CopyRight" >© 2018 Admin</text>

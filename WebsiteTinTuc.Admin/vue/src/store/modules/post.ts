@@ -51,9 +51,11 @@ class PostModule extends ListModule<PostState, any, Post>{
         async delete(context: ActionContext<PostState, any>, payload: any) {
             await Ajax.delete('/api/services/app/Post/Delete?Id=' + payload.data);
         },
-        async get(context: ActionContext<PostState, any>, payload: any) {
+        async getPostById(context: ActionContext<PostState, any>, payload: any) {
             let response = await Ajax.get('/api/services/app/Post/GetPostById?Id=' + payload.id);
-            return response.data.result as Hashtag;
+            const data  = response.data.result as Post;
+            context.state.post = data;
+            return data;
         },
         async getAllCategories(context: ActionContext<PostState, any>) {
             let response = await Ajax.get('/api/services/app/Category/GetAllCategory');

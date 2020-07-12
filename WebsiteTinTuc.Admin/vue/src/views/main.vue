@@ -14,7 +14,7 @@
                 <div slot="top" class="logo-con">
                   <a>
                     <Icon type="cube" size="32"></Icon>
-                    <h1 >{{L('AppName')}}</h1>
+                    <h1 >{{L('Admin quản trị')}}</h1>
                   </a>
                    
                 </div>

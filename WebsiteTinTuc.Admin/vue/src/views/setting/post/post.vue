@@ -24,7 +24,7 @@
                 </div>
             </Card>
         </div>
-        <div v-if="updateModalShow"><update-post v-model="updateModalShow" @save-success="getPage"></update-post></div>
+        <div v-if="updateModalShow"><update-post v-model="updateModalShow" @save-success="getPage" /></div>
     </div>
 </template>
 <script lang="ts">
@@ -158,8 +158,6 @@
                                     await this.getPostById(params.row.id);
                                     await this.getAllCategories();
                                     await this.getAllHashtags();
-                                    let rowData = this.postById;
-                                    this.$store.commit("post/setPost", rowData);
                                     this.edit();
                                 }
                             }

@@ -130,7 +130,6 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
-
           
             app.UseEndpoints(endpoints =>
             {

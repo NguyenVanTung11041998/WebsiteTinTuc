@@ -110,9 +110,9 @@
         pageRequest: PagePostRequest = new PagePostRequest();
 
         created() {
-            if (this.post && this.post.categories) {
-                this.postCategories = map(this.post.categories, 'id');
-                this.hashtags = map(this.post.hashtags, 'id');
+            if (this.post && this.post.categoryIds) {
+                this.postCategories = map(this.post.categoryIds, "categoryHashtagOfPostId");
+                this.hashtags = map(this.post.hashtagIds, "categoryHashtagOfPostId");
             }
         }
 
@@ -134,13 +134,6 @@
         }
         get currentPage() {
             return this.$store.state.post.currentPage;
-        }
-
-        async getPage() {
-            await this.$store.dispatch({
-                type: 'post/getPosts',
-                data: this.pageRequest
-            });
         }
 
         async saveImage(blobInfo, success) {
@@ -171,11 +164,12 @@
                 const requestData = new FormData();
                 if (this.post && this.post.id)
                     requestData.append("id", this.post.id);
+                    
                 forEach(this.postCategories, (cate: string) => {
-                    requestData.append("categories", cate);
+                    requestData.append("categoryIds", cate);
                 });
                 forEach(this.hashtags, (hashtag: string) => {
-                    requestData.append("hashtags", hashtag);
+                    requestData.append("hashtagIds", hashtag);
                 });
                 requestData.append('title', this.post.title);
                 requestData.append('description', this.post.description);
@@ -185,17 +179,24 @@
                 }
 
                 forEach(this.deleteFiles, (f: string) => {
-                    requestData.append("deleteFiles", f);
+                    requestData.append("fileIdDelete", f);
+                });
+                const categoryIdDelete = map(this.post.categoryIds, "id");
+                forEach(categoryIdDelete, (x: string) => {
+                    requestData.append("categoryIdDelete", x);
+                });
+                const hashtagIdDelete = map(this.post.hashtagIds, "id");
+                 forEach(hashtagIdDelete, (x: string) => {
+                    requestData.append("hashtagIdDelete", x);
                 });
                 await this.$store.dispatch({
-                    type: 'post/updatePost',
+                    type: 'post/createOrEdit',
                     data: requestData
                 });
 
                 (this.$refs.postForm as any).resetFields();
                 this.$emit('save-success');
-                this.$emit('input', false);
-                await this.getPage();
+                this.$emit('input', false);;
             }
         }
 

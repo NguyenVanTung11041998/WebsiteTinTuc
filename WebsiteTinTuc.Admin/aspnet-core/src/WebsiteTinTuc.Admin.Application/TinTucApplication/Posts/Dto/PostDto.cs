@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WebsiteTinTuc.Admin.Models;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
@@ -15,5 +16,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
         public long NumberOfComments { get; set; }
         public long NumberOfLikes { get; set; }
         public string PostUrl { get; set; }
+        public IEnumerable<CategoryHashtagModel> CategoryIds { get; set; }
+        public IEnumerable<CategoryHashtagModel> HashtagIds { get; set; }
     }
 }

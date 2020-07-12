@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,7 +15,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
         public string Content { get; set; }
         [Required(ErrorMessage = "Mô tả không được để trống")]
         public string Description { get; set; }
-        public List<FileRequest> Files { get; set; }
+        public IFormFile Thumbnail { get; set; }
+        public List<IFormFile> Files { get; set; }
         public List<Guid> CategoryIds { get; set; }
         public List<Guid> HashtagIds { get; set; }
         public List<Guid> FileIdDelete { get; set; }

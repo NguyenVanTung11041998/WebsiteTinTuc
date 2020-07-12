@@ -11,6 +11,11 @@ export default class Post {
     numberOfComments: number;
     objectFile?: IObjectFile;
     creationTime: Date;
-    categories: string[];
-    hashtags: string[];
+    categoryIds: CategoryHashtagModel[];
+    hashtagIds: CategoryHashtagModel[];
+}
+
+export class CategoryHashtagModel {
+    id: string;
+    categoryHashtagOfPostId: string;
 }

@@ -37,7 +37,7 @@ export const otherRouters: Router = {
     path: '/main',
     name: 'main',
     permission: '',
-    meta: { title: 'ManageMenu' },
+    meta: { title: 'Menu' },
     component: main,
     children: [
         { path: 'home', meta: { title: 'HomePage' }, name: 'home', component: () => import('../views/home/home.vue') }
@@ -47,7 +47,7 @@ export const appRouters: Array<Router> = [{
     path: '/setting',
     name: 'setting',
     permission: '',
-    meta: { title: 'ManageMenu' },
+    meta: { title: 'Menu' },
     icon: '&#xe68a;',
     component: main,
     children: [

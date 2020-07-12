@@ -6,6 +6,7 @@ using Abp.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Constans;
@@ -26,7 +27,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             if (checkExits)
                 throw new UserFriendlyException("Tiêu đề bài viết đã tồn tại!");
 
-            var fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.PostFolder}");
+            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.PostFolder}");
             if (input.Id.HasValue)
             {
                 var post = await WorkScope.GetAll<Post>().FirstOrDefaultAsync(x => x.Id == input.Id);
@@ -82,15 +83,27 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             {
                 foreach (var item in input.Files)
                 {
-                    string fileName = await UploadFiles.UploadAsync(fileLocation, item.File);
+                    string fileName = await UploadFiles.UploadAsync(fileLocation, item);
                     var asset = new Asset
                     {
-                        FileType = item.FileType,
+                        FileType = FileType.Image,
                         Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.PostFolder}/{fileName}",
                         PostId = input.Id.Value
                     };
                     await WorkScope.InsertAsync(asset);
                 }
+            }
+
+            if (input.Thumbnail?.Length > 0)
+            {
+                string fileName = await UploadFiles.UploadAsync(fileLocation, input.Thumbnail);
+                var asset = new Asset
+                {
+                    FileType = FileType.Thumbnail,
+                    Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.PostFolder}/{fileName}",
+                    PostId = input.Id.Value
+                };
+                await WorkScope.InsertAsync(asset);
             }
 
             if (input.HashtagIds?.Count > 0)
@@ -142,11 +155,76 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         }
 
         [RequestSizeLimit(1000_000_000)]
-        public async Task<string> UploadImage([FromForm]IFormFile file)
+        public async Task<string> UploadImage([FromForm] IFormFile file)
         {
             string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, ConstantVariable.PostFolder);
             string fileName = await UploadFiles.UploadAsync(fileLocation, file);
             return $"{ConstantVariable.PostFolder}/{fileName}";
+        }
+
+        public async Task<PostDto> GetPostByIdAsync(Guid id)
+        {
+            var queryCategory = (await WorkScope.GetAll<PostCategory>()
+                                    .Where(x => x.PostId == id)
+                                    .Select(x => new
+                                    {
+                                        x.Id,
+                                        x.CategoryId,
+                                        x.PostId
+                                    }).ToListAsync())
+                                    .GroupBy(x => x.PostId)
+                                    .Select(x => new
+                                    {
+                                        PostId = x.Key,
+                                        CategoryIds = x.Select(p => new CategoryHashtagModel
+                                        {
+                                            Id = p.Id,
+                                            CategoryHashtagOfPostId = p.CategoryId
+                                        })
+                                    });
+            var hashTagQuery = (await WorkScope.GetAll<PostHashtag>()
+                                    .Where(x => x.PostId == id)
+                                    .Select(x => new
+                                    {
+                                        x.Id,
+                                        x.HashtagId,
+                                        x.PostId
+                                    }).ToListAsync())
+                                    .GroupBy(x => x.PostId)
+                                    .Select(x => new
+                                    {
+                                        PostId = x.Key,
+                                        HashtagIds = x.Select(p => new CategoryHashtagModel
+                                        {
+                                            Id = p.Id,
+                                            CategoryHashtagOfPostId = p.HashtagId
+                                        })
+                                    });
+            var assetQuery = WorkScope.GetAll<Asset>().Where(x => x.PostId == id).Include(x => x.Post);
+
+            return (from c in queryCategory
+                    join h in hashTagQuery on c.PostId equals h.PostId
+                    join x in assetQuery on h.PostId equals x.PostId
+                    select new PostDto
+                    {
+                        Content = x.Post.Content,
+                        Id = x.PostId,
+                        CreationTime = x.Post.CreationTime,
+                        Description = x.Post.Description,
+                        NumberOfComments = x.Post.NumberOfComments,
+                        NumberOfLikes = x.Post.NumberOfLikes,
+                        NumberOfViews = x.Post.NumberOfViews,
+                        PostUrl = x.Post.PostUrl,
+                        Title = x.Post.Title,
+                        CategoryIds = c.CategoryIds,
+                        HashtagIds = h.HashtagIds,
+                        ObjectFile = new ObjectFile
+                        {
+                            FileType = x.FileType,
+                            Id = x.Id,
+                            Path = x.Path
+                        }
+                    }).FirstOrDefault();
         }
     }
 }
