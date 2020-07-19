@@ -1,31 +1,22 @@
 import VueRouter from 'vue-router'
 
 // Pages
-import Vuex from '@/tin-tuc-app/views/Vuex.vue'
-import TemplateInfo from '@/tin-tuc-app/views/TemplateInfo.vue'
-import ThirdPartyLibraries from '@/tin-tuc-app/views/ThirdPartyLibraries.vue'
+import Vuex from '@/tin-tuc-app/views/Vuex.vue';
+import TemplateInfo from '@/tin-tuc-app/views/TemplateInfo.vue';
+import ThirdPartyLibraries from '@/tin-tuc-app/views/ThirdPartyLibraries.vue';
+import MenuCategoryHashtag from '@/tin-tuc-app/views/MenuCategoryHashtag.vue';
 
-const routePrefix = 'template'
+const routePrefix = 'home';
 
 const routes = [
 	{
 		path: '*',
-		redirect: { name: 'templateInfo' }
+		redirect: { name: 'home' }
 	},
 	{
-		name: 'templateInfo',
-		path: `/${routePrefix}/info`,
+		name: 'home',
+		path: `/${routePrefix}/danh-muc/:id`,
 		component: TemplateInfo
-	},
-	{
-		name: 'vuex',
-		path: `/${routePrefix}/vuex`,
-		component: Vuex
-	},
-	{
-		name: 'thirdpartylibraries',
-		path: `/${routePrefix}/thirdpartylibraries`,
-		component: ThirdPartyLibraries
 	}
 ]
 

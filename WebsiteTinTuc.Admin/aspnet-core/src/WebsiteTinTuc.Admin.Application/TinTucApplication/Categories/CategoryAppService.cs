@@ -81,6 +81,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Categories
             return new PagedResultDto<CategoryDto>(totalCount, categories);
         }
 
+        [AbpAllowAnonymous]
         public async Task<List<CategoryDto>> GetAllCategoryAsync()
         {
             return await WorkScope.GetAll<Category>()

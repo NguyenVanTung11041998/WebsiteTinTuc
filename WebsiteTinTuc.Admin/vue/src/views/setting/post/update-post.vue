@@ -178,8 +178,8 @@
                     requestData.append("thumbnail", this.post.objectFile.file);
                 }
 
-                forEach(this.deleteFiles, (f: string) => {
-                    requestData.append("fileIdDelete", f);
+                forEach(this.deleteFiles, (x: string) => {
+                    requestData.append("fileIdDelete", x);
                 });
                 const categoryIdDelete = map(this.post.categoryIds, "id");
                 forEach(categoryIdDelete, (x: string) => {
@@ -196,7 +196,7 @@
 
                 (this.$refs.postForm as any).resetFields();
                 this.$emit('save-success');
-                this.$emit('input', false);;
+                this.$emit('input', false);
             }
         }
 

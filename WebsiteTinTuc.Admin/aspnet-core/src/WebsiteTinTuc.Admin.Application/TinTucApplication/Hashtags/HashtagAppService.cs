@@ -84,6 +84,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
             return new PagedResultDto<HashtagModel>(totalCount, categories);
         }
 
+        [AbpAllowAnonymous]
         public async Task<List<HashtagModel>> GetAllHashtags()
         {
             return await WorkScope.GetAll<Hashtag>()

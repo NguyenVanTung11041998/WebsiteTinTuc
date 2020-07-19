@@ -1,6 +1,6 @@
-export default class Category {
+export interface Hashtag {
     id: string;
     name: string;
-    categoryUrl: string;
+    hashtagUrl: string;
     creationTime: Date;
 }
