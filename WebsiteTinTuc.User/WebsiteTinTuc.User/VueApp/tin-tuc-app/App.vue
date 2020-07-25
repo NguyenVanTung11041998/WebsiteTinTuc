@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container">
+      <the-header />
       <div class="columns">
         <div class="column is-3">
             <menu-category-hashtag />
@@ -17,7 +18,7 @@
     <div class="container">
       <footer>
         <hr />
-        <p>&copy; 2018 - WebsiteTinTuc.User</p>
+        <p>&copy; 2020 - Created by Nguyễn Văn Tùng</p>
       </footer>
     </div>
   </div>
@@ -26,10 +27,11 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import MenuCategoryHashtag from "@/tin-tuc-app/views/MenuCategoryHashtag.vue";
+import TheHeader from "@/tin-tuc-app/views/TheHeader.vue";
 
 @Component({
   name: "App",
-  components: { MenuCategoryHashtag }
+  components: { MenuCategoryHashtag, TheHeader }
 })
 export default class App extends Vue {}
 </script>

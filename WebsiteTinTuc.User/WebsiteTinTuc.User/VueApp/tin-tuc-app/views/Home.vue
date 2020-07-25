@@ -26,10 +26,13 @@ import TemplateInfoStack from '@/tin-tuc-app/components/TemplateInfo/TemplateInf
         TemplateInfoStack
     }
 })
-export default class TemplateInfo extends Vue {
-    pageTitle: string = '.NET with Vue and TypeScript'
+export default class Home extends Vue {
+    pageTitle: string = 'Tin tức 24h';
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .title {
+        text-align: center;
+    }
 </style>
