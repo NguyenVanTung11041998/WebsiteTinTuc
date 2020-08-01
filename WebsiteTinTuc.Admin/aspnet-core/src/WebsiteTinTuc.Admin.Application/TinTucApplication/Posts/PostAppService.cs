@@ -200,7 +200,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                                             CategoryHashtagOfPostId = p.HashtagId
                                         })
                                     });
-            var assetQuery = WorkScope.GetAll<Asset>().Where(x => x.PostId == id).Include(x => x.Post);
+            var assetQuery = WorkScope.GetAll<Asset>()
+                .Where(x => x.PostId == id);
 
             return (from c in queryCategory
                     join h in hashTagQuery on c.PostId equals h.PostId

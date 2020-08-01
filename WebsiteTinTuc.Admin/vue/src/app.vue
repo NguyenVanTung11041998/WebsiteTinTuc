@@ -5,22 +5,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 
-@Component({
-
-})
+@Component({})
 export default class App extends Vue {}
 </script>
 
 <style>
-html,body{
-    width: 100%;
-    height: 100%;
-    background: #f0f0f0;
-    overflow: hidden;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+  overflow: hidden;
 }
-#app{
+#app {
   height: 100%;
 }
 </style>

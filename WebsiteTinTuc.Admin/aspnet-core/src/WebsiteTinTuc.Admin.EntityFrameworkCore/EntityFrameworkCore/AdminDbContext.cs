@@ -16,6 +16,7 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore
         public DbSet<Hashtag> Hashtags { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<PostHashtag> PostHashtags { get; set; }
+        public DbSet<PostCounter> PostCounters { get; set; }
         public AdminDbContext(DbContextOptions<AdminDbContext> options)
             : base(options) { }
     }
