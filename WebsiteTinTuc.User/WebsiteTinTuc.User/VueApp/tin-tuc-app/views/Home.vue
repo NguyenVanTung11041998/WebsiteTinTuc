@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator';
 
-import TemplateInfoAbout from '@/tin-tuc-app/components/TemplateInfo/TemplateInfoAbout.vue'
-import TemplateInfoStack from '@/tin-tuc-app/components/TemplateInfo/TemplateInfoStack.vue'
+import TemplateInfoAbout from '@/tin-tuc-app/components/TemplateInfo/TemplateInfoAbout.vue';
+import TemplateInfoStack from '@/tin-tuc-app/components/TemplateInfo/TemplateInfoStack.vue';
 
 @Component({
     name: 'TemplateInfo',

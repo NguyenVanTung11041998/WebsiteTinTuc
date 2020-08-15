@@ -123,7 +123,10 @@
             {
                 title: this.L('Ngày đăng'),
                 key: 'creationTime',
-                width: 150
+                width: 150,
+                render: (h: any, params: any) => {
+                    return h("span", new Date(params.row.creationTime).toLocaleString());
+                }
             },
             {
                 title: this.L('Mô tả bài viết'),
