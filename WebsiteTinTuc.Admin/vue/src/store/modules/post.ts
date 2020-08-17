@@ -53,7 +53,7 @@ class PostModule extends ListModule<PostState, any, Post>{
         },
         async getPostById(context: ActionContext<PostState, any>, payload: any) {
             let response = await Ajax.get('/api/services/app/Post/GetPostById?Id=' + payload.id);
-            const data  = response.data.result as Post;
+            const data = response.data.result as Post;
             context.state.post = data;
             return data;
         },
