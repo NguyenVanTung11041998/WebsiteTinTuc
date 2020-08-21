@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Abp.Authorization.Users;
+﻿using Abp.Authorization.Users;
 using Abp.Extensions;
+using System;
+using System.Collections.Generic;
+using WebsiteTinTuc.Admin.Entities;
 
 namespace WebsiteTinTuc.Admin.Authorization.Users
 {
@@ -30,5 +31,7 @@ namespace WebsiteTinTuc.Admin.Authorization.Users
 
             return user;
         }
+
+        public virtual ICollection<CV> CVs { get; set; }
     }
 }

@@ -60,7 +60,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                 {
                     foreach (var item in input.HashtagIdDelete)
                     {
-                        await WorkScope.DeleteAsync<PostHashtag>(item);
+                        await WorkScope.DeleteAsync<AgencyPostHashtag>(item);
                     }
                 }
             }
@@ -110,10 +110,10 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             {
                 foreach (var item in input.HashtagIds)
                 {
-                    var postHashtag = new PostHashtag
+                    var postHashtag = new AgencyPostHashtag
                     {
                         HashtagId = item,
-                        PostId = input.Id.Value
+                        AgencyId = input.Id.Value
                     };
                     await WorkScope.InsertAsync(postHashtag);
                 }
@@ -182,13 +182,13 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                                             CategoryHashtagOfPostId = p.CategoryId
                                         })
                                     });
-            var hashTagQuery = (await WorkScope.GetAll<PostHashtag>()
-                                    .Where(x => x.PostId == id)
+            var hashTagQuery = (await WorkScope.GetAll<AgencyPostHashtag>()
+                                    .Where(x => x.AgencyId == id)
                                     .Select(x => new
                                     {
                                         x.Id,
                                         x.HashtagId,
-                                        x.PostId
+                                        x.AgencyId
                                     }).ToListAsync())
                                     .GroupBy(x => x.PostId)
                                     .Select(x => new

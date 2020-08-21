@@ -4,13 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebsiteTinTuc.Admin.Entities
 {
-    public class PostHashtag : FullAuditedEntity<Guid>
+    public class Level : FullAuditedEntity<Guid>
     {
-        [ForeignKey(nameof(Hashtag))]
-        public Guid HashtagId { get; set; }
+        public string Name { get; set; }
         [ForeignKey(nameof(Post))]
         public Guid PostId { get; set; }
-        public virtual Post Post { get; set; }
-        public virtual Hashtag Hashtag { get; set; }
+        public Post Post { get; set; }
     }
 }
