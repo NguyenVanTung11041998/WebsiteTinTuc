@@ -16,6 +16,7 @@ namespace WebsiteTinTuc.Admin.Entities
     public enum FileType
     {
         Thumbnail = 0,
-        Image = 1
+        Image = 1,
+        NationalityImage = 2
     }
 }

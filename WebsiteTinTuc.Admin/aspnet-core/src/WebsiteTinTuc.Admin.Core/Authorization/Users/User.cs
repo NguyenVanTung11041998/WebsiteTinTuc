@@ -33,5 +33,6 @@ namespace WebsiteTinTuc.Admin.Authorization.Users
         }
 
         public virtual ICollection<CV> CVs { get; set; }
+        public virtual ICollection<Agency> Agencies { get; set; }
     }
 }

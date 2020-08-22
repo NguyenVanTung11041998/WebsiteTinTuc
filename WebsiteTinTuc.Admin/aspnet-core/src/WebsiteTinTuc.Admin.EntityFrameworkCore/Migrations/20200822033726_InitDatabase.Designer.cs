@@ -10,8 +10,8 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore;
 namespace WebsiteTinTuc.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200801121409_DbTinTuc")]
-    partial class DbTinTuc
+    [Migration("20200822033726_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1514,10 +1514,133 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Agency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescrtionAgency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MaxScale")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MinScale")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalityAgency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Treatment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Agencies");
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.AgencyPostHashtag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AgencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("HashtagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgencyId");
+
+                    b.HasIndex("HashtagId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("AgencyPostHashtags");
+                });
+
             modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Asset", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AgencyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
@@ -1547,23 +1670,20 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("AgencyId");
 
                     b.ToTable("Assets");
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Category", b =>
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.BranchJob", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CategoryUrl")
+                    b.Property<string>("BranchJobLocation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
@@ -1592,17 +1712,20 @@ namespace WebsiteTinTuc.Admin.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("BranchJobs");
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Comment", b =>
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.BranchJobAgency", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("AgencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BranchJobId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1625,25 +1748,16 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("NumberOfLikes")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("AgencyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BranchJobId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("BranchJobAgencies");
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Hashtag", b =>
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.CV", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1660,6 +1774,57 @@ namespace WebsiteTinTuc.Admin.Migrations
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CVs");
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Hashtag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AgencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HashtagType")
+                        .HasColumnType("int");
 
                     b.Property<string>("HashtagUrl")
                         .HasColumnType("nvarchar(max)");
@@ -1678,13 +1843,58 @@ namespace WebsiteTinTuc.Admin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AgencyId");
+
                     b.ToTable("Hashtags");
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Level", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Levels");
                 });
 
             modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AgencyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -1702,11 +1912,17 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExperienceType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("JobType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
@@ -1714,11 +1930,14 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("NumberOfComments")
+                    b.Property<long>("MaxMoney")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("NumberOfLikes")
+                    b.Property<long>("MinMoney")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("MoneyType")
+                        .HasColumnType("int");
 
                     b.Property<long>("NumberOfViews")
                         .HasColumnType("bigint");
@@ -1726,54 +1945,17 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<string>("PostUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TimeExperience")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AgencyId");
+
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.PostCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostCategories");
                 });
 
             modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.PostCounter", b =>
@@ -1819,48 +2001,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostCounters");
-                });
-
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.PostHashtag", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("HashtagId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HashtagId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostHashtags");
                 });
 
             modelBuilder.Entity("WebsiteTinTuc.Admin.MultiTenancy.Tenant", b =>
@@ -2122,41 +2262,92 @@ namespace WebsiteTinTuc.Admin.Migrations
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Asset", b =>
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Agency", b =>
                 {
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
-                        .WithMany("Assets")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Comment", b =>
-                {
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebsiteTinTuc.Admin.Authorization.Users.User", "User")
-                        .WithMany()
+                        .WithMany("Agencies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.PostCategory", b =>
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.AgencyPostHashtag", b =>
                 {
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Category", "Category")
-                        .WithMany("PostCategories")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Agency", "Agency")
+                        .WithMany()
+                        .HasForeignKey("AgencyId");
+
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Hashtag", "Hashtag")
+                        .WithMany("AgencyPostHashtags")
+                        .HasForeignKey("HashtagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
-                        .WithMany("PostCategories")
+                        .WithMany("AgencyPostHashtags")
+                        .HasForeignKey("PostId");
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Asset", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Agency", "Agency")
+                        .WithMany("Assets")
+                        .HasForeignKey("AgencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.BranchJobAgency", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Agency", "Agency")
+                        .WithMany("BranchJobAgencies")
+                        .HasForeignKey("AgencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.BranchJob", "BranchJob")
+                        .WithMany("BranchJobAgencies")
+                        .HasForeignKey("BranchJobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.CV", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
+                        .WithMany("CVs")
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebsiteTinTuc.Admin.Authorization.Users.User", "User")
+                        .WithMany("CVs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Hashtag", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Agency", null)
+                        .WithMany("Hashtags")
+                        .HasForeignKey("AgencyId");
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Level", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
+                        .WithMany("Levels")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Post", b =>
+                {
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Agency", "Agency")
+                        .WithMany("Posts")
+                        .HasForeignKey("AgencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2172,21 +2363,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.HasOne("WebsiteTinTuc.Admin.Authorization.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.PostHashtag", b =>
-                {
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Hashtag", "Hashtag")
-                        .WithMany("PostHashtags")
-                        .HasForeignKey("HashtagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
-                        .WithMany("PostHashtags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebsiteTinTuc.Admin.MultiTenancy.Tenant", b =>

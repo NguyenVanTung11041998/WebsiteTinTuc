@@ -16,11 +16,9 @@ namespace WebsiteTinTuc.Admin.Entities
         public string Location { get; set; }
         public string DescrtionAgency { get; set; }
         public string Website { get; set; }
-        public Asset Thumbnail { get; set; }
         public int? MinScale { get; set; }
         public string Treatment { get; set; }
         public int? MaxScale { get; set; }
-        public Asset NationalityImage { get; set; }
         public string NationalityAgency { get; set; }
         [ForeignKey(nameof(User))]
         public long UserId { get; set; }
