@@ -12,11 +12,11 @@
                     </FormItem>
                 </div>
                 <div class="col-6">
-                    <!-- <FormItem :label="L('Thể loại:')">
+                    <FormItem :label="L('Thể loại:')">
                         <Select v-model="postCategories" multiple v-if="post || allCategories" class="select-cate">
                             <Option v-for="(item, index) in allCategories" :value="item.id" :key="index">{{ item.name }}</Option>
                         </Select>
-                    </FormItem> -->
+                    </FormItem>
                     <FormItem :label="L('Hashtag')">
                         <Select v-model="hashtags" multiple v-if="post || allHashtags" class="select-cate">
                             <Option v-for="(item, index) in allHashtags" :value="item.id" :key="index">{{ item.name }}</Option>
@@ -96,7 +96,7 @@
     @Component({
         components: { Editor }
     })
-    export default class UpdatePost extends AbpBase {
+    export default class CreateOrEditAgency extends AbpBase {
         @Prop({ type: Boolean, default: false }) value: boolean;
         @Getter("post", { namespace: "post" }) public post!: Post;
         @Getter("hashtags", { namespace: "post" }) public allHashtags!: Hashtag[];

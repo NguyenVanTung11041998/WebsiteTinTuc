@@ -7,7 +7,6 @@ import account from './modules/account';
 import user from './modules/user';
 import role from './modules/role';
 import tenant from './modules/tenant';
-import category from './modules/category';
 import hashtag from './modules/hashtag';
 import post from './modules/post';
 const store = new Vuex.Store({
@@ -30,7 +29,6 @@ const store = new Vuex.Store({
         user,
         role,
         tenant,
-        category,
         hashtag,
         post
     }

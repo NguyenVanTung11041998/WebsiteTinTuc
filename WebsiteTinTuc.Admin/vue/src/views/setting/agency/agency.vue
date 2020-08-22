@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="!updateModalShow">
+        <div>
             <Card dis-hover>
                 <div class="page-body">
                     <Form ref="queryForm" :label-width="100" label-position="left" inline>
@@ -24,7 +24,7 @@
                 </div>
             </Card>
         </div>
-        <div v-if="updateModalShow"><update-post v-model="updateModalShow" @save-success="getPage" /></div>
+        <!-- <div v-if="updateModalShow"><update-post v-model="updateModalShow" @save-success="getPage" /></div> -->
     </div>
 </template>
 <script lang="ts">
@@ -32,17 +32,17 @@
     import Util from '../../../lib/util';
     import AbpBase from '../../../lib/abpbase';
     import PageRequest from '../../../store/entities/page-request';
-    import UpdatePost from './update-post.vue';
-    import Post from "../../../store/entities/post";
+    import CreateOrEditAgency from './create-or-edit-agency.vue';
+    import Agency from "../../../store/entities/agency";
 
     class PageAgencyRequest extends PageRequest {
         keyword: string = '';
     }
 
     @Component({
-        components: { UpdatePost }
+        components: { CreateOrEditAgency }
     })
-    export default class Posts extends AbpBase {
+    export default class Agencies extends AbpBase {
         pageRequest: PageAgencyRequest = new PageAgencyRequest();
         updateModalShow: boolean = false;
 
@@ -51,11 +51,7 @@
         }
 
         async create() {
-            let post = { objectFile: null } as Post;
-            this.$store.commit("post/setPost", post);
-            await this.getAllCategories();
-            await this.getAllHashtags();
-            this.edit();
+            this.$router.push({ name: "createAgency" });
         }
         pageChange(page: number) {
             this.$store.commit('post/setCurrentPage', page);
@@ -89,11 +85,6 @@
             await this.$store.dispatch({
                 type: 'post/getAll',
                 data: param
-            });
-        }
-        async getAllCategories() {
-            await this.$store.dispatch({
-                type: "post/getAllCategories"
             });
         }
         get list() {
@@ -159,7 +150,6 @@
                             on: {
                                 click: async () => {
                                     await this.getPostById(params.row.id);
-                                    await this.getAllCategories();
                                     await this.getAllHashtags();
                                     this.edit();
                                 }

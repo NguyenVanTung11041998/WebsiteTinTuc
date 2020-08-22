@@ -43,7 +43,8 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
             var permissions = PermissionFinder
                 .GetAllPermissions(new AdminAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
-                            !grantedPermissions.Contains(p.Name))
+                            !grantedPermissions.Contains(p.Name) &&
+                            GrantPermissionRoles.PermissionRoles[StaticRoleNames.Host.Admin].Contains(p.Name))
                 .ToList();
 
             if (permissions.Any())
@@ -60,6 +61,8 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
                 _context.SaveChanges();
             }
 
+            int roleAdminId = roleForHost.Id;
+
             roleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Hr);
             if (roleForHost == null)
             {
@@ -75,7 +78,8 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
             permissions = PermissionFinder
                 .GetAllPermissions(new AdminAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
-                            !grantedPermissions.Contains(p.Name))
+                            !grantedPermissions.Contains(p.Name) &&
+                            GrantPermissionRoles.PermissionRoles[StaticRoleNames.Host.Hr].Contains(p.Name))
                 .ToList();
 
             if (permissions.Any())
@@ -107,7 +111,8 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
             permissions = PermissionFinder
                 .GetAllPermissions(new AdminAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
-                            !grantedPermissions.Contains(p.Name))
+                            !grantedPermissions.Contains(p.Name) &&
+                            GrantPermissionRoles.PermissionRoles[StaticRoleNames.Host.User].Contains(p.Name))
                 .ToList();
 
             if (permissions.Any())
@@ -144,7 +149,7 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
                 adminUserForHost = _context.Users.Add(user).Entity;
                 _context.SaveChanges();
 
-                _context.UserRoles.Add(new UserRole(null, adminUserForHost.Id, roleForHost.Id));
+                _context.UserRoles.Add(new UserRole(null, adminUserForHost.Id, roleAdminId));
                 _context.SaveChanges();
 
                 _context.SaveChanges();

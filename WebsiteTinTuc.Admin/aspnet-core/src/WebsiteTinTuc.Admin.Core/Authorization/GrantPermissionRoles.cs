@@ -17,7 +17,15 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_View_Agency,
                     PermissionNames.Pages_Create_Agency,
                     PermissionNames.Pages_Update_Agency,
-                    PermissionNames.Pages_Delete_Agency
+                    PermissionNames.Pages_Delete_Agency,
+                    PermissionNames.Pages_View_Hashtag,
+                    PermissionNames.Pages_Create_Hashtag,
+                    PermissionNames.Pages_Update_Hashtag,
+                    PermissionNames.Pages_Delete_Hashtag,
+                    PermissionNames.Pages_View_Post,
+                    PermissionNames.Pages_Create_Post,
+                    PermissionNames.Pages_Update_Post,
+                    PermissionNames.Pages_Delete_Post
                 }
             },
             {
@@ -27,7 +35,12 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_View_Agency,
                     PermissionNames.Pages_Create_Agency,
                     PermissionNames.Pages_Update_Agency,
-                    PermissionNames.Pages_Delete_Agency
+                    PermissionNames.Pages_View_Hashtag,
+                    PermissionNames.Pages_Create_Hashtag,
+                    PermissionNames.Pages_Update_Hashtag,
+                    PermissionNames.Pages_View_Post,
+                    PermissionNames.Pages_Create_Post,
+                    PermissionNames.Pages_Update_Post
                 }
             },
             {

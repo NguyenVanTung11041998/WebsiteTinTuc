@@ -1,4 +1,4 @@
-import { FileType } from "../enums/fileType";
+import { FileType } from "../enums/file-type";
 
 export default interface IObjectFile {
     id: string | null;

@@ -16,7 +16,18 @@ declare global {
     }
     var System: System
 }
-import main from '../views/main.vue';
+import main from '@/views/main.vue';
+import login from '@/views/login.vue';
+import PermissionNames from '@/store/constants/permission-names';
+import Path from '@/store/constants/path';
+import PathNames from '@/store/constants/path-names';
+import roles from '@/views/setting/role/role.vue';
+import users from '@/views/setting/user/user.vue';
+import tenants from '@/views/setting/tenant/tenant.vue';
+import agencies from '@/views/setting/agency/agency.vue';
+import createOrEditAgency from '@/views/setting/agency/create-or-edit-agency.vue';
+import hashtags from '@/views/setting/hashtag/hashtag.vue';
+import posts from '@/views/setting/post/post.vue';
 
 export const locking = {
     path: '/locking',
@@ -29,8 +40,9 @@ export const loginRouter: Router = {
     meta: {
         title: 'LogIn'
     },
-    component: () => import('../views/login.vue')
+    component: login
 };
+
 export const otherRouters: Router = {
     path: '/main',
     name: 'main',
@@ -49,11 +61,14 @@ export const appRouters: Array<Router> = [{
     icon: '&#xe68a;',
     component: main,
     children: [
-        { path: 'user', permission: 'Pages.Users', meta: { title: 'Users' }, name: 'user', component: () => import('../views/setting/user/user.vue') },
-        { path: 'role', permission: 'Pages.Roles', meta: { title: 'Roles' }, name: 'role', component: () => import('../views/setting/role/role.vue') },
-        { path: 'tenant', permission: 'Pages.Tenants', meta: { title: 'Tenants' }, name: 'tenant', component: () => import('../views/setting/tenant/tenant.vue') },
-        { path: 'hashtag', permission: 'Pages.Tenants', meta: { title: 'Hashtags' }, name: 'hashtag', component: () => import('../views/setting/hashtag/hashtag.vue') },
-        { path: 'post', permission: 'Pages.Tenants', meta: { title: 'Posts' }, name: 'post', component: () => import('../views/setting/post/post.vue') }
+        { path: Path.User, permission: PermissionNames.Pages_Users, meta: { title: 'Người dùng' }, name: PathNames.User, component: users },
+        { path: Path.Role, permission: PermissionNames.Pages_Roles, meta: { title: 'Quyền' }, name: PathNames.Role, component: roles },
+        { path: Path.Tenant, permission: PermissionNames.Pages_Tenants, meta: { title: 'Tenant' }, name: PathNames.Tenant, component: tenants },
+        { path: Path.Hashtag, permission: PermissionNames.Pages_View_Hashtag, meta: { title: 'Hash tag' }, name: PathNames.Hashtag, component: hashtags },
+        { path: Path.Agency, permission: PermissionNames.Pages_View_Agency, meta: { title: 'Công ty' }, name: PathNames.Agency, component: agencies, children: [
+            { path: Path.Create, permission: PermissionNames.Pages_Create_Agency, meta: { title: 'Thêm công ty' }, name: PathNames.CreateAgency, component: createOrEditAgency }
+        ]},
+        { path: Path.Post, permission: PermissionNames.Pages_View_Post, meta: { title: 'Bài viết' }, name: PathNames.Post, component: posts }
     ]
 }]
 export const routers = [

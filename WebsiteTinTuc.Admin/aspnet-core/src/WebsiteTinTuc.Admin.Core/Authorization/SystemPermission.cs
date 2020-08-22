@@ -17,7 +17,15 @@ namespace WebsiteTinTuc.Admin.Authorization
             new SystemPermission { Permission = PermissionNames.Pages_View_Agency, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Agency },
             new SystemPermission { Permission = PermissionNames.Pages_Create_Agency, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Agency },
             new SystemPermission { Permission = PermissionNames.Pages_Update_Agency, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Agency },
-            new SystemPermission { Permission = PermissionNames.Pages_Delete_Agency, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Agency }
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Agency, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Agency },
+            new SystemPermission { Permission = PermissionNames.Pages_View_Hashtag, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Hashtag },
+            new SystemPermission { Permission = PermissionNames.Pages_Create_Hashtag, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Hashtag },
+            new SystemPermission { Permission = PermissionNames.Pages_Update_Hashtag, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Hashtag },
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Hashtag, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Hashtag },
+            new SystemPermission { Permission = PermissionNames.Pages_View_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Post },
+            new SystemPermission { Permission = PermissionNames.Pages_Create_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Post },
+            new SystemPermission { Permission = PermissionNames.Pages_Update_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Post },
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Post }
         };
     }
 }
