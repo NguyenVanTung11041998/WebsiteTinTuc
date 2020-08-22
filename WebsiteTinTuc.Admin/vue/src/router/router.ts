@@ -16,9 +16,7 @@ declare global {
     }
     var System: System
 }
-import login from '../views/login.vue'
-import home from '../views/home/home.vue'
-import main from '../views/main.vue'
+import main from '../views/main.vue';
 
 export const locking = {
     path: '/locking',
@@ -54,7 +52,6 @@ export const appRouters: Array<Router> = [{
         { path: 'user', permission: 'Pages.Users', meta: { title: 'Users' }, name: 'user', component: () => import('../views/setting/user/user.vue') },
         { path: 'role', permission: 'Pages.Roles', meta: { title: 'Roles' }, name: 'role', component: () => import('../views/setting/role/role.vue') },
         { path: 'tenant', permission: 'Pages.Tenants', meta: { title: 'Tenants' }, name: 'tenant', component: () => import('../views/setting/tenant/tenant.vue') },
-        { path: 'category', permission: 'Pages.Tenants', meta: { title: 'Categories' }, name: 'category', component: () => import('../views/setting/category/category.vue') },
         { path: 'hashtag', permission: 'Pages.Tenants', meta: { title: 'Hashtags' }, name: 'hashtag', component: () => import('../views/setting/hashtag/hashtag.vue') },
         { path: 'post', permission: 'Pages.Tenants', meta: { title: 'Posts' }, name: 'post', component: () => import('../views/setting/post/post.vue') }
     ]

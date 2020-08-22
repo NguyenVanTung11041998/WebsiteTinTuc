@@ -28,20 +28,15 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
 
         private void CreateHostRoleAndUsers()
         {
-            // Admin role for host
-
-            var adminRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Admin);
-            if (adminRoleForHost == null)
+            var roleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Admin);
+            if (roleForHost == null)
             {
-                adminRoleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Admin, StaticRoleNames.Host.Admin) { IsStatic = true, IsDefault = true }).Entity;
+                roleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Admin, StaticRoleNames.Host.Admin) { IsStatic = true, IsDefault = true }).Entity;
                 _context.SaveChanges();
             }
-
-            // Grant all permissions to admin role for host
-
             var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
-                .Where(p => p.TenantId == null && p.RoleId == adminRoleForHost.Id)
+                .Where(p => p.TenantId == null && p.RoleId == roleForHost.Id)
                 .Select(p => p.Name)
                 .ToList();
 
@@ -59,13 +54,75 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
                         TenantId = null,
                         Name = permission.Name,
                         IsGranted = true,
-                        RoleId = adminRoleForHost.Id
+                        RoleId = roleForHost.Id
                     })
                 );
                 _context.SaveChanges();
             }
 
-            // Admin user for host
+            roleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Hr);
+            if (roleForHost == null)
+            {
+                roleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Hr, StaticRoleNames.Host.Hr) { IsStatic = true, IsDefault = true }).Entity;
+                _context.SaveChanges();
+            }
+            grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+                .OfType<RolePermissionSetting>()
+                .Where(p => p.TenantId == null && p.RoleId == roleForHost.Id)
+                .Select(p => p.Name)
+                .ToList();
+
+            permissions = PermissionFinder
+                .GetAllPermissions(new AdminAuthorizationProvider())
+                .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
+                            !grantedPermissions.Contains(p.Name))
+                .ToList();
+
+            if (permissions.Any())
+            {
+                _context.Permissions.AddRange(
+                    permissions.Select(permission => new RolePermissionSetting
+                    {
+                        TenantId = null,
+                        Name = permission.Name,
+                        IsGranted = true,
+                        RoleId = roleForHost.Id
+                    })
+                );
+                _context.SaveChanges();
+            }
+
+            roleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.User);
+            if (roleForHost == null)
+            {
+                roleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.User, StaticRoleNames.Host.User) { IsStatic = true, IsDefault = true }).Entity;
+                _context.SaveChanges();
+            }
+            grantedPermissions = _context.Permissions.IgnoreQueryFilters()
+                .OfType<RolePermissionSetting>()
+                .Where(p => p.TenantId == null && p.RoleId == roleForHost.Id)
+                .Select(p => p.Name)
+                .ToList();
+
+            permissions = PermissionFinder
+                .GetAllPermissions(new AdminAuthorizationProvider())
+                .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
+                            !grantedPermissions.Contains(p.Name))
+                .ToList();
+
+            if (permissions.Any())
+            {
+                _context.Permissions.AddRange(
+                    permissions.Select(permission => new RolePermissionSetting
+                    {
+                        TenantId = null,
+                        Name = permission.Name,
+                        IsGranted = true,
+                        RoleId = roleForHost.Id
+                    })
+                );
+                _context.SaveChanges();
+            }
 
             var adminUserForHost = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == null && u.UserName == AbpUserBase.AdminUserName);
             if (adminUserForHost == null)
@@ -87,8 +144,7 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore.Seed.Host
                 adminUserForHost = _context.Users.Add(user).Entity;
                 _context.SaveChanges();
 
-                // Assign Admin role to admin user
-                _context.UserRoles.Add(new UserRole(null, adminUserForHost.Id, adminRoleForHost.Id));
+                _context.UserRoles.Add(new UserRole(null, adminUserForHost.Id, roleForHost.Id));
                 _context.SaveChanges();
 
                 _context.SaveChanges();

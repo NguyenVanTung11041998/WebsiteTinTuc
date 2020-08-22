@@ -5,6 +5,8 @@ namespace WebsiteTinTuc.Admin.Authorization.Roles
         public static class Host
         {
             public const string Admin = "Admin";
+            public const string Hr = "Hr";
+            public const string User = "User";
         }
 
         public static class Tenants
