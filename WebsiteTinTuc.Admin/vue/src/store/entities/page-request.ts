@@ -1,6 +1,7 @@
-export default class  PagedFilterAndSortedRequest{
-    maxResultCount:number;
-    skipCount:number;
-    sorting:string;
-    where:string;
+export default class PagedFilterAndSortedRequest {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string;
+    where: string;
+    keyWord: string;
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebsiteTinTuc.Admin.Authorization;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
 using WebsiteTinTuc.Admin.Models;
@@ -18,7 +19,19 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
     [AbpAuthorize]
     public class HashtagAppService : AdminAppServiceBase, IHashtagAppService
     {
-        public async Task SaveHashtagAsync(HashtagRequest input)
+        [AbpAuthorize(PermissionNames.Pages_Create_Hashtag)]
+        public async Task CreateHashtagAsync(HashtagRequest input)
+        {
+            await SaveHashtagAsync(input);
+        }
+
+        [AbpAuthorize(PermissionNames.Pages_Update_Hashtag)]
+        public async Task UpdateHashtagAsync(HashtagRequest input)
+        {
+            await SaveHashtagAsync(input);
+        }
+
+        private async Task SaveHashtagAsync(HashtagRequest input)
         {
             bool checkExists = await WorkScope.GetAll<Hashtag>().AnyAsync(x => x.Name == input.Name && x.Id != input.Id);
             if (checkExists)
@@ -68,6 +81,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
             await WorkScope.DeleteAsync(hashtag);
         }
 
+        [AbpAuthorize(PermissionNames.Pages_View_Hashtag)]
         public async Task<PagedResultDto<HashtagModel>> GetAllHashtagPagingAsync(PageRequest input)
         {
             var hashtags = WorkScope.GetAll<Hashtag>()

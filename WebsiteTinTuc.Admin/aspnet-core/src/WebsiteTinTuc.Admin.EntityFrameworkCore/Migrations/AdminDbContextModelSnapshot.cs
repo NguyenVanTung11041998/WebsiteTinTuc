@@ -1821,9 +1821,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HashtagType")
-                        .HasColumnType("int");
-
                     b.Property<string>("HashtagUrl")
                         .HasColumnType("nvarchar(max)");
 

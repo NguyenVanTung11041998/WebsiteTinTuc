@@ -1001,7 +1001,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     HashtagUrl = table.Column<string>(nullable: true),
-                    HashtagType = table.Column<int>(nullable: false),
                     AgencyId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

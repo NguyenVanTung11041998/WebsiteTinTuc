@@ -8,13 +8,6 @@ namespace WebsiteTinTuc.Admin.Entities
     {
         public string Name { get; set; }
         public string HashtagUrl { get; set; }
-        public HashtagType HashtagType { get; set; }
         public virtual ICollection<AgencyPostHashtag> AgencyPostHashtags { get; set; }
-    }
-
-    public enum HashtagType
-    {
-        Agency = 0,
-        Post = 1
     }
 }

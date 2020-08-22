@@ -9,7 +9,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
 {
     public interface IHashtagAppService
     {
-        Task SaveHashtagAsync(HashtagRequest input);
+        Task CreateHashtagAsync(HashtagRequest input);
+        Task UpdateHashtagAsync(HashtagRequest input);
         Task<HashtagModel> GetHashtagByIdAsync(Guid id);
         Task DeleteAsync(Guid id);
         Task<PagedResultDto<HashtagModel>> GetAllHashtagPagingAsync(PageRequest input);

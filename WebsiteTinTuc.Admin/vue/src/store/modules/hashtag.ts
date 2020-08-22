@@ -26,8 +26,11 @@ class HashtagModule extends ListModule<HashtagState, any, Hashtag>{
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
-        async createOrEdit(context: ActionContext<HashtagState, any>, payload: any) {
-            await Ajax.post('/api/services/app/Hashtag/SaveHashtag', payload.data);
+        async createHashtag(context: ActionContext<HashtagState, any>, payload: any) {
+            await Ajax.post('/api/services/app/Hashtag/CreateHashtag', payload.data);
+        },
+        async updateHashtag(context: ActionContext<HashtagState, any>, payload: any) {
+            await Ajax.put('/api/services/app/Hashtag/UpdateHashtag', payload.data);
         },
         async delete(context: ActionContext<HashtagState, any>, payload: any) {
             await Ajax.delete('/api/services/app/Hashtag/Delete?Id=' + payload.data);

@@ -30,7 +30,7 @@
             (this.$refs.hashtagForm as any).validate(async (valid: boolean) => {
                 if (valid) {
                     await this.$store.dispatch({
-                        type: "hashtag/createOrEdit",
+                        type: `hashtag/${ this.hashtag.id ? 'createHashtag' : 'updateHashtag' }`,
                         data: this.hashtag
                     });
                     (this.$refs.hashtagForm as any).resetFields();

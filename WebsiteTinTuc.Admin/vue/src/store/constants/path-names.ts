@@ -4,6 +4,7 @@ export default class PathNames {
     static readonly Tenant = "tenant";
     static readonly Agency = "agency";
     static readonly CreateAgency = "createAgency";
+    static readonly UpdateAgency = "updateAgency";
     static readonly Hashtag = "hashtag";
     static readonly Post = "post";
 }

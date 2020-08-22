@@ -63,10 +63,10 @@ export const appRouters: Array<Router> = [{
     children: [
         { path: Path.User, permission: PermissionNames.Pages_Users, meta: { title: 'Người dùng' }, name: PathNames.User, component: users },
         { path: Path.Role, permission: PermissionNames.Pages_Roles, meta: { title: 'Quyền' }, name: PathNames.Role, component: roles },
-        { path: Path.Tenant, permission: PermissionNames.Pages_Tenants, meta: { title: 'Tenant' }, name: PathNames.Tenant, component: tenants },
         { path: Path.Hashtag, permission: PermissionNames.Pages_View_Hashtag, meta: { title: 'Hash tag' }, name: PathNames.Hashtag, component: hashtags },
         { path: Path.Agency, permission: PermissionNames.Pages_View_Agency, meta: { title: 'Công ty' }, name: PathNames.Agency, component: agencies, children: [
-            { path: Path.Create, permission: PermissionNames.Pages_Create_Agency, meta: { title: 'Thêm công ty' }, name: PathNames.CreateAgency, component: createOrEditAgency }
+            { path: Path.Create, permission: PermissionNames.Pages_Create_Agency, meta: { title: 'Thêm công ty' }, name: PathNames.CreateAgency, component: createOrEditAgency },
+            { path: Path.Update, permission: PermissionNames.Pages_Update_Agency, meta: { title: 'Sửa công ty' }, name: PathNames.UpdateAgency, component: createOrEditAgency }
         ]},
         { path: Path.Post, permission: PermissionNames.Pages_View_Post, meta: { title: 'Bài viết' }, name: PathNames.Post, component: posts }
     ]

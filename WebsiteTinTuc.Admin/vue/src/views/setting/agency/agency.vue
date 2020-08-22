@@ -24,7 +24,6 @@
                 </div>
             </Card>
         </div>
-        <!-- <div v-if="updateModalShow"><update-post v-model="updateModalShow" @save-success="getPage" /></div> -->
     </div>
 </template>
 <script lang="ts">
@@ -34,6 +33,7 @@
     import PageRequest from '../../../store/entities/page-request';
     import CreateOrEditAgency from './create-or-edit-agency.vue';
     import Agency from "../../../store/entities/agency";
+    import PathNames from '../../../store/constants/path-names';
 
     class PageAgencyRequest extends PageRequest {
         keyword: string = '';
@@ -44,14 +44,13 @@
     })
     export default class Agencies extends AbpBase {
         pageRequest: PageAgencyRequest = new PageAgencyRequest();
-        updateModalShow: boolean = false;
-
         edit() {
-            this.updateModalShow = true;
+            let agency = 
+            this.$router.push({ name: PathNames.UpdateAgency });
         }
 
         async create() {
-            this.$router.push({ name: "createAgency" });
+            this.$router.push({ name: PathNames.CreateAgency });
         }
         pageChange(page: number) {
             this.$store.commit('post/setCurrentPage', page);
@@ -102,7 +101,7 @@
         get currentPage() {
             return this.$store.state.post.currentPage;
         }
-        get postById() {
+        get agencyById() {
             return this.$store.state.post.postById;
         }
         columns = [

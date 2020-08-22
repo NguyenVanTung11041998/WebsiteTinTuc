@@ -10,7 +10,7 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore;
 namespace WebsiteTinTuc.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200822033726_InitDatabase")]
+    [Migration("20200822131759_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1822,9 +1822,6 @@ namespace WebsiteTinTuc.Admin.Migrations
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("HashtagType")
-                        .HasColumnType("int");
 
                     b.Property<string>("HashtagUrl")
                         .HasColumnType("nvarchar(max)");
