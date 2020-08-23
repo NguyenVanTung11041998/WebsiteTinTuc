@@ -18,10 +18,10 @@ namespace WebsiteTinTuc.Admin.Entities
         public int? TimeExperience { get; set; }
         public DateTime? EndDate { get; set; }
         public ExperienceType ExperienceType { get; set; }
-        [ForeignKey(nameof(Agency))]
-        public Guid AgencyId { get; set; }
-        public virtual Agency Agency { get; set; }
-        public virtual ICollection<AgencyPostHashtag> AgencyPostHashtags { get; set; }
+        [ForeignKey(nameof(Company))]
+        public Guid CompanyId { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual ICollection<CompanyPostHashtag> CompanyPostHashtags { get; set; }
         public virtual ICollection<Level> Levels { get; set; }
         public virtual ICollection<CV> CVs { get; set; }
     }

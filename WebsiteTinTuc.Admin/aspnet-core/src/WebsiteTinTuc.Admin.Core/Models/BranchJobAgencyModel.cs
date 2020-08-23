@@ -2,12 +2,12 @@
 
 namespace WebsiteTinTuc.Admin.Models
 {
-    public class BranchJobAgencyModel
+    public class BranchJobCompanyModel
     {
         public Guid Id { get; set; }
-        public Guid AgencyId { get; set; }
+        public Guid CompanyId { get; set; }
         public Guid BranchJobId { get; set; }
-        public string AgencyName { get; set; }
+        public string CompanyName { get; set; }
         public string BranchJobName { get; set; }
     }
 }

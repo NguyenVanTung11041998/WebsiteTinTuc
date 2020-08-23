@@ -4,7 +4,7 @@ export default class Path {
     static readonly User = "user";
     static readonly Role = "role";
     static readonly Tenant = "tenant";
-    static readonly Agency = "agency";
+    static readonly Company = "company";
     static readonly Hashtag = "hashtag";
     static readonly Post = "post";
 }

@@ -8,10 +8,10 @@
 
         public const string Pages_Roles = "Quản trị quyền";
 
-        public const string Pages_View_Agency = "Xem danh sách công ty";
-        public const string Pages_Create_Agency = "Tạo công ty";
-        public const string Pages_Update_Agency = "Sửa công ty";
-        public const string Pages_Delete_Agency = "Xóa công ty";
+        public const string Pages_View_Company = "Xem danh sách công ty";
+        public const string Pages_Create_Company = "Tạo công ty";
+        public const string Pages_Update_Company = "Sửa công ty";
+        public const string Pages_Delete_Company = "Xóa công ty";
 
         public const string Pages_View_Hashtag = "Xem hashtag";
         public const string Pages_Create_Hashtag = "Thêm hashtag";

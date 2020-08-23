@@ -2,9 +2,9 @@ export default class PathNames {
     static readonly User = "user";
     static readonly Role = "role";
     static readonly Tenant = "tenant";
-    static readonly Agency = "agency";
-    static readonly CreateAgency = "createAgency";
-    static readonly UpdateAgency = "updateAgency";
+    static readonly Company = "company";
+    static readonly CreateCompany = "createCompany";
+    static readonly UpdateCompany = "updateCompany";
     static readonly Hashtag = "hashtag";
     static readonly Post = "post";
 }

@@ -31,46 +31,46 @@
     import Util from '../../../lib/util';
     import AbpBase from '../../../lib/abpbase';
     import PageRequest from '../../../store/entities/page-request';
-    import CreateOrEditAgency from './create-or-edit-agency.vue';
-    import Agency from "../../../store/entities/agency";
+    import CreateOrEditCompany from './create-or-edit-company.vue';
+    import Company from "../../../store/entities/company";
     import PathNames from '../../../store/constants/path-names';
 
-    class PageAgencyRequest extends PageRequest {
+    class PageCompanyRequest extends PageRequest {
         keyword: string = '';
     }
 
     @Component({
-        components: { CreateOrEditAgency }
+        components: { CreateOrEditCompany }
     })
-    export default class Agencies extends AbpBase {
-        pageRequest: PageAgencyRequest = new PageAgencyRequest();
+    export default class Companies extends AbpBase {
+        pageRequest: PageCompanyRequest = new PageCompanyRequest();
         edit() {
-            let agency = 
-            this.$router.push({ name: PathNames.UpdateAgency });
+            let Company = 
+            this.$router.push({ name: PathNames.UpdateCompany });
         }
 
         async create() {
-            this.$router.push({ name: PathNames.CreateAgency });
+            this.$router.push({ name: PathNames.CreateCompany });
         }
         pageChange(page: number) {
-            this.$store.commit('post/setCurrentPage', page);
+            this.$store.commit('company/setCurrentPage', page);
             this.getPage();
         }
         pagesizeChange(pagesize: number) {
-            this.$store.commit('post/setPageSize', pagesize);
+            this.$store.commit('company/setPageSize', pagesize);
             this.getPage();
         }
 
-        async getPostById(id) {
+        async getCompanyById(id) {
             await this.$store.dispatch({
-                type: "post/getPostById",
+                type: "company/getCompanyById",
                 id: id
             })
         }
 
         async getAllHashtags() {
             await this.$store.dispatch({
-                type: "post/getAllHashtags"
+                type: "hashtag/getAllHashtags"
             });
         }
 
@@ -82,27 +82,27 @@
             }
 
             await this.$store.dispatch({
-                type: 'post/getAll',
+                type: 'company/getAll',
                 data: param
             });
         }
         get list() {
-            return this.$store.state.post.list;
+            return this.$store.state.company.list;
         };
         get loading() {
-            return this.$store.state.post.loading;
+            return this.$store.state.company.loading;
         }
         get pageSize() {
-            return this.$store.state.post.pageSize;
+            return this.$store.state.company.pageSize;
         }
         get totalCount() {
-            return this.$store.state.post.totalCount;
+            return this.$store.state.company.totalCount;
         }
         get currentPage() {
-            return this.$store.state.post.currentPage;
+            return this.$store.state.company.currentPage;
         }
-        get agencyById() {
-            return this.$store.state.post.postById;
+        get CompanyById() {
+            return this.$store.state.company.companyById;
         }
         columns = [
             {
@@ -148,7 +148,7 @@
                             },
                             on: {
                                 click: async () => {
-                                    await this.getPostById(params.row.id);
+                                    await this.getCompanyById(params.row.id);
                                     await this.getAllHashtags();
                                     this.edit();
                                 }
@@ -163,12 +163,12 @@
                                 click: async () => {
                                     this.$Modal.confirm({
                                         title: this.L('Tips'),
-                                        content: this.L('DeletePostConfirm'),
+                                        content: this.L('DeleteCompanyConfirm'),
                                         okText: this.L('Yes'),
                                         cancelText: this.L('No'),
                                         onOk: async () => {
                                             await this.$store.dispatch({
-                                                type: 'post/delete',
+                                                type: 'company/delete',
                                                 data: params.row
                                             });
                                             await this.getPage();

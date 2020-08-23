@@ -8,7 +8,7 @@ using WebsiteTinTuc.Admin.Models;
 
 namespace WebsiteTinTuc.Admin.Entities
 {
-    public class Agency : FullAuditedEntity<Guid>
+    public class Company : FullAuditedEntity<Guid>
     {
         [Required]
         public string Name { get; set; }
@@ -17,19 +17,21 @@ namespace WebsiteTinTuc.Admin.Entities
         public string Email { get; set; }
         public string LocationDescription { get; set; }
         public string Location { get; set; }
-        public string DescrtionAgency { get; set; }
+        public string DescriptionCompany { get; set; }
         public string Website { get; set; }
         public int? MinScale { get; set; }
         public string Treatment { get; set; }
         public int? MaxScale { get; set; }
-        public string NationalityAgency { get; set; }
-        public string AgencyUrl { get; set; }
+        public string CompanyUrl { get; set; }
+        [ForeignKey(nameof(Nationality))]
+        public Guid NationalityId { get; set; }
+        public virtual Nationality Nationality { get; set; }
         [ForeignKey(nameof(User))]
         public long UserId { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Asset> Assets { get; set; }
-        public virtual ICollection<AgencyPostHashtag> AgencyPostHashtags { get; set; }
-        public virtual ICollection<BranchJobAgency> BranchJobAgencies { get; set; }
+        public virtual ICollection<CompanyPostHashtag> CompanyPostHashtags { get; set; }
+        public virtual ICollection<BranchJobCompany> BranchJobCompanies { get; set; }
     }
 }

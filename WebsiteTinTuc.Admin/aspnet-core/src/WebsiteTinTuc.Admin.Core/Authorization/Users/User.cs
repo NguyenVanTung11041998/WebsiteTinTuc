@@ -33,7 +33,7 @@ namespace WebsiteTinTuc.Admin.Authorization.Users
         }
         public UserType UserType { get; set; }
         public virtual ICollection<CV> CVs { get; set; }
-        public virtual ICollection<Agency> Agencies { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 
     public enum UserType

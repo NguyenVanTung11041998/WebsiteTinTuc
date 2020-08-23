@@ -96,7 +96,7 @@
     @Component({
         components: { Editor }
     })
-    export default class CreateOrEditAgency extends AbpBase {
+    export default class CreateOrEditCompany extends AbpBase {
         @Prop({ type: Boolean, default: false }) value: boolean;
         @Getter("post", { namespace: "post" }) public post!: Post;
         @Getter("hashtags", { namespace: "post" }) public allHashtags!: Hashtag[];
@@ -109,7 +109,6 @@
 
         created() {
             if (this.post && this.post.categoryIds) {
-                this.postCategories = map(this.post.categoryIds, "categoryHashtagOfPostId");
                 this.hashtags = map(this.post.hashtagIds, "categoryHashtagOfPostId");
             }
         }

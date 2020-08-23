@@ -79,6 +79,3 @@ declare module "vue/types/vue" {
     $Message?: MessageInstance;
   }
 }
-
-
-

@@ -5,10 +5,10 @@ export default class PermissionNames {
 
     static readonly Pages_Roles = "Pages.Roles";
 
-    static readonly Pages_View_Agency = "Pages.View.Agency";
-    static readonly Pages_Create_Agency = "Pages.Create.Agency";
-    static readonly Pages_Update_Agency = "Pages.Update.Agency";
-    static readonly Pages_Delete_Agency = "Pages.Delete.Agency";
+    static readonly Pages_View_Company = "Pages.View.Company";
+    static readonly Pages_Create_Company = "Pages.Create.Company";
+    static readonly Pages_Update_Company = "Pages.Update.Company";
+    static readonly Pages_Delete_Company = "Pages.Delete.Company";
 
     static readonly Pages_View_Hashtag = "Pages.View.Hashtag";
     static readonly Pages_Create_Hashtag = "Pages.Create.Hashtag";

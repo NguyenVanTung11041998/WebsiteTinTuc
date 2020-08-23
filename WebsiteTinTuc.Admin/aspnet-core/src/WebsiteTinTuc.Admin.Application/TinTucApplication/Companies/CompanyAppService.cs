@@ -15,29 +15,29 @@ using WebsiteTinTuc.Admin.Constans;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
 using WebsiteTinTuc.Admin.Models;
-using WebsiteTinTuc.Admin.TinTucApplication.Agencies.Dto;
+using WebsiteTinTuc.Admin.TinTucApplication.Companies.Dto;
 
-namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies
+namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
 {
     [AbpAuthorize]
-    public class AgencyAppService : AdminAppServiceBase, IAgencyAppService
+    public class CompanyAppService : AdminAppServiceBase, ICompanyAppService
     {
-        private async Task SaveImage(string fileLocation, Guid agencyId, IFormFile file)
+        private async Task SaveImage(string fileLocation, Guid companyId, IFormFile file)
         {
             string fileName = await UploadFiles.UploadAsync(fileLocation, file);
             var asset = new Asset
             {
                 FileType = FileType.Image,
-                Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Agency}/{fileName}",
-                AgencyId = agencyId
+                Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}/{fileName}",
+                CompanyId = companyId
             };
             await WorkScope.InsertAsync(asset);
         }
 
-        private async Task DeleteHashtags(Guid agencyId, List<Guid> hashtagIds)
+        private async Task DeleteHashtags(Guid companyId, List<Guid> hashtagIds)
         {
-            var hashtags = await WorkScope.GetAll<AgencyPostHashtag>()
-                                          .Where(x => hashtagIds.Contains(x.HashtagId) && x.AgencyId == agencyId)
+            var hashtags = await WorkScope.GetAll<CompanyPostHashtag>()
+                                          .Where(x => hashtagIds.Contains(x.HashtagId) && x.CompanyId == companyId)
                                           .ToListAsync();
 
             foreach (var item in hashtags)
@@ -46,22 +46,22 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies
             }
         }
 
-        private async Task DeleteBranchJobAgencies(Guid agencyId, List<Guid> branchJobAgencyIds)
+        private async Task DeleteBranchJobCompanies(Guid companyId, List<Guid> branchJobCompanyIds)
         {
-            var branchJobAgencies = await WorkScope.GetAll<BranchJobAgency>()
-                                          .Where(x => branchJobAgencyIds.Contains(x.BranchJobId) && x.AgencyId == agencyId)
+            var branchJobCompanies = await WorkScope.GetAll<BranchJobCompany>()
+                                          .Where(x => branchJobCompanyIds.Contains(x.BranchJobId) && x.CompanyId == companyId)
                                           .ToListAsync();
 
-            foreach (var item in branchJobAgencies)
+            foreach (var item in branchJobCompanies)
             {
                 await WorkScope.DeleteAsync(item);
             }
         }
 
-        private async Task DeleteImages(Guid agencyId, List<Guid> imageIds)
+        private async Task DeleteImages(Guid companyId, List<Guid> imageIds)
         {
             var images = await WorkScope.GetAll<Asset>()
-                                          .Where(x => imageIds.Contains(x.Id) && x.AgencyId == agencyId)
+                                          .Where(x => imageIds.Contains(x.Id) && x.CompanyId == companyId)
                                           .ToListAsync();
 
             foreach (var item in images)
@@ -70,128 +70,123 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies
             }
         }
 
-        private async Task SaveImageHashtagAndAgencyJob(Guid agencyId, List<IFormFile> images, IFormFile thumbnail, IFormFile nationalityImage, List<Guid> hashtagIds, List<Guid> branchJobAgencyIds)
+        private async Task SaveImageHashtagAndCompanyJob(Guid companyId, List<IFormFile> images, IFormFile thumbnail, List<Guid> hashtagIds, List<Guid> branchJobCompanyIds)
         {
-            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Agency}");
+            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
 
             if (images?.Count > 0)
             {
                 foreach (var item in images)
                 {
-                    await SaveImage(fileLocation, agencyId, item);
+                    await SaveImage(fileLocation, companyId, item);
                 }
             }
 
             if (thumbnail?.Length > 0)
             {
-                await SaveImage(fileLocation, agencyId, thumbnail);
-            }
-
-            if (nationalityImage?.Length > 0)
-            {
-                await SaveImage(fileLocation, agencyId, nationalityImage);
+                await SaveImage(fileLocation, companyId, thumbnail);
             }
 
             if (hashtagIds?.Count > 0)
             {
                 foreach (var item in hashtagIds)
                 {
-                    var postHashtag = new AgencyPostHashtag
+                    var postHashtag = new CompanyPostHashtag
                     {
                         HashtagId = item,
-                        AgencyId = agencyId
+                        CompanyId = companyId
                     };
                     await WorkScope.InsertAsync(postHashtag);
                 }
             }
 
-            if (branchJobAgencyIds?.Count > 0)
+            if (branchJobCompanyIds?.Count > 0)
             {
-                foreach (var item in branchJobAgencyIds)
+                foreach (var item in branchJobCompanyIds)
                 {
-                    var branchJobAgency = new BranchJobAgency
+                    var branchJobCompany = new BranchJobCompany
                     {
                         BranchJobId = item,
-                        AgencyId = agencyId
+                        CompanyId = companyId
                     };
-                    await WorkScope.InsertAsync(branchJobAgency);
+                    await WorkScope.InsertAsync(branchJobCompany);
                 }
             }
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Create_Agency)]
-        public async Task CreateAgencyAsync(AgencyRequest input)
+        [AbpAuthorize(PermissionNames.Pages_Create_Company)]
+        public async Task CreateCompanyAsync(CompanyRequest input)
         {
-            bool checkExits = await WorkScope.GetAll<Agency>().AnyAsync(x => x.Name == input.Name);
+            bool checkExits = await WorkScope.GetAll<Company>().AnyAsync(x => x.Name == input.Name);
             if (checkExits)
                 throw new UserFriendlyException("Tên công ty đã tồn tại!");
 
-            var agency = ObjectMapper.Map<Agency>(input);
-            agency.AgencyUrl = agency.Name.RemoveSign4VietnameseString().ToIdentifier();
-            agency.UserId = AbpSession.UserId.Value;
+            var company = ObjectMapper.Map<Company>(input);
+            company.CompanyUrl = company.Name.RemoveSign4VietnameseString().ToIdentifier();
+            company.UserId = AbpSession.UserId.Value;
 
-            input.Id = await WorkScope.InsertAndGetIdAsync(agency);
+            input.Id = await WorkScope.InsertAndGetIdAsync(company);
 
-            await SaveImageHashtagAndAgencyJob(input.Id.Value, input.Files, input.Thumbnail, input.NationalityImage, input.HashtagIds, input.BranchJobAgencyIds);
+            await SaveImageHashtagAndCompanyJob(input.Id.Value, input.Files, input.Thumbnail, input.HashtagIds, input.BranchJobCompanyIds);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Delete_Agency)]
-        public async Task DeleteAgencyAsync(Guid id)
+        [AbpAuthorize(PermissionNames.Pages_Delete_Company)]
+        public async Task DeleteCompanyAsync(Guid id)
         {
             var user = await GetCurrentUserAsync();
-            var agency = await WorkScope.GetAll<Agency>()
+            var company = await WorkScope.GetAll<Company>()
                 .WhereIf(user.UserType == UserType.Hr, x => x.UserId == user.Id)
                 .FirstOrDefaultAsync(x => x.Id == id);
-            if (agency == default)
+            if (company == default)
                 throw new UserFriendlyException("Công ty không thể xóa");
 
-            await WorkScope.DeleteAsync(agency);
+            await WorkScope.DeleteAsync(company);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Update_Agency)]
-        public async Task UpdateAgencyAsync(AgencyRequest input)
+        [AbpAuthorize(PermissionNames.Pages_Update_Company)]
+        public async Task UpdateCompanyAsync(CompanyRequest input)
         {
             var user = await GetCurrentUserAsync();
-            bool checkExits = await WorkScope.GetAll<Agency>()
+            bool checkExits = await WorkScope.GetAll<Company>()
                                 .AnyAsync(x => x.Name == input.Name && x.Id != input.Id);
             if (checkExits)
                 throw new UserFriendlyException("Tên công ty đã tồn tại!");
 
-            var agency = await WorkScope.GetAll<Agency>()
+            var company = await WorkScope.GetAll<Company>()
                                 .WhereIf(user.UserType == UserType.Hr, x => x.UserId == user.Id)
                                 .FirstOrDefaultAsync(x => x.Id == input.Id);
-            if (agency == default)
+            if (company == default)
                 throw new UserFriendlyException("Công ty không thể sửa");
 
-            ObjectMapper.Map(input, agency);
-            agency.AgencyUrl = agency.Name.RemoveSign4VietnameseString().ToIdentifier();
+            ObjectMapper.Map(input, company);
+            company.CompanyUrl = company.Name.RemoveSign4VietnameseString().ToIdentifier();
 
-            foreach (var item in agency.Posts)
+            foreach (var item in company.Posts)
             {
-                item.PostUrl = $"{item.Title.RemoveSign4VietnameseString().ToIdentifier()}-{agency.AgencyUrl}";
+                item.PostUrl = $"{item.Title.RemoveSign4VietnameseString().ToIdentifier()}-{company.CompanyUrl}";
             }
 
-            await WorkScope.UpdateRangeAsync(agency.Posts);
-            await WorkScope.UpdateAsync(agency);
-            await DeleteHashtags(agency.Id, input.HashtagDeletes);
-            await DeleteBranchJobAgencies(agency.Id, input.BranchJobAgencyDeletes);
-            await DeleteImages(agency.Id, input.ImageDeletes);
-            await SaveImageHashtagAndAgencyJob(input.Id.Value, input.Files, input.Thumbnail, input.NationalityImage, input.HashtagIds, input.BranchJobAgencyIds);
+            await WorkScope.UpdateRangeAsync(company.Posts);
+            await WorkScope.UpdateAsync(company);
+            await DeleteHashtags(company.Id, input.HashtagDeletes);
+            await DeleteBranchJobCompanies(company.Id, input.BranchJobCompanyDeletes);
+            await DeleteImages(company.Id, input.ImageDeletes);
+            await SaveImageHashtagAndCompanyJob(input.Id.Value, input.Files, input.Thumbnail, input.HashtagIds, input.BranchJobCompanyIds);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_View_Agency)]
-        public async Task<PagedResultDto<AgencyModel>> GetAgencyPagingAsync(AgencyFilterPaging input)
+        [AbpAuthorize(PermissionNames.Pages_View_Company)]
+        public async Task<PagedResultDto<CompanyModel>> GetCompanyPagingAsync(CompanyFilterPaging input)
         {
             var user = await GetCurrentUserAsync();
 
-            var query = WorkScope.GetAll<Agency>()
+            var query = WorkScope.GetAll<Company>()
                                  .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Name.Contains(input.SearchText))
                                  .WhereIf(user.UserType == UserType.Hr, x => x.UserId == user.Id)
                                  .OrderByDescending(x => x.CreationTime);
 
             int totalCount = await query.CountAsync();
             var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize)
-                .Select(x => new AgencyModel
+                .Select(x => new CompanyModel
                 {
                     Name = x.Name,
                     CreationTime = x.CreationTime,
@@ -201,31 +196,32 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies
                     Website = x.Website
                 })
                 .ToListAsync();
-            return new PagedResultDto<AgencyModel>(totalCount, list);
+            return new PagedResultDto<CompanyModel>(totalCount, list);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_View_Agency)]
-        public async Task<AgencyModel> GetAgencyByIdAsync(Guid id)
+        [AbpAuthorize(PermissionNames.Pages_View_Company)]
+        public async Task<CompanyModel> GetCompanyByIdAsync(Guid id)
         {
             var user = await GetCurrentUserAsync();
-            var agency = await WorkScope.GetAll<Agency>()
+            var company = await WorkScope.GetAll<Company>()
                             .Where(x => x.Id == id)
                             .WhereIf(user.UserType == UserType.Hr, x => x.UserId == user.Id)
-                            .Include(x => x.AgencyPostHashtags)
+                            .Include(x => x.CompanyPostHashtags)
                             .Include(x => x.Assets)
-                            .Include(x => x.BranchJobAgencies)
-                            .Select(x => new AgencyModel
+                            .Include(x => x.BranchJobCompanies)
+                            .Include(x => x.Nationality)
+                            .Select(x => new CompanyModel
                             {
                                 Name = x.Name,
                                 Description = x.Description,
-                                DescrtionAgency = x.DescrtionAgency,
+                                DescriptionCompany = x.DescriptionCompany,
                                 Email = x.Email,
                                 Id = x.Id,
                                 Location = x.Location,
                                 LocationDescription = x.LocationDescription,
                                 MaxScale = x.MaxScale,
                                 MinScale = x.MinScale,
-                                NationalityAgency = x.NationalityAgency,
+                                NationalityCompany = x.Nationality.Name,
                                 Treatment = x.Treatment,
                                 Website = x.Website,
                                 Phone = x.Phone,
@@ -235,34 +231,28 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies
                                     Id = p.Id,
                                     Path = p.Path
                                 }).FirstOrDefault(),
-                                BranchJobAgencies = x.BranchJobAgencies.Select(p => new BranchJobAgencyModel
+                                BranchJobCompanies = x.BranchJobCompanies.Select(p => new BranchJobCompanyModel
                                 {
                                     Id = p.Id,
                                     BranchJobId = p.BranchJobId
                                 }),
-                                NationalityImage = x.Assets.Where(p => p.FileType == FileType.NationalityImage).Select(p => new ObjectFile
-                                {
-                                    FileType = p.FileType,
-                                    Id = p.Id,
-                                    Path = p.Path
-                                }).FirstOrDefault(),
                                 Images = x.Assets.Where(p => p.FileType == FileType.Image).Select(p => new ObjectFile
                                 {
                                     FileType = p.FileType,
                                     Id = p.Id,
                                     Path = p.Path
                                 }),
-                                Hashtags = x.AgencyPostHashtags.Select(p => new HashtagAgencyModel
+                                Hashtags = x.CompanyPostHashtags.Select(p => new HashtagCompanyModel
                                 {
                                     Id = p.Id,
                                     HashtagId = p.HashtagId
                                 })
                             }).FirstOrDefaultAsync();
 
-            if (agency == default)
+            if (company == default)
                 throw new UserFriendlyException("Không tồn tại công ty");
 
-            return agency;
+            return company;
         }
     }
 }

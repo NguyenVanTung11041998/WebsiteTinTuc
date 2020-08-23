@@ -8,6 +8,6 @@ namespace WebsiteTinTuc.Admin.Entities
     {
         public string Name { get; set; }
         public string BranchJobLocation { get; set; }
-        public virtual ICollection<BranchJobAgency> BranchJobAgencies { get; set; }
+        public virtual ICollection<BranchJobCompany> BranchJobCompanies { get; set; }
     }
 }

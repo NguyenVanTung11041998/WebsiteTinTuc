@@ -60,7 +60,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         //        {
         //            foreach (var item in input.HashtagIdDelete)
         //            {
-        //                await WorkScope.DeleteAsync<AgencyPostHashtag>(item);
+        //                await WorkScope.DeleteAsync<CompanyPostHashtag>(item);
         //            }
         //        }
         //    }
@@ -110,10 +110,10 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         //    {
         //        foreach (var item in input.HashtagIds)
         //        {
-        //            var postHashtag = new AgencyPostHashtag
+        //            var postHashtag = new CompanyPostHashtag
         //            {
         //                HashtagId = item,
-        //                AgencyId = input.Id.Value
+        //                CompanyId = input.Id.Value
         //            };
         //            await WorkScope.InsertAsync(postHashtag);
         //        }
@@ -182,13 +182,13 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         //                                    CategoryHashtagOfPostId = p.CategoryId
         //                                })
         //                            });
-        //    var hashTagQuery = (await WorkScope.GetAll<AgencyPostHashtag>()
-        //                            .Where(x => x.AgencyId == id)
+        //    var hashTagQuery = (await WorkScope.GetAll<CompanyPostHashtag>()
+        //                            .Where(x => x.CompanyId == id)
         //                            .Select(x => new
         //                            {
         //                                x.Id,
         //                                x.HashtagId,
-        //                                x.AgencyId
+        //                                x.CompanyId
         //                            }).ToListAsync())
         //                            .GroupBy(x => x.PostId)
         //                            .Select(x => new

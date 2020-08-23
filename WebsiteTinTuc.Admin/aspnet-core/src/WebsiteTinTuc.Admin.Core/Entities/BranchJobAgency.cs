@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebsiteTinTuc.Admin.Entities
 {
-    public class BranchJobAgency : FullAuditedEntity<Guid>
+    public class BranchJobCompany : FullAuditedEntity<Guid>
     {
-        [ForeignKey(nameof(Agency))]
-        public Guid AgencyId { get; set; }
+        [ForeignKey(nameof(Company))]
+        public Guid CompanyId { get; set; }
         [ForeignKey(nameof(BranchJob))]
         public Guid BranchJobId { get; set; }
-        public virtual Agency Agency { get; set; }
+        public virtual Company Company { get; set; }
         public virtual BranchJob BranchJob { get; set; }
     }
 }

@@ -8,10 +8,10 @@
 
         public const string Pages_Roles = "Pages.Roles";
 
-        public const string Pages_View_Agency = "Pages.View.Agency";
-        public const string Pages_Create_Agency = "Pages.Create.Agency";
-        public const string Pages_Update_Agency = "Pages.Update.Agency";
-        public const string Pages_Delete_Agency = "Pages.Delete.Agency";
+        public const string Pages_View_Company = "Pages.View.Company";
+        public const string Pages_Create_Company = "Pages.Create.Company";
+        public const string Pages_Update_Company = "Pages.Update.Company";
+        public const string Pages_Delete_Company = "Pages.Delete.Company";
 
         public const string Pages_View_Hashtag = "Pages.View.Hashtag";
         public const string Pages_Create_Hashtag = "Pages.Create.Hashtag";

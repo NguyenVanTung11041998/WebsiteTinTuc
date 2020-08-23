@@ -1,7 +1,7 @@
-import BranchJobAgency from "./branch-job-agency";
+import BranchJobCompany from "./branch-job-Company";
 
 export default class BranchJob {
     name: string;
     branchJobLocation: string;
-    branchJobAgencies?: Array<BranchJobAgency>;
+    branchJobCompanies?: Array<BranchJobCompany>;
 }

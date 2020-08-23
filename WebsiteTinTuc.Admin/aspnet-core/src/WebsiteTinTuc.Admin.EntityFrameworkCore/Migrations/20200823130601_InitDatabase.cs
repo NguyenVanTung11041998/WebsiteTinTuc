@@ -381,7 +381,8 @@ namespace WebsiteTinTuc.Admin.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: false),
                     NormalizedEmailAddress = table.Column<string>(maxLength: 256, nullable: false),
-                    ConcurrencyStamp = table.Column<string>(maxLength: 128, nullable: true)
+                    ConcurrencyStamp = table.Column<string>(maxLength: 128, nullable: true),
+                    UserType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -460,6 +461,46 @@ namespace WebsiteTinTuc.Admin.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BranchJobs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hashtags",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierUserId = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeleterUserId = table.Column<long>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    HashtagUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hashtags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nationalities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierUserId = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeleterUserId = table.Column<long>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nationalities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -766,43 +807,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Agencies",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    CreatorUserId = table.Column<long>(nullable: true),
-                    LastModificationTime = table.Column<DateTime>(nullable: true),
-                    LastModifierUserId = table.Column<long>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeleterUserId = table.Column<long>(nullable: true),
-                    DeletionTime = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    LocationDescription = table.Column<string>(nullable: true),
-                    Location = table.Column<string>(nullable: true),
-                    DescrtionAgency = table.Column<string>(nullable: true),
-                    Website = table.Column<string>(nullable: true),
-                    MinScale = table.Column<int>(nullable: true),
-                    Treatment = table.Column<string>(nullable: true),
-                    MaxScale = table.Column<int>(nullable: true),
-                    NationalityAgency = table.Column<string>(nullable: true),
-                    UserId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agencies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Agencies_AbpUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AbpWebhookSendAttempts",
                 columns: table => new
                 {
@@ -822,6 +826,50 @@ namespace WebsiteTinTuc.Admin.Migrations
                         name: "FK_AbpWebhookSendAttempts_AbpWebhookEvents_WebhookEventId",
                         column: x => x.WebhookEventId,
                         principalTable: "AbpWebhookEvents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierUserId = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeleterUserId = table.Column<long>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    LocationDescription = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true),
+                    DescriptionCompany = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true),
+                    MinScale = table.Column<int>(nullable: true),
+                    Treatment = table.Column<string>(nullable: true),
+                    MaxScale = table.Column<int>(nullable: true),
+                    CompanyUrl = table.Column<string>(nullable: true),
+                    NationalityId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Companies_Nationalities_NationalityId",
+                        column: x => x.NationalityId,
+                        principalTable: "Nationalities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Companies_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -940,7 +988,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeleterUserId = table.Column<long>(nullable: true),
                     DeletionTime = table.Column<DateTime>(nullable: true),
-                    AgencyId = table.Column<Guid>(nullable: false),
+                    CompanyId = table.Column<Guid>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     FileType = table.Column<int>(nullable: false)
                 },
@@ -948,15 +996,15 @@ namespace WebsiteTinTuc.Admin.Migrations
                 {
                     table.PrimaryKey("PK_Assets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Assets_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
+                        name: "FK_Assets_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BranchJobAgencies",
+                name: "BranchJobCompanies",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -967,51 +1015,24 @@ namespace WebsiteTinTuc.Admin.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeleterUserId = table.Column<long>(nullable: true),
                     DeletionTime = table.Column<DateTime>(nullable: true),
-                    AgencyId = table.Column<Guid>(nullable: false),
+                    CompanyId = table.Column<Guid>(nullable: false),
                     BranchJobId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BranchJobAgencies", x => x.Id);
+                    table.PrimaryKey("PK_BranchJobCompanies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BranchJobAgencies_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BranchJobAgencies_BranchJobs_BranchJobId",
+                        name: "FK_BranchJobCompanies_BranchJobs_BranchJobId",
                         column: x => x.BranchJobId,
                         principalTable: "BranchJobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Hashtags",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    CreatorUserId = table.Column<long>(nullable: true),
-                    LastModificationTime = table.Column<DateTime>(nullable: true),
-                    LastModifierUserId = table.Column<long>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeleterUserId = table.Column<long>(nullable: true),
-                    DeletionTime = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    HashtagUrl = table.Column<string>(nullable: true),
-                    AgencyId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hashtags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Hashtags_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
+                        name: "FK_BranchJobCompanies_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1037,21 +1058,21 @@ namespace WebsiteTinTuc.Admin.Migrations
                     TimeExperience = table.Column<int>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
                     ExperienceType = table.Column<int>(nullable: false),
-                    AgencyId = table.Column<Guid>(nullable: false)
+                    CompanyId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
+                        name: "FK_Posts_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AgencyPostHashtags",
+                name: "CompanyPostHashtags",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -1063,26 +1084,26 @@ namespace WebsiteTinTuc.Admin.Migrations
                     DeleterUserId = table.Column<long>(nullable: true),
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     HashtagId = table.Column<Guid>(nullable: false),
-                    AgencyId = table.Column<Guid>(nullable: true),
+                    CompanyId = table.Column<Guid>(nullable: true),
                     PostId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AgencyPostHashtags", x => x.Id);
+                    table.PrimaryKey("PK_CompanyPostHashtags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AgencyPostHashtags_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
+                        name: "FK_CompanyPostHashtags_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AgencyPostHashtags_Hashtags_HashtagId",
+                        name: "FK_CompanyPostHashtags_Hashtags_HashtagId",
                         column: x => x.HashtagId,
                         principalTable: "Hashtags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AgencyPostHashtags_Posts_PostId",
+                        name: "FK_CompanyPostHashtags_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -1527,39 +1548,44 @@ namespace WebsiteTinTuc.Admin.Migrations
                 column: "WebhookEventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Agencies_UserId",
-                table: "Agencies",
+                name: "IX_Assets_CompanyId",
+                table: "Assets",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchJobCompanies_BranchJobId",
+                table: "BranchJobCompanies",
+                column: "BranchJobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchJobCompanies_CompanyId",
+                table: "BranchJobCompanies",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Companies_NationalityId",
+                table: "Companies",
+                column: "NationalityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Companies_UserId",
+                table: "Companies",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AgencyPostHashtags_AgencyId",
-                table: "AgencyPostHashtags",
-                column: "AgencyId");
+                name: "IX_CompanyPostHashtags_CompanyId",
+                table: "CompanyPostHashtags",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AgencyPostHashtags_HashtagId",
-                table: "AgencyPostHashtags",
+                name: "IX_CompanyPostHashtags_HashtagId",
+                table: "CompanyPostHashtags",
                 column: "HashtagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AgencyPostHashtags_PostId",
-                table: "AgencyPostHashtags",
+                name: "IX_CompanyPostHashtags_PostId",
+                table: "CompanyPostHashtags",
                 column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Assets_AgencyId",
-                table: "Assets",
-                column: "AgencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BranchJobAgencies_AgencyId",
-                table: "BranchJobAgencies",
-                column: "AgencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BranchJobAgencies_BranchJobId",
-                table: "BranchJobAgencies",
-                column: "BranchJobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CVs_PostId",
@@ -1570,11 +1596,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                 name: "IX_CVs_UserId",
                 table: "CVs",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Hashtags_AgencyId",
-                table: "Hashtags",
-                column: "AgencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Levels_PostId",
@@ -1592,9 +1613,9 @@ namespace WebsiteTinTuc.Admin.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_AgencyId",
+                name: "IX_Posts_CompanyId",
                 table: "Posts",
-                column: "AgencyId");
+                column: "CompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1681,13 +1702,13 @@ namespace WebsiteTinTuc.Admin.Migrations
                 name: "AbpWebhookSubscriptions");
 
             migrationBuilder.DropTable(
-                name: "AgencyPostHashtags");
-
-            migrationBuilder.DropTable(
                 name: "Assets");
 
             migrationBuilder.DropTable(
-                name: "BranchJobAgencies");
+                name: "BranchJobCompanies");
+
+            migrationBuilder.DropTable(
+                name: "CompanyPostHashtags");
 
             migrationBuilder.DropTable(
                 name: "CVs");
@@ -1714,10 +1735,10 @@ namespace WebsiteTinTuc.Admin.Migrations
                 name: "AbpWebhookEvents");
 
             migrationBuilder.DropTable(
-                name: "Hashtags");
+                name: "BranchJobs");
 
             migrationBuilder.DropTable(
-                name: "BranchJobs");
+                name: "Hashtags");
 
             migrationBuilder.DropTable(
                 name: "Posts");
@@ -1729,7 +1750,10 @@ namespace WebsiteTinTuc.Admin.Migrations
                 name: "AbpEntityChangeSets");
 
             migrationBuilder.DropTable(
-                name: "Agencies");
+                name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "Nationalities");
 
             migrationBuilder.DropTable(
                 name: "AbpUsers");

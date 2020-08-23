@@ -1,9 +1,9 @@
 import IObjectFile from "../interfaces/IObjectFile";
 import Hashtag from "./hashtag";
 import Post from "./post";
-import BranchJobAgency from "./branch-job-agency";
+import BranchJobCompany from "./branch-job-company";
 
-export default class Agency {
+export default class Company {
     id?: string;
     name: string;
     creationTime: Date;
@@ -12,12 +12,12 @@ export default class Agency {
     email: string;
     locationDescription: string;
     location: string;
-    descrtionAgency: string;
+    descriptionCompany: string;
     website: string;
     minScale?: number;
     maxScale?: number;
     treatment: string;
-    nationalityAgency: string;
+    nationalityCompany: string;
     userId: number;
     creatorName: string;
     thumbnail?: IObjectFile;
@@ -25,5 +25,5 @@ export default class Agency {
     images?: Array<IObjectFile>;
     hashtags?: Array<Hashtag>;
     posts?: Array<Post>;
-    branchJobAgencies?: Array<BranchJobAgency>;
+    branchJobCompanies?: Array<BranchJobCompany>;
 }
