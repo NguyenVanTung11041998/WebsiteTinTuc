@@ -72,6 +72,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
             return hashtag;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Delete_Hashtag)]
         public async Task DeleteAsync(Guid id)
         {
             var hashtag = await WorkScope.GetAll<Hashtag>().FirstOrDefaultAsync(x => x.Id == id);

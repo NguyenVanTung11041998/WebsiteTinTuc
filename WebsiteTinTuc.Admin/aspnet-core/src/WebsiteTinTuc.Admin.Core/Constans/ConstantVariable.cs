@@ -4,6 +4,6 @@
     {
         public const string RootFolder = "wwwroot";
         public const string UploadFolder = "Uploads";
-        public const string PostFolder = "Posts";
+        public const string Agency = "Agency";
     }
 }

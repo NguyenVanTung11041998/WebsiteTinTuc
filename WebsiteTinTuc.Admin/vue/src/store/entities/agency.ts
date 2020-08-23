@@ -4,7 +4,9 @@ import Post from "./post";
 import BranchJobAgency from "./branch-job-agency";
 
 export default class Agency {
+    id?: string;
     name: string;
+    creationTime: Date;
     description: string;
     phone: string;
     email: string;

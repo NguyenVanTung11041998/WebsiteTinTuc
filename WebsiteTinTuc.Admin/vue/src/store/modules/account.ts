@@ -1,12 +1,12 @@
 import ajax from '../../lib/ajax';
-const account={
+const account = {
     namespaced: true,
-    state:{
-        
+    state: {
+
     },
-    actions:{
-        async isTenantAvailable(state:any,payload:any){
-            let rep=await ajax.post('/api/services/app/Account/IsTenantAvailable',payload.data);
+    actions: {
+        async isTenantAvailable(state: any, payload: any) {
+            let rep = await ajax.post('/api/services/app/Account/IsTenantAvailable', payload.data);
             return rep.data.result;
         }
     }

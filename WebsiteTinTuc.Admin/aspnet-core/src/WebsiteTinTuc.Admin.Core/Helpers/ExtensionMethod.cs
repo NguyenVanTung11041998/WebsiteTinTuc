@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Abp.Extensions;
+using System;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace WebsiteTinTuc.Admin.Helpers
 {
     public static class ExtensionMethod
     {
         private static readonly string[] VietnameseSigns = new string[]
-       {
+        {
             "aAeEoOuUiIdDyY",
             "áàạảãâấầậẩẫăắằặẳẵ",
             "ÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ",
@@ -22,10 +24,10 @@ namespace WebsiteTinTuc.Admin.Helpers
             "Đ",
             "ýỳỵỷỹ",
             "ÝỲỴỶỸ"
-       };
+        };
         public static string ToIdentifier(this string src, bool changeToLowerCase = true)
         {
-            if (string.IsNullOrWhiteSpace(src))
+            if (src.IsNullOrEmpty())
                 return src;
             if (changeToLowerCase)
                 src = src.ToLower();
@@ -37,7 +39,7 @@ namespace WebsiteTinTuc.Admin.Helpers
 
         public static DateTime FirstDayOfWeek(this DateTime dt)
         {
-            var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var culture = Thread.CurrentThread.CurrentCulture;
             var diff = dt.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek;
 
             if (diff < 0)

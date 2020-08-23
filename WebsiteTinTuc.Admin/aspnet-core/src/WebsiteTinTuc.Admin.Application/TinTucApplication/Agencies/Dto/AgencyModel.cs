@@ -1,16 +1,13 @@
-﻿using Abp.Domain.Entities.Auditing;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using WebsiteTinTuc.Admin.Authorization.Users;
+using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Models;
 
-namespace WebsiteTinTuc.Admin.Entities
+namespace WebsiteTinTuc.Admin.TinTucApplication.Agencies.Dto
 {
-    public class Agency : FullAuditedEntity<Guid>
+    public class AgencyModel
     {
-        [Required]
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Phone { get; set; }
@@ -24,12 +21,14 @@ namespace WebsiteTinTuc.Admin.Entities
         public int? MaxScale { get; set; }
         public string NationalityAgency { get; set; }
         public string AgencyUrl { get; set; }
-        [ForeignKey(nameof(User))]
         public long UserId { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<Asset> Assets { get; set; }
-        public virtual ICollection<AgencyPostHashtag> AgencyPostHashtags { get; set; }
-        public virtual ICollection<BranchJobAgency> BranchJobAgencies { get; set; }
+        public DateTime CreationTime { get; set; }
+        public string CreatorName { get; set; }
+        public ObjectFile Thumbnail { get; set; }
+        public ObjectFile NationalityImage { get; set; }
+        public IEnumerable<ObjectFile> Images { get; set; }
+        public IEnumerable<HashtagAgencyModel> Hashtags { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<BranchJobAgencyModel> BranchJobAgencies { get; set; }
     }
 }

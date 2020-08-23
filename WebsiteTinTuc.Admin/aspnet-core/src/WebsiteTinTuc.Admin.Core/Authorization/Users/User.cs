@@ -31,8 +31,15 @@ namespace WebsiteTinTuc.Admin.Authorization.Users
 
             return user;
         }
-
+        public UserType UserType { get; set; }
         public virtual ICollection<CV> CVs { get; set; }
         public virtual ICollection<Agency> Agencies { get; set; }
+    }
+
+    public enum UserType
+    {
+        Admin = 0,
+        Hr = 1,
+        User = 2
     }
 }

@@ -5,7 +5,7 @@
         <Form ref="queryForm" :label-width="80" label-position="left" inline>
           <Row :gutter="16">
             <Col span="8">
-              <FormItem :label="L('Keyword')+':'" style="width:100%">
+              <FormItem :label="L('Từ khóa')+':'" style="width:100%">
                 <Input v-model="pageRequest.keyWord" :placeholder="L('Tên hashtag')" />
               </FormItem>
             </Col>
@@ -47,16 +47,18 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Inject, Prop, Watch } from "vue-property-decorator";
-import Util from "@/lib/util";
-import AbpBase from "@/lib/abpbase";
-import PageRequest from "@/store/entities/page-request";
+import Util from "../../../lib/util";
+import AbpBase from "../../../lib/abpbase";
+import PageRequest from "../../../store/entities/page-request";
 import CreateOrEditHashtag from "./create-or-edit-hashtag.vue";
 import Hashtag from "../../../store/entities/hashtag";
+import GrantedPermission from "../../../store/constants/granted-permission";
+import PermissionNames from "../../../store/constants/permission-names";
 class PageHashtagRequest extends PageRequest {
 }
 
 @Component({
-  components: { CreateOrEditHashtag },
+  components: { CreateOrEditHashtag }
 })
 export default class Hashtags extends AbpBase {
   edit() {
@@ -123,7 +125,7 @@ export default class Hashtags extends AbpBase {
       key: "creationTime",
       render: (h: any, params: any) => {
         return h("span", new Date(params.row.creationTime).toLocaleString());
-      },
+      }
     },
     {
       title: this.L("Hành động"),
@@ -140,6 +142,7 @@ export default class Hashtags extends AbpBase {
               },
               style: {
                 marginRight: "5px",
+                display: GrantedPermission.isGranted(PermissionNames.Pages_Update_Hashtag) ? "" : "none"
               },
               on: {
                 click: () => {
@@ -156,8 +159,9 @@ export default class Hashtags extends AbpBase {
             {
               props: {
                 type: "error",
-                size: "small",
+                size: "small"
               },
+              style: GrantedPermission.isGranted(PermissionNames.Pages_Delete_Hashtag) ? "" : "display: none;",
               on: {
                 click: async () => {
                   this.$Modal.confirm({

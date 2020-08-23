@@ -9,18 +9,19 @@ import role from './modules/role';
 import tenant from './modules/tenant';
 import hashtag from './modules/hashtag';
 import post from './modules/post';
+import agency from './modules/agency';
 const store = new Vuex.Store({
     state: {
-        //
+
     },
     mutations: {
-        //
+
     },
     actions: {
 
     },
     getters: {
-        
+
     },
     modules: {
         app,
@@ -30,7 +31,8 @@ const store = new Vuex.Store({
         role,
         tenant,
         hashtag,
-        post
+        post,
+        agency
     }
 });
 

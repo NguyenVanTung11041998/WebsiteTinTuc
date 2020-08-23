@@ -22,10 +22,13 @@ if (!abp.utils.getCookieValue('Abp.Localization.CultureName')) {
 import 'view-design/dist/styles/iview.css';
 Vue.use(BootstrapVue);
 import locale from 'view-design/dist/locale/en-US';
+import GrantedPermission from './store/constants/granted-permission';
 Vue.use(ViewUI, {locale: locale});
 
 Ajax.get('/AbpUserConfiguration/GetAll').then(data => {
   Util.abp = Util.extend(true, Util.abp, data.data.result);
+  GrantedPermission.grantedPermissions = Object.getOwnPropertyNames(Util.abp.auth.grantedPermissions);
+
   new Vue({
     render: h => h(App),
     router: router,
