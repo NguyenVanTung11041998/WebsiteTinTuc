@@ -1,16 +1,14 @@
-import { ActionContext } from 'vuex'
-import ListModule from './list-module'
-import ListState from './list-state'
-import Ajax from '../../lib/ajax'
+import { ActionContext } from 'vuex';
+import ListModule from './list-module';
+import ListState from './list-state';
+import Ajax from '../../lib/ajax';
 import PageResult from '@/store/entities/page-result';
-import Hashtag from '../entities/hashtag'
+import Hashtag from '../entities/hashtag';
 import Post from '../entities/post';
-import Category from '../entities/category';
 
 interface PostState extends ListState<Post> {
     post: Post;
     hashtags: Hashtag[];
-    categories: Category[];
     imageUrl: string;
 }
 class PostModule extends ListModule<PostState, any, Post>{
@@ -22,7 +20,6 @@ class PostModule extends ListModule<PostState, any, Post>{
         loading: false,
         post: new Post(),
         hashtags: new Array<Hashtag>(),
-        categories: new Array<Category>(),
         imageUrl: '#'
     };
     getters = {
@@ -31,9 +28,6 @@ class PostModule extends ListModule<PostState, any, Post>{
         },
         hashtags(state: PostState) {
             return state.hashtags;
-        },
-        categories(state: PostState) {
-            return state.categories;
         }
     };
     actions = {
@@ -55,12 +49,6 @@ class PostModule extends ListModule<PostState, any, Post>{
             let response = await Ajax.get('/api/services/app/Post/GetPostById?Id=' + payload.id);
             const data = response.data.result as Post;
             context.state.post = data;
-            return data;
-        },
-        async getAllCategories(context: ActionContext<PostState, any>) {
-            let response = await Ajax.get('/api/services/app/Category/GetAllCategory');
-            const data = response.data.result as Category[];
-            context.state.categories = data;
             return data;
         },
         async getAllHashtags(context: ActionContext<PostState, any>) {

@@ -1,4 +1,3 @@
-
 export default interface ListActions<T> {
     getAll(state: T, payload: any): any;
     create(state: T, payload: any): any;

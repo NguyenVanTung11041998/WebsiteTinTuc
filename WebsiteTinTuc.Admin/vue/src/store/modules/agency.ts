@@ -1,9 +1,9 @@
-import { ActionContext } from 'vuex'
-import ListModule from './list-module'
-import ListState from './list-state'
-import Ajax from '../../lib/ajax'
+import { ActionContext } from 'vuex';
+import ListModule from './list-module';
+import ListState from './list-state';
+import Ajax from '../../lib/ajax';
 import PageResult from '@/store/entities/page-result';
-import Agency from '../entities/Agency'
+import Agency from '../entities/agency';
 
 interface AgencyState extends ListState<Agency> {
     agency: Agency

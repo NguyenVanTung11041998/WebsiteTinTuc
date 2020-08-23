@@ -1,10 +1,10 @@
-import { appRouters, otherRouters } from '../../router/router'
+import { appRouters, otherRouters } from '../../router/router';
 import Util from '../../lib/util';
 import Vue from 'vue';
-import { Store, Module, ActionContext } from 'vuex'
+import { Store, Module, ActionContext } from 'vuex';
 import Vuex from 'vuex';
-import ajax from '../../lib/ajax'
-import appconst from '../../lib/appconst'
+import ajax from '../../lib/ajax';
+import appconst from '../../lib/appconst';
 Vue.use(Vuex);
 interface AppState {
     cachePage: Array<any>;

@@ -1,9 +1,9 @@
-import { ActionContext } from 'vuex'
-import ListModule from './list-module'
-import ListState from './list-state'
-import Ajax from '../../lib/ajax'
+import { ActionContext } from 'vuex';
+import ListModule from './list-module';
+import ListState from './list-state';
+import Ajax from '../../lib/ajax';
 import PageResult from '@/store/entities/page-result';
-import Hashtag from '../entities/hashtag'
+import Hashtag from '../entities/hashtag';
 
 interface HashtagState extends ListState<Hashtag> {
     hashtag: Hashtag

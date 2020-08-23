@@ -1,5 +1,5 @@
-import { Store, Module, ActionContext, MutationTree } from 'vuex'
-import ListState from './list-state'
+import { Store, Module, ActionContext, MutationTree } from 'vuex';
+import ListState from './list-state';
 
 export default class ListModule<T extends ListState<U>, R, U> implements Module<ListState<U>, R> {
     namespaced = true;

@@ -1,4 +1,4 @@
-import ListState from './list-state'
+import ListState from './list-state';
 
 export default class ListMutations<U> {
     setCurrentPage(state: ListState<U>, page: number) {
