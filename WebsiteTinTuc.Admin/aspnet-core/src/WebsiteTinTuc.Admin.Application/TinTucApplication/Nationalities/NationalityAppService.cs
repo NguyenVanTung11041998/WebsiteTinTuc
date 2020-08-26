@@ -3,6 +3,7 @@ using Abp.Authorization;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
     public class NationalityAppService : AdminAppServiceBase, INationalityAppService
     {
         [AbpAuthorize(PermissionNames.Pages_Create_Nationality)]
-        public async Task CreateNationalityAsync(NationalityRequest input)
+        public async Task CreateNationalityAsync([FromForm]NationalityRequest input)
         {
             bool checkName = await WorkScope.GetAll<Nationality>().AnyAsync(x => x.Name == input.Name);
             if (checkName)
@@ -70,7 +71,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
         }
 
         [AbpAuthorize(PermissionNames.Pages_Update_Nationality)]
-        public async Task UpdateNationality(NationalityRequest input)
+        public async Task UpdateNationality([FromForm]NationalityRequest input)
         {
             bool checkName = await WorkScope.GetAll<Nationality>().AnyAsync(x => x.Name == input.Name && x.Id != input.Id);
             if (checkName)
