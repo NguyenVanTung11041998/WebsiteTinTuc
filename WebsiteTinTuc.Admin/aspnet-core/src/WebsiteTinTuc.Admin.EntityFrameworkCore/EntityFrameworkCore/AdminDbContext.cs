@@ -13,7 +13,6 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore
         public DbSet<Asset> Assets { get; set; }
         public DbSet<Hashtag> Hashtags { get; set; }
         public DbSet<CompanyPostHashtag> CompanyPostHashtags { get; set; }
-        public DbSet<PostCounter> PostCounters { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<CV> CVs { get; set; }
         public DbSet<Company> Companies { get; set; }
