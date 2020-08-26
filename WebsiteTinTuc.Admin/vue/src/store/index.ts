@@ -10,6 +10,7 @@ import tenant from './modules/tenant';
 import hashtag from './modules/hashtag';
 import post from './modules/post';
 import company from './modules/company';
+import nationality from './modules/nationality';
 const store = new Vuex.Store({
     state: {
 
@@ -32,7 +33,8 @@ const store = new Vuex.Store({
         tenant,
         hashtag,
         post,
-        company
+        company,
+        nationality
     }
 });
 

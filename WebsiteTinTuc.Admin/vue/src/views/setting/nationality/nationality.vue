@@ -42,7 +42,7 @@
         </div>
       </div>
     </Card>
-    <create-or-edit-hashtag v-model="createOrEditModalShow" @save-success="saveSuccess" />
+    <create-or-edit-nationality v-model="createOrEditModalShow" @save-success="saveSuccess" />
   </div>
 </template>
 <script lang="ts">
@@ -53,12 +53,25 @@ import PageRequest from "../../../store/entities/page-request";
 import Hashtag from "../../../store/entities/hashtag";
 import GrantedPermission from "../../../store/constants/granted-permission";
 import PermissionNames from "../../../store/constants/permission-names";
+import CreateOrEditNationality from "./create-or-edit-nationality.vue";
+import Nationality from "../../../store/entities/nationality";
 class PageNationalitiesRequest extends PageRequest {}
 
 @Component({
-  components: {},
+  components: { CreateOrEditNationality },
 })
 export default class Nationalities extends AbpBase {
   pageRequest = new PageNationalitiesRequest();
+  createOrEditModalShow: boolean = false;
+  create() {
+    const nationality = { name: "", image: null } as Nationality;
+    this.$store.commit("nationality/setNationality", nationality);
+    this.createOrEditModalShow = true;
+  }
+
+  async getPage() {}
+  async saveSuccess() {
+    await this.getPage();
+  }
 }
 </script>
