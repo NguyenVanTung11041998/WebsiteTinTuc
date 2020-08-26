@@ -22,5 +22,10 @@
         public const string Pages_Create_Post = "Pages.Create.Post";
         public const string Pages_Update_Post = "Pages.Update.Post";
         public const string Pages_Delete_Post = "Pages.Delete.Post";
+
+        public const string Pages_View_Nationality = "Pages.View.Nationality";
+        public const string Pages_Create_Nationality = "Pages.Create.Nationality";
+        public const string Pages_Update_Nationality = "Pages.Update.Nationality";
+        public const string Pages_Delete_Nationality = "Pages.Delete.Nationality";
     }
 }

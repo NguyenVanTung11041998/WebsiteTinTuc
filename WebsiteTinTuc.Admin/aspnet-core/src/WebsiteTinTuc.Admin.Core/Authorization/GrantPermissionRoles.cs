@@ -25,7 +25,11 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_View_Post,
                     PermissionNames.Pages_Create_Post,
                     PermissionNames.Pages_Update_Post,
-                    PermissionNames.Pages_Delete_Post
+                    PermissionNames.Pages_Delete_Post,
+                    PermissionNames.Pages_View_Nationality,
+                    PermissionNames.Pages_Create_Nationality,
+                    PermissionNames.Pages_Update_Nationality,
+                    PermissionNames.Pages_Delete_Nationality
                 }
             },
             {
@@ -40,7 +44,8 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_Update_Hashtag,
                     PermissionNames.Pages_View_Post,
                     PermissionNames.Pages_Create_Post,
-                    PermissionNames.Pages_Update_Post
+                    PermissionNames.Pages_Update_Post,
+                    PermissionNames.Pages_View_Nationality
                 }
             },
             {

@@ -22,5 +22,10 @@
         public const string Pages_Create_Post = "Thêm bài viết";
         public const string Pages_Update_Post = "Sửa bài viết";
         public const string Pages_Delete_Post = "Xóa bài viết";
+
+        public const string Pages_View_Nationality = "Xem quốc tịch";
+        public const string Pages_Create_Nationality = "Thêm quốc tịch";
+        public const string Pages_Update_Nationality = "Sửa quốc tịch";
+        public const string Pages_Delete_Nationality = "Xóa quốc tịch";
     }
 }

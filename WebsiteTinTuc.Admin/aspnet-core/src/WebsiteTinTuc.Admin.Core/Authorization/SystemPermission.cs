@@ -25,7 +25,11 @@ namespace WebsiteTinTuc.Admin.Authorization
             new SystemPermission { Permission = PermissionNames.Pages_View_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Post },
             new SystemPermission { Permission = PermissionNames.Pages_Create_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Post },
             new SystemPermission { Permission = PermissionNames.Pages_Update_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Post },
-            new SystemPermission { Permission = PermissionNames.Pages_Delete_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Post }
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Post, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Post },
+            new SystemPermission { Permission = PermissionNames.Pages_View_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Nationality },
+            new SystemPermission { Permission = PermissionNames.Pages_Create_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Nationality },
+            new SystemPermission { Permission = PermissionNames.Pages_Update_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Nationality },
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Nationality }
         };
     }
 }
