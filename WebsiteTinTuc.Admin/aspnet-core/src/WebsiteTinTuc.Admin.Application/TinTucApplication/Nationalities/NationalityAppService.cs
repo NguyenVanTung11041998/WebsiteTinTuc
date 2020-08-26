@@ -26,13 +26,13 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
             bool checkName = await WorkScope.GetAll<Nationality>().AnyAsync(x => x.Name == input.Name);
             if (checkName)
                 throw new UserFriendlyException("Quốc tịch đã tồn tại");
-            
+
             string fileName = string.Empty;
             if (input.Image?.Length > 0)
             {
                 string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
                 fileName = await UploadFiles.UploadAsync(fileLocation, input.Image);
-            }   
+            }
 
             var nationality = new Nationality
             {
