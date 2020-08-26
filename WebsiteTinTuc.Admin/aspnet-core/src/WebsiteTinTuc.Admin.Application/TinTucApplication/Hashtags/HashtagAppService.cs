@@ -85,7 +85,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
         [AbpAuthorize(PermissionNames.Pages_View_Hashtag)]
         public async Task<PagedResultDto<HashtagModel>> GetAllHashtagPagingAsync(PageRequest input)
         {
-            var hashtags = WorkScope.GetAll<Hashtag>()
+            var query = WorkScope.GetAll<Hashtag>()
                                       .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Name.Contains(input.SearchText))
                                       .Select(x => new HashtagModel
                                       {
@@ -94,9 +94,9 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                                           Name = x.Name,
                                           CreationTime = x.CreationTime
                                       });
-            int totalCount = await hashtags.CountAsync();
-            var categories = await hashtags.Skip((input.CurrentPage - 1) * input.PageSize).Take(input.PageSize).ToListAsync();
-            return new PagedResultDto<HashtagModel>(totalCount, categories);
+            int totalCount = await query.CountAsync();
+            var hashtags = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize).ToListAsync();
+            return new PagedResultDto<HashtagModel>(totalCount, hashtags);
         }
 
         [AbpAllowAnonymous]
