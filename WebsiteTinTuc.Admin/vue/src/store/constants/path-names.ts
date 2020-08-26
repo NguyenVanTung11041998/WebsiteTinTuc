@@ -7,4 +7,5 @@ export default class PathNames {
     static readonly UpdateCompany = "updateCompany";
     static readonly Hashtag = "hashtag";
     static readonly Post = "post";
+    static readonly Nationality = "nationality";
 }
