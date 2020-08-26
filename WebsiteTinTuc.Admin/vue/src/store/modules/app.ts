@@ -69,12 +69,14 @@ class AppModule implements Module<AppState, any>{
                 if (item.permission !== undefined) {
                     let hasPermissionMenuArr: Array<Router> = [];
                     hasPermissionMenuArr = item.children.filter(child => {
-                        if (child.permission !== undefined) {
-                            if (Util.abp.auth.hasPermission(child.permission)) {
+                        if (!child.hidden) {
+                            if (child.permission !== undefined) {
+                                if (Util.abp.auth.hasPermission(child.permission)) {
+                                    return child;
+                                }
+                            } else {
                                 return child;
                             }
-                        } else {
-                            return child;
                         }
                     });
                     if (hasPermissionMenuArr.length > 0) {
