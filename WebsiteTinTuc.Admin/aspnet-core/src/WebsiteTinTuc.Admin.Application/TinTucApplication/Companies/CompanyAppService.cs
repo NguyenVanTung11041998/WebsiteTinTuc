@@ -214,7 +214,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                             {
                                 Name = x.Name,
                                 Description = x.Description,
-                                DescriptionCompany = x.FullNameCompany,
+                                FullNameCompany = x.FullNameCompany,
                                 Email = x.Email,
                                 Id = x.Id,
                                 Location = x.Location,
