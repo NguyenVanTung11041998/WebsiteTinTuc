@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebsiteTinTuc.Admin.Authorization.Users;
-using WebsiteTinTuc.Admin.Models;
 
 namespace WebsiteTinTuc.Admin.Entities
 {
@@ -17,7 +16,7 @@ namespace WebsiteTinTuc.Admin.Entities
         public string Email { get; set; }
         public string LocationDescription { get; set; }
         public string Location { get; set; }
-        public string DescriptionCompany { get; set; }
+        public string FullNameCompany { get; set; }
         public string Website { get; set; }
         public int? MinScale { get; set; }
         public string Treatment { get; set; }

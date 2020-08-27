@@ -1707,10 +1707,10 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DescriptionCompany")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FullNameCompany")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")

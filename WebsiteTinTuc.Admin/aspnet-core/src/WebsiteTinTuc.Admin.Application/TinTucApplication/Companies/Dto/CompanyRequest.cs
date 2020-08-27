@@ -16,7 +16,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies.Dto
         public string Email { get; set; }
         public string LocationDescription { get; set; }
         public string Location { get; set; }
-        public string DescrtionCompany { get; set; }
+        public string FullNameCompany { get; set; }
         public string Website { get; set; }
         public int? MinScale { get; set; }
         public string Treatment { get; set; }

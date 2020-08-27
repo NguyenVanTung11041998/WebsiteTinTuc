@@ -848,7 +848,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                     Email = table.Column<string>(nullable: true),
                     LocationDescription = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
-                    DescriptionCompany = table.Column<string>(nullable: true),
+                    FullNameCompany = table.Column<string>(nullable: true),
                     Website = table.Column<string>(nullable: true),
                     MinScale = table.Column<int>(nullable: true),
                     Treatment = table.Column<string>(nullable: true),

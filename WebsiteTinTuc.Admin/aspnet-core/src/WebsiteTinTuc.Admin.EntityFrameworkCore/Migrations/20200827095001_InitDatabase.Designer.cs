@@ -10,7 +10,7 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore;
 namespace WebsiteTinTuc.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200826073557_InitDatabase")]
+    [Migration("20200827095001_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1709,10 +1709,10 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DescriptionCompany")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FullNameCompany")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
