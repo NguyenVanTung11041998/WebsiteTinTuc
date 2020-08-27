@@ -1,8 +1,10 @@
 <template>
   <div>
     <Modal :value="value" @on-ok="save" @on-visible-change="visibleChange">
+      <h1>{{nationality.id ? "Sửa Quốc tịch" : "Thêm Quốc tịch"}}</h1>
+      <hr />
       <Form ref="nationalityForm" label-position="top" :model="nationality">
-        <FormItem :label="L('Name')" prop="name">
+        <FormItem :label="L('Name:')" prop="name">
           <Input v-model="nationality.name" :maxlength="32" />
         </FormItem>
         <FormItem :label="L('Ảnh:')" prop="thumbnail">
@@ -54,7 +56,6 @@ export default class CreateOrEditNationality extends AbpBase {
   get nationality() {
     return this.$store.state.nationality.nationality;
   }
-  save() {}
   cancel() {
     (this.$refs.nationalityForm as any).resetFields();
     this.$emit("input", false);
@@ -79,6 +80,32 @@ export default class CreateOrEditNationality extends AbpBase {
       file: event.target.files[0],
       fileType: FileType.image,
     } as IObjectFile;
+  }
+  async save() {
+    (this.$refs.nationalityForm as any).validate(async (valid: boolean) => {
+      if (valid) {
+        let request = new FormData();
+        request.append("name", this.nationality.name);
+        if (this.nationality.image) {
+          request.append("image", this.nationality.image.file);
+        }
+        if (this.nationality.id) {
+          request.append("id", this.nationality.id);
+        }
+        await this.$store.dispatch({
+          type: `nationality/${
+            !this.nationality.id ? "createNationality" : "updateNationality"
+          }`,
+          data: request,
+        });
+        (this.$refs.nationalityForm as any).resetFields();
+        this.$Message.success(
+          `${!this.nationality.id ? "Thêm" : "Sửa"} nationality thành công`
+        );
+        this.$emit("save-success");
+        this.$emit("input", false);
+      }
+    });
   }
 }
 </script>
