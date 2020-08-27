@@ -6,6 +6,7 @@ using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Authorization;
@@ -51,6 +52,18 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
                 throw new UserFriendlyException("Quốc tịch không tồn tại");
 
             await WorkScope.DeleteAsync(nationality);
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<List<NationalityDto>> GetAll()
+        {
+            var query = WorkScope.GetAll<Nationality>()
+                                .Select(x => new NationalityDto
+                                {
+                                    Id = x.Id,
+                                    Name = x.Name
+                                });
+            return await query.ToListAsync();
         }
 
         [AbpAuthorize(PermissionNames.Pages_View_Nationality)]
