@@ -18,7 +18,23 @@ class NationalityModule extends ListModule<NationalityState, any, Nationality>{
         nationality: new Nationality()
     }
     actions = {
-
+        async getAllNationalityPaging(context: ActionContext<NationalityState, any>, payload: any) {
+            context.state.loading = true;
+            let res = await Ajax.get('api/services/app/Nationality/GetAllNationalityPaging', { params: payload.data });
+            context.state.loading = false;
+            let page = res.data.result as PageResult<Nationality>;
+            context.state.totalCount = page.totalCount;
+            context.state.list = page.items;
+        },
+        async createNationality(context: ActionContext<NationalityState, any>, payload: any) {
+            await Ajax.post('api/services/app/Nationality/CreateNationality', payload.data);
+        },
+        async updateNationality(context: ActionContext<NationalityState, any>, payload: any) {
+            await Ajax.put('api/services/app/Nationality/UpdateNationality', payload.data);
+        },
+        async deleteNationality(context: ActionContext<NationalityState, any>, payload: any) {
+            await Ajax.delete('api/services/app/Nationality/DeleteNationality?id=' + payload.data);
+        }
     };
     mutations = {
         setCurrentPage(state: NationalityState, page: number) {
