@@ -37,7 +37,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
             var nationality = new Nationality
             {
                 Name = input.Name,
-                Path = $"{fileLocation}/{fileName}"
+                Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}/{fileName}"
             };
 
             await WorkScope.InsertAsync(nationality);
@@ -87,7 +87,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
             {
                 string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
                 string fileName = await UploadFiles.UploadAsync(fileLocation, input.Image);
-                nationality.Path = $"{fileLocation}/{fileName}";
+                nationality.Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}/{fileName}";
             }
 
             await WorkScope.UpdateAsync(nationality);
