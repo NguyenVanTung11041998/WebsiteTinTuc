@@ -28,16 +28,16 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
                 throw new UserFriendlyException("Quốc tịch đã tồn tại");
 
             string fileName = string.Empty;
+            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
             if (input.Image?.Length > 0)
             {
-                string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
                 fileName = await UploadFiles.UploadAsync(fileLocation, input.Image);
             }
 
             var nationality = new Nationality
             {
                 Name = input.Name,
-                Path = fileName
+                Path = $"{fileLocation}/{fileName}"
             };
 
             await WorkScope.InsertAsync(nationality);
@@ -86,7 +86,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
             if (input.Image?.Length > 0)
             {
                 string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
-                nationality.Path = await UploadFiles.UploadAsync(fileLocation, input.Image);
+                string fileName = await UploadFiles.UploadAsync(fileLocation, input.Image);
+                nationality.Path = $"{fileLocation}/{fileName}";
             }
 
             await WorkScope.UpdateAsync(nationality);
