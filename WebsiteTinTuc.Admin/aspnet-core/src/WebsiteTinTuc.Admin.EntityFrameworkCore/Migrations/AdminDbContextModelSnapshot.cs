@@ -1564,7 +1564,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BranchJobLocation")
+                    b.Property<string>("BranchJobUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")

@@ -10,7 +10,7 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore;
 namespace WebsiteTinTuc.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200827095001_InitDatabase")]
+    [Migration("20200828041352_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1566,7 +1566,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BranchJobLocation")
+                    b.Property<string>("BranchJobUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")

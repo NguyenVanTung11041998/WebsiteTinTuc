@@ -456,7 +456,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                     DeleterUserId = table.Column<long>(nullable: true),
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    BranchJobLocation = table.Column<string>(nullable: true)
+                    BranchJobUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
