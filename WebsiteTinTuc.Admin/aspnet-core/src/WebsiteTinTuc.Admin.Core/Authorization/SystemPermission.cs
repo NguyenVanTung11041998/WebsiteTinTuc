@@ -29,7 +29,11 @@ namespace WebsiteTinTuc.Admin.Authorization
             new SystemPermission { Permission = PermissionNames.Pages_View_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_Nationality },
             new SystemPermission { Permission = PermissionNames.Pages_Create_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_Nationality },
             new SystemPermission { Permission = PermissionNames.Pages_Update_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_Nationality },
-            new SystemPermission { Permission = PermissionNames.Pages_Delete_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Nationality }
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Nationality, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_Nationality },
+            new SystemPermission { Permission = PermissionNames.Pages_View_BranchJob, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_View_BranchJob },
+            new SystemPermission { Permission = PermissionNames.Pages_Create_BranchJob, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Create_BranchJob },
+            new SystemPermission { Permission = PermissionNames.Pages_Update_BranchJob, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Update_BranchJob },
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_BranchJob, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDIsplayName.Pages_Delete_BranchJob }
         };
     }
 }

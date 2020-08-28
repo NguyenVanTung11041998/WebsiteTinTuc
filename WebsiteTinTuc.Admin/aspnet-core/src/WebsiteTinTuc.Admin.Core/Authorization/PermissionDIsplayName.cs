@@ -27,5 +27,10 @@
         public const string Pages_Create_Nationality = "Thêm quốc tịch";
         public const string Pages_Update_Nationality = "Sửa quốc tịch";
         public const string Pages_Delete_Nationality = "Xóa quốc tịch";
+
+        public const string Pages_View_BranchJob = "Xem ngành nghề";
+        public const string Pages_Create_BranchJob = "Thêm ngành nghề";
+        public const string Pages_Update_BranchJob = "Sửa ngành nghề";
+        public const string Pages_Delete_BranchJob = "Xóa ngành nghề";
     }
 }

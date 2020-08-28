@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebsiteTinTuc.Admin.Authorization;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
 using WebsiteTinTuc.Admin.Models;
@@ -14,13 +16,16 @@ using WebsiteTinTuc.Admin.TinTucApplication.BranchJobs.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
 {
+    [AbpAuthorize]
     public class BranchJobAppService : AdminAppServiceBase, IBranchJobAppService
     {
+        [AbpAuthorize(PermissionNames.Pages_Create_BranchJob)]
         public async Task CreateBranchJobAsync(BranchJobRequest input)
         {
             await SaveBranchJobAsync(input);
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Delete_BranchJob)]
         public async Task DeleteAsync(Guid id)
         {
             var branchJob = await WorkScope.GetAll<BranchJob>().FirstOrDefaultAsync(x => x.Id == id);
@@ -57,6 +62,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
             }
         }
 
+        [AbpAuthorize(PermissionNames.Pages_View_BranchJob)]
         public async Task<PagedResultDto<BranchJobModel>> GetAllBranchJobPagingAsync(PageRequest input)
         {
             var query = WorkScope.GetAll<BranchJob>()
@@ -73,6 +79,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
             return new PagedResultDto<BranchJobModel>(totalCount, branchJobs);
         }
 
+        [AbpAllowAnonymous]
         public async Task<List<BranchJobModel>> GetAllBranchJobs()
         {
             return await WorkScope.GetAll<BranchJob>()
@@ -85,6 +92,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
                         }).ToListAsync();
         }
 
+        [AbpAuthorize(PermissionNames.Pages_View_BranchJob)]
         public async Task<BranchJobModel> GetBranchJobByIdAsync(Guid id)
         {
             var branchJob = await WorkScope.GetAll<BranchJob>().Select(x => new BranchJobModel
@@ -99,6 +107,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
             return branchJob;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Update_BranchJob)]
         public async Task UpdateBranchJobAsync(BranchJobRequest input)
         {
             await SaveBranchJobAsync(input);

@@ -29,7 +29,11 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_View_Nationality,
                     PermissionNames.Pages_Create_Nationality,
                     PermissionNames.Pages_Update_Nationality,
-                    PermissionNames.Pages_Delete_Nationality
+                    PermissionNames.Pages_Delete_Nationality,
+                    PermissionNames.Pages_View_BranchJob,
+                    PermissionNames.Pages_Create_BranchJob,
+                    PermissionNames.Pages_Update_BranchJob,
+                    PermissionNames.Pages_Delete_BranchJob
                 }
             },
             {
@@ -45,7 +49,8 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_View_Post,
                     PermissionNames.Pages_Create_Post,
                     PermissionNames.Pages_Update_Post,
-                    PermissionNames.Pages_View_Nationality
+                    PermissionNames.Pages_View_Nationality,
+                    PermissionNames.Pages_View_BranchJob
                 }
             },
             {

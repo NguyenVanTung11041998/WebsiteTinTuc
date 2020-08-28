@@ -27,5 +27,10 @@
         public const string Pages_Create_Nationality = "Pages.Create.Nationality";
         public const string Pages_Update_Nationality = "Pages.Update.Nationality";
         public const string Pages_Delete_Nationality = "Pages.Delete.Nationality";
+
+        public const string Pages_View_BranchJob = "Pages.View.BranchJob";
+        public const string Pages_Create_BranchJob = "Pages.Create.BranchJob";
+        public const string Pages_Update_BranchJob = "Pages.Update.BranchJob";
+        public const string Pages_Delete_BranchJob = "Pages.Delete.BranchJob";
     }
 }
