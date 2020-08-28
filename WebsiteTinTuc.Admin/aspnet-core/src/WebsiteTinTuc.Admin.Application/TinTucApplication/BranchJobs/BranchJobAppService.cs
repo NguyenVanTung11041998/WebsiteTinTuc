@@ -14,7 +14,7 @@ using WebsiteTinTuc.Admin.TinTucApplication.BranchJobs.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
 {
-    public class BranchJobAppServiceApplication : AdminAppServiceBase, IBranchJobAppService
+    public class BranchJobAppService : AdminAppServiceBase, IBranchJobAppService
     {
         public async Task CreateBranchJobAsync(BranchJobRequest input)
         {
