@@ -15,7 +15,8 @@ namespace WebsiteTinTuc.User.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
         }
-        [HttpGet]
+
+        [HttpPost]
         public OkResult UpdateSiteMap(Post post)
         {
             string rootPath = _hostingEnvironment.WebRootPath;
