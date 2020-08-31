@@ -10,9 +10,9 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
 {
     public interface IPostAppService
     {
-        Task CreateOrEditAsync(PostRequest input);
+        Task CreatePostAsync(PostRequest input);
+        Task EditPostAsync(PostRequest input);
         Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PageRequest input);
-        Task<string> UploadImage([FromForm]IFormFile file);
         Task<PostDto> GetPostByIdAsync(Guid id);
     }
 }

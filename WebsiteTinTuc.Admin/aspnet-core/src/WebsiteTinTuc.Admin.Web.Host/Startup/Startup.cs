@@ -18,6 +18,7 @@ using Abp.Dependency;
 using Abp.Json;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using WebsiteTinTuc.Admin.Constans;
 
 namespace WebsiteTinTuc.Admin.Web.Host.Startup
 {
@@ -74,6 +75,8 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
                         .AllowCredentials()
                 )
             );
+
+            ConstantVariable.WebUserUrl = _appConfiguration.GetValue<string>("WebUserUrl");
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>

@@ -20,9 +20,11 @@ namespace WebsiteTinTuc.Admin.Entities
         public ExperienceType ExperienceType { get; set; }
         [ForeignKey(nameof(Company))]
         public Guid CompanyId { get; set; }
+        [ForeignKey(nameof(Level))]
+        public Guid LevelId { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<CompanyPostHashtag> CompanyPostHashtags { get; set; }
-        public virtual ICollection<Level> Levels { get; set; }
+        public virtual Level Level { get; set; }
         public virtual ICollection<CV> CVs { get; set; }
     }
 
