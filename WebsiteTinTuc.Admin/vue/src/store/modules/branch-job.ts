@@ -24,8 +24,16 @@ class BranchJobModule extends ListModule<BranchJobState, any, BranchJob>{
             let page = res.data.result as PageResult<BranchJob>;
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
+        },
+        async createBranchJob(context: ActionContext<BranchJob, any>, payload: any) {
+            await Ajax.post("/api/services/app/BranchJob/CreateBranchJob", payload.data);
+        },
+        async updateBranchJob(context: ActionContext<BranchJob, any>, payload: any) {
+            await Ajax.put("/api/services/app/BranchJob/UpdateBranchJob", payload.data);
+        },
+        async deleteBranchJob(context: ActionContext<BranchJob, any>, payload: any) {
+            await Ajax.delete(`/api/services/app/BranchJob/Delete?Id= ${payload.data}`);
         }
-
     };
     mutations = {
         setCurrentPage(state: BranchJobState, page: number) {

@@ -55,10 +55,11 @@ import GrantedPermission from "../../../store/constants/granted-permission";
 import PermissionNames from "../../../store/constants/permission-names";
 import Nationality from "../../../store/entities/nationality";
 import BranchJob from "@/store/entities/branch-job";
+import CreateOrEditBranchJob from "./create-or-edit-branch-job.vue";
 class PageBranchJobsRequest extends PageRequest {}
 
 @Component({
-  components: {},
+  components: { CreateOrEditBranchJob },
 })
 export default class BranchJobs extends AbpBase {
   pageRequest = new PageBranchJobsRequest();
@@ -72,7 +73,7 @@ export default class BranchJobs extends AbpBase {
     this.createOrEditModalShow = true;
   }
   edit() {
-    // this.createOrEditModalShow = true;
+    this.createOrEditModalShow = true;
   }
   get list() {
     return this.$store.state.branchJob.list;
@@ -111,87 +112,87 @@ export default class BranchJobs extends AbpBase {
   async saveSuccess() {
     await this.getPage();
   }
-  //   columns = [
-  //     {
-  //       title: this.L("Tên Quốc tịch"),
-  //       key: "name",
-  //     },
-  //     {
-  //       title: this.L("Thời gian tạo"),
-  //       key: "creationTime",
-  //       render: (h: any, params: any) => {
-  //         return h("span", new Date(params.row.creationTime).toLocaleString());
-  //       },
-  //     },
-  //     {
-  //       title: this.L("Hành động"),
-  //       key: "Actions",
-  //       width: 150,
-  //       render: (h: any, params: any) => {
-  //         return h("div", [
-  //           h(
-  //             "Button",
-  //             {
-  //               props: {
-  //                 type: "primary",
-  //                 size: "small",
-  //               },
-  //               style: {
-  //                 marginRight: "5px",
-  //                 display: GrantedPermission.isGranted(
-  //                   PermissionNames.Pages_Update_Nationality
-  //                 )
-  //                   ? ""
-  //                   : "none",
-  //               },
-  //               on: {
-  //                 click: () => {
-  //                   const nationality = { ...params.row };
-  //                   this.$store.commit("nationality/setNationality", nationality);
-  //                   this.edit();
-  //                 },
-  //               },
-  //             },
-  //             this.L("Sửa")
-  //           ),
-  //           h(
-  //             "Button",
-  //             {
-  //               props: {
-  //                 type: "error",
-  //                 size: "small",
-  //               },
-  //               style: GrantedPermission.isGranted(
-  //                 PermissionNames.Pages_Delete_Nationality
-  //               )
-  //                 ? ""
-  //                 : "display: none;",
-  //               on: {
-  //                 click: async () => {
-  //                   this.$Modal.confirm({
-  //                     title: this.L("Thông báo"),
-  //                     content: this.L(`Xóa nationality ${params.row.name}`),
-  //                     okText: this.L("Yes"),
-  //                     cancelText: this.L("No"),
-  //                     onOk: async () => {
-  //                       await this.$store.dispatch({
-  //                         type: "nationality/deleteNationality",
-  //                         data: params.row.id,
-  //                       });
-  //                       await this.getPage();
-  //                       this.$Message.success(
-  //                         `Xóa nationality ${params.row.name} thành công`
-  //                       );
-  //                     },
-  //                   });
-  //                 },
-  //               },
-  //             },
-  //             this.L("Xóa")
-  //           ),
-  //         ]);
-  //       },
-  //     },
-  //   ];
+  columns = [
+    {
+      title: this.L("Tên ngành nghề"),
+      key: "name",
+    },
+    {
+      title: this.L("Thời gian tạo"),
+      key: "creationTime",
+      render: (h: any, params: any) => {
+        return h("span", new Date(params.row.creationTime).toLocaleString());
+      },
+    },
+    {
+      title: this.L("Hành động"),
+      key: "Actions",
+      width: 150,
+      render: (h: any, params: any) => {
+        return h("div", [
+          h(
+            "Button",
+            {
+              props: {
+                type: "primary",
+                size: "small",
+              },
+              style: {
+                marginRight: "5px",
+                display: GrantedPermission.isGranted(
+                  PermissionNames.Pages_Update_BranchJob
+                )
+                  ? ""
+                  : "none",
+              },
+              on: {
+                click: () => {
+                  const branchJob = { ...params.row };
+                  this.$store.commit("branchJob/setBranchJob", branchJob);
+                  this.edit();
+                },
+              },
+            },
+            this.L("Sửa")
+          ),
+          h(
+            "Button",
+            {
+              props: {
+                type: "error",
+                size: "small",
+              },
+              style: GrantedPermission.isGranted(
+                PermissionNames.Pages_Delete_BranchJob
+              )
+                ? ""
+                : "display: none;",
+              on: {
+                click: async () => {
+                  this.$Modal.confirm({
+                    title: this.L("Thông báo"),
+                    content: this.L(`Xóa branchJob ${params.row.name}`),
+                    okText: this.L("Yes"),
+                    cancelText: this.L("No"),
+                    onOk: async () => {
+                      await this.$store.dispatch({
+                        type: "branchJob/deleteBranchJob",
+                        data: params.row.id,
+                      });
+                      await this.getPage();
+                      this.$Message.success(
+                        `Xóa branchJob ${params.row.name} thành công`
+                      );
+                    },
+                  });
+                },
+              },
+            },
+            this.L("Xóa")
+          ),
+        ]);
+      },
+    },
+  ];
 }
 </script>

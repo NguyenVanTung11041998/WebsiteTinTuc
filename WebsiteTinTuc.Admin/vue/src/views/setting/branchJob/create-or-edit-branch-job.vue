@@ -1,14 +1,14 @@
 <template>
   <div>
     <Modal
-      :title="hashtag.id ? L('Sửa hashtag') : L('Thêm hashtag')"
+      :title="branchJob.id ? L('Sửa BranchJob') : L('Thêm BranchJob')"
       :value="value"
       @on-ok="save"
       @on-visible-change="visibleChange"
     >
-      <Form ref="branchJobForm" label-position="top" :rules="hashtagRule" :model="hashtag">
+      <Form ref="branchJobForm" label-position="top" :rules="hashtagRule" :model="branchJob">
         <FormItem :label="L('Name')" prop="name">
-          <Input v-model="hashtag.name" :maxlength="32" />
+          <Input v-model="branchJob.name" :maxlength="32" />
         </FormItem>
       </Form>
       <div slot="footer">
@@ -33,13 +33,13 @@ export default class CreateOrEditBranchJob extends AbpBase {
       if (valid) {
         await this.$store.dispatch({
           type: `branchJob/${
-            !this.branchJob.id ? "createHashtag" : "updateHashtag"
+            !this.branchJob.id ? "createBranchJob" : "updateBranchJob"
           }`,
           data: this.branchJob,
         });
         (this.$refs.branchJobForm as any).resetFields();
         this.$Message.success(
-          `${!this.branchJob.id ? "Thêm" : "Sửa"} hashtag thành công`
+          `${!this.branchJob.id ? "Thêm" : "Sửa"} branchJob thành công`
         );
         this.$emit("save-success");
         this.$emit("input", false);
@@ -59,7 +59,11 @@ export default class CreateOrEditBranchJob extends AbpBase {
     name: [
       {
         required: true,
-        message: this.L("Bạn phải nhập tên hashtag", undefined, this.L("Name")),
+        message: this.L(
+          "Bạn phải nhập tên BranchJob",
+          undefined,
+          this.L("Name")
+        ),
         trigger: "blur",
       },
     ],
