@@ -29,6 +29,7 @@ import createOrEditCompany from '@/views/setting/company/create-or-edit-company.
 import hashtags from '@/views/setting/hashtag/hashtag.vue';
 import posts from '@/views/setting/post/post.vue';
 import nationalities from '@/views/setting/nationality/nationality.vue';
+import branchJobs from '@/views/setting/branchJob/branch-job.vue';
 
 export const locking = {
     path: '/locking',
@@ -70,6 +71,7 @@ export const appRouters: Array<Router> = [{
         { path: `${Path.Company}/${Path.Update}`, hidden: true, permission: PermissionNames.Pages_Update_Company, meta: { title: 'Sửa công ty' }, name: PathNames.UpdateCompany, component: createOrEditCompany },
         { path: Path.Post, permission: PermissionNames.Pages_View_Post, meta: { title: 'Bài viết' }, name: PathNames.Post, component: posts },
         { path: Path.Nationality, permission: PermissionNames.Pages_View_Nationality, meta: { title: 'Quốc tịch' }, name: PathNames.Nationality, component: nationalities },
+        { path: Path.BranchJob, permission: PermissionNames.Pages_View_BranchJob, meta: { title: 'Ngành nghề' }, name: PathNames.BranchJob, component: branchJobs },
 
     ]
 }]
