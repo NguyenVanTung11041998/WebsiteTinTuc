@@ -25,4 +25,8 @@ export default class PermissionNames {
     static readonly Pages_Update_Nationality = "Pages.Update.Nationality";
     static readonly Pages_Delete_Nationality = "Pages.Delete.Nationality";
 
+    static readonly Pages_View_BranchJob = "Pages.View.BranchJob";
+    static readonly Pages_Create_BranchJob = "Pages.Create.BranchJob";
+    static readonly Pages_Update_BranchJob = "Pages.Update.BranchJob";
+    static readonly Pages_Delete_BranchJob = "Pages.Delete.BranchJob";
 }

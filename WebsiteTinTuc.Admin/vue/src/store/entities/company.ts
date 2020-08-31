@@ -12,7 +12,7 @@ export default class Company {
     email: string;
     locationDescription: string;
     location: string;
-    descriptionCompany: string;
+    fullNameCompany: string;
     website: string;
     minScale?: number;
     maxScale?: number;

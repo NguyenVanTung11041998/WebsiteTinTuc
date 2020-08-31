@@ -8,4 +8,5 @@ export default class Path {
     static readonly Hashtag = "hashtag";
     static readonly Post = "post";
     static readonly Nationality = "nationality";
+    static readonly BranchJob = "branchJob";
 }

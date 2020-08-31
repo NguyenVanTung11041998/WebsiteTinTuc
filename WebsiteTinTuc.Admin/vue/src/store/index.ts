@@ -11,6 +11,7 @@ import hashtag from './modules/hashtag';
 import post from './modules/post';
 import company from './modules/company';
 import nationality from './modules/nationality';
+import branchJob from './modules/branch-job';
 const store = new Vuex.Store({
     state: {
 
@@ -34,7 +35,8 @@ const store = new Vuex.Store({
         hashtag,
         post,
         company,
-        nationality
+        nationality,
+        branchJob
     }
 });
 

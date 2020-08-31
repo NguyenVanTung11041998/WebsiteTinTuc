@@ -6,7 +6,7 @@
           <Row :gutter="16">
             <Col span="8">
               <FormItem :label="L('Từ khóa')+':'" style="width:100%">
-                <Input v-model="pageRequest.keyWord" :placeholder="L('Tên hashtag')" />
+                <Input v-model="pageRequest.keyWord" :placeholder="L('Tên Nationality')" />
               </FormItem>
             </Col>
           </Row>
