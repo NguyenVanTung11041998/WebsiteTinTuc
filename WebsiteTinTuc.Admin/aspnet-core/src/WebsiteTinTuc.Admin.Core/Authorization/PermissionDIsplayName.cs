@@ -32,5 +32,10 @@
         public const string Pages_Create_BranchJob = "Thêm ngành nghề";
         public const string Pages_Update_BranchJob = "Sửa ngành nghề";
         public const string Pages_Delete_BranchJob = "Xóa ngành nghề";
+
+        public const string Pages_View_Level = "Xem level";
+        public const string Pages_Create_Level = "Thêm level";
+        public const string Pages_Update_Level = "Sửa level";
+        public const string Pages_Delete_Level = "Xóa Level";
     }
 }

@@ -32,5 +32,10 @@
         public const string Pages_Create_BranchJob = "Pages.Create.BranchJob";
         public const string Pages_Update_BranchJob = "Pages.Update.BranchJob";
         public const string Pages_Delete_BranchJob = "Pages.Delete.BranchJob";
+
+        public const string Pages_View_Level = "Pages.View.Level";
+        public const string Pages_Create_Level = "Pages.Create.Level";
+        public const string Pages_Update_Level = "Pages.Update.Level";
+        public const string Pages_Delete_Level = "Pages.Delete.Level";
     }
 }
