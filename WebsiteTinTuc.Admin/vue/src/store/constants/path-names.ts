@@ -9,4 +9,5 @@ export default class PathNames {
     static readonly Post = "post";
     static readonly Nationality = "nationality";
     static readonly BranchJob = "branchJob";
+    static readonly Level = "level";
 }

@@ -29,4 +29,9 @@ export default class PermissionNames {
     static readonly Pages_Create_BranchJob = "Pages.Create.BranchJob";
     static readonly Pages_Update_BranchJob = "Pages.Update.BranchJob";
     static readonly Pages_Delete_BranchJob = "Pages.Delete.BranchJob";
+
+    static readonly Pages_View_Level = "Pages.View.Level";
+    static readonly Pages_Create_Level = "Pages.Create.Level";
+    static readonly Pages_Update_Level = "Pages.Update.Level";
+    static readonly Pages_Delete_Level = "Pages.Delete.Level";
 }
