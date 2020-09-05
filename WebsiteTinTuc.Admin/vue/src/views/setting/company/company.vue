@@ -64,12 +64,12 @@ class PageCompanyRequest extends PageRequest {
 }
 
 @Component({
-  components: { CreateOrEditCompany },
+  components: { CreateOrEditCompany }
 })
 export default class Companies extends AbpBase {
   pageRequest: PageCompanyRequest = new PageCompanyRequest();
   edit() {
-    let Company = this.$router.push({ name: PathNames.UpdateCompany });
+    this.$router.push({ name: PathNames.UpdateCompany });
   }
 
   async create() {
@@ -143,16 +143,6 @@ export default class Companies extends AbpBase {
     {
       title: this.L("Mô tả bài viết"),
       key: "description",
-    },
-    {
-      title: this.L("Số lượt xem"),
-      key: "numberOfViews",
-      width: 130,
-    },
-    {
-      title: this.L("Số lượt thích"),
-      key: "numberOfLikes",
-      width: 150,
     },
     {
       title: this.L("Thao tác"),

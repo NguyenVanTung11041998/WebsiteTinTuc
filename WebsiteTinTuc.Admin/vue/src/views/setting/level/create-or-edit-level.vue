@@ -26,14 +26,18 @@ import AbpBase from "../../../lib/abpbase";
 export default class CreateOrEditLevel extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
   get level() {
-    return this.$store.state.hashtag.hashtag;
+    return this.$store.state.level.level;
   }
-  save() {
+  async save() {
     (this.$refs.levelForm as any).validate(async (valid: boolean) => {
       if (valid) {
+        const payload = {
+          id: this.level.id,
+          name: this.level.name
+        };
         await this.$store.dispatch({
           type: `level/${!this.level.id ? "createLevel" : "updateLevel"}`,
-          data: this.level,
+          data: payload,
         });
         (this.$refs.levelForm as any).resetFields();
         this.$Message.success(

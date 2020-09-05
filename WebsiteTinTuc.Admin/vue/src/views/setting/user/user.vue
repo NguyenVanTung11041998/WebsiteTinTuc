@@ -163,7 +163,7 @@ export default class Users extends AbpBase {
       title: this.L("IsActive"),
       render: (h: any, params: any) => {
         return h("span", params.row.isActive ? this.L("Yes") : this.L("No"));
-      },
+      }
     },
     {
       title: this.L("CreationTime"),
@@ -173,7 +173,7 @@ export default class Users extends AbpBase {
           "span",
           new Date(params.row.creationTime).toLocaleDateString()
         );
-      },
+      }
     },
     {
       title: this.L("Actions"),

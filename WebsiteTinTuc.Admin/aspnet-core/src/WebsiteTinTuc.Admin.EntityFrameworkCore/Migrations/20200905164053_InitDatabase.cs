@@ -484,6 +484,25 @@ namespace WebsiteTinTuc.Admin.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Levels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    LastModificationTime = table.Column<DateTime>(nullable: true),
+                    LastModifierUserId = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeleterUserId = table.Column<long>(nullable: true),
+                    DeletionTime = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Levels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Nationalities",
                 columns: table => new
                 {
@@ -1058,7 +1077,8 @@ namespace WebsiteTinTuc.Admin.Migrations
                     TimeExperience = table.Column<int>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
                     ExperienceType = table.Column<int>(nullable: false),
-                    CompanyId = table.Column<Guid>(nullable: false)
+                    CompanyId = table.Column<Guid>(nullable: false),
+                    LevelId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1067,6 +1087,12 @@ namespace WebsiteTinTuc.Admin.Migrations
                         name: "FK_Posts_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Levels_LevelId",
+                        column: x => x.LevelId,
+                        principalTable: "Levels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1141,32 +1167,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Levels",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    CreatorUserId = table.Column<long>(nullable: true),
-                    LastModificationTime = table.Column<DateTime>(nullable: true),
-                    LastModifierUserId = table.Column<long>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeleterUserId = table.Column<long>(nullable: true),
-                    DeletionTime = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    PostId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Levels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Levels_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -1565,14 +1565,14 @@ namespace WebsiteTinTuc.Admin.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Levels_PostId",
-                table: "Levels",
-                column: "PostId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_CompanyId",
                 table: "Posts",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_LevelId",
+                table: "Posts",
+                column: "LevelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1671,9 +1671,6 @@ namespace WebsiteTinTuc.Admin.Migrations
                 name: "CVs");
 
             migrationBuilder.DropTable(
-                name: "Levels");
-
-            migrationBuilder.DropTable(
                 name: "AbpEntityDynamicParameters");
 
             migrationBuilder.DropTable(
@@ -1705,6 +1702,9 @@ namespace WebsiteTinTuc.Admin.Migrations
 
             migrationBuilder.DropTable(
                 name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "Levels");
 
             migrationBuilder.DropTable(
                 name: "Nationalities");

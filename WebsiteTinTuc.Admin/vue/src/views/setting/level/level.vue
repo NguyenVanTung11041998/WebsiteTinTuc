@@ -11,14 +11,18 @@
             </Col>
           </Row>
           <Row>
-            <Button @click="create" icon="android-add" type="primary" size="large">{{L('Thêm mới')}}</Button>
-            <Button
-              icon="ios-search"
-              type="primary"
-              size="large"
-              class="tollbar-btn"
-              @click="getPage"
-            >{{L('Tìm kiếm')}}</Button>
+            <Col span="4">
+              <Button @click="create" icon="android-add" type="primary" size="large">{{L('Thêm mới')}}</Button>
+            </Col>
+            <Col span="4">
+              <Button
+                icon="ios-search"
+                type="primary"
+                size="large"
+                class="tollbar-btn"
+                @click="getPage"
+              >{{L('Tìm kiếm')}}</Button>
+            </Col> 
           </Row>
         </Form>
         <div class="row margin-top-10">
@@ -66,7 +70,7 @@ export default class Levels extends AbpBase {
   }
   create() {
     const level = { name: "" } as Level;
-    this.$store.commit("level/createLevel", level);
+    this.$store.commit("level/setLevel", level);
     this.createOrEditModalShow = true;
   }
   get list() {
@@ -103,11 +107,29 @@ export default class Levels extends AbpBase {
     await this.$store.commit("level/setPageSize", pageSize);
     this.getPage();
   }
-  edit() {}
+
+  async saveSuccess() {
+    await this.getPage();
+  }
+
+  edit() {
+    this.createOrEditModalShow = true;
+  }
+
   columns = [
     {
       title: this.L("Tên level"),
       key: "name",
+    },
+    {
+      title: this.L("Thời gian tạo"),
+      key: "creationTime",
+      render: (h: any, params: any) => {
+        return h(
+          "span",
+          `${new Date(params.row.creationTime).toLocaleTimeString()} ${new Date(params.row.creationTime).toLocaleDateString()}`
+        );
+      }
     },
     {
       title: this.L("Hành động"),

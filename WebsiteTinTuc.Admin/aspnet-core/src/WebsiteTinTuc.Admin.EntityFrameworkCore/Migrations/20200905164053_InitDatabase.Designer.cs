@@ -10,7 +10,7 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore;
 namespace WebsiteTinTuc.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200828041352_InitDatabase")]
+    [Migration("20200905164053_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1879,12 +1879,7 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("Levels");
                 });
@@ -1969,6 +1964,9 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid>("LevelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<long>("MaxMoney")
                         .HasColumnType("bigint");
 
@@ -1993,6 +1991,8 @@ namespace WebsiteTinTuc.Admin.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("LevelId");
 
                     b.ToTable("Posts");
                 });
@@ -2327,20 +2327,17 @@ namespace WebsiteTinTuc.Admin.Migrations
                         .HasForeignKey("PostId");
                 });
 
-            modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Level", b =>
-                {
-                    b.HasOne("WebsiteTinTuc.Admin.Entities.Post", "Post")
-                        .WithMany("Levels")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WebsiteTinTuc.Admin.Entities.Post", b =>
                 {
                     b.HasOne("WebsiteTinTuc.Admin.Entities.Company", "Company")
                         .WithMany("Posts")
                         .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebsiteTinTuc.Admin.Entities.Level", "Level")
+                        .WithMany("Posts")
+                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

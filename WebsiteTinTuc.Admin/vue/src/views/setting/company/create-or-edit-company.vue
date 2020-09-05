@@ -2,7 +2,7 @@
   <div>
     <h1>Thêm mới / Chỉnh sửa</h1>
     <br />
-    <Form ref="postForm" label-position="top" :rules="postRule" :model="post">
+    <Form ref="companyForm" label-position="top" :rules="companyRule" :model="company">
       <div class="row">
         <div class="col-6">
           <FormItem :label="L('Tên công ty:')" prop="name">
@@ -28,7 +28,7 @@
               :rows="3"
               placeholder="Nhập mô tả..."
               :maxlength="230"
-              :minlength="175"
+              :minlength="10"
             />
           </FormItem>
           <FormItem :label="L('Số điện thoại:')" prop="phone">
@@ -173,7 +173,7 @@ class PagePostRequest extends PageRequest {
   keyword: string = "";
 }
 @Component({
-  components: { Editor },
+  components: { Editor }
 })
 export default class CreateOrEditCompany extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
@@ -272,14 +272,14 @@ export default class CreateOrEditCompany extends AbpBase {
         data: requestData,
       });
 
-      (this.$refs.postForm as any).resetFields();
+      (this.$refs.companyForm as any).resetFields();
       this.$emit("save-success");
       this.$emit("input", false);
     }
   }
 
   cancel() {
-    (this.$refs.postForm as any).resetFields();
+    (this.$refs.companyForm as any).resetFields();
     this.$emit("input", false);
   }
 
@@ -297,7 +297,7 @@ export default class CreateOrEditCompany extends AbpBase {
     } as IObjectFile;
   }
 
-  postRule = {
+  companyRule = {
     title: [
       {
         required: true,
