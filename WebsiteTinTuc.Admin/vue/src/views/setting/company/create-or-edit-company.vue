@@ -4,148 +4,229 @@
     <br />
     <Form ref="companyForm" label-position="top" :rules="companyRule" :model="company">
       <div class="row">
-        <div class="col-6">
-          <FormItem :label="L('Tên công ty:')" prop="name">
-            <Input
-              v-model="company.name"
-              placeholder="Nhập tên công ty..."
-              :maxlength="300"
-              :minlength="2"
+        <Row :gutter="24">
+          <Col span="12">
+            <FormItem :label="L('Tên công ty:')" prop="name">
+              <Input
+                v-model="company.name"
+                placeholder="Nhập tên công ty..."
+                :maxlength="300"
+                :minlength="2"
+              />
+            </FormItem>
+          </Col>
+          <Col span="12">
+            <FormItem :label="L('Tên đầy đủ công ty:')" prop="fullNameCompany">
+              <Input
+                v-model="company.fullNameCompany"
+                placeholder="Nhập tên đầy đủ công ty..."
+                :maxlength="300"
+                :minlength="2"
+              />
+            </FormItem>
+          </Col>
+        </Row>
+        <Row :gutter="24">
+          <Col span="12">
+            <FormItem :label="L('Số điện thoại:')" prop="phone">
+              <Input
+                v-model="company.phone"
+                placeholder="Nhập số điện thoại..."
+                :maxlength="11"
+                :minlength="10"
+              />
+            </FormItem>
+          </Col>
+          <Col span="12">
+            <FormItem :label="L('Email:')" prop="email">
+              <Input
+                v-model="company.email"
+                placeholder="Nhập Email..."
+                type="email"
+                :maxlength="100"
+                :minlength="10"
+              />
+            </FormItem>
+          </Col>
+        </Row>
+        <Row :gutter="24">
+          <Col span="12">
+            <FormItem :label="L('Địa chỉ:')" prop="location">
+              <Input
+                v-model="company.location"
+                placeholder="Nhập Địa chỉ..."
+                :maxlength="100"
+                :minlength="10"
+              />
+            </FormItem>
+          </Col>
+          <Col span="12">
+            <FormItem :label="L('Địa chỉ đầy đủ:')" prop="locationDescription">
+              <Input
+                v-model="company.locationDescription"
+                placeholder="Nhập Địa chỉ đầy đủ..."
+                :maxlength="200"
+                :minlength="10"
+              />
+            </FormItem>
+          </Col>
+        </Row>
+        <Row :gutter="24">
+          <Col span="4">
+            <FormItem :label="L('Số thành viên tối thiểu:')" prop="minScale">
+              <InputNumber
+                style="width: 75%;"
+                placeholder="Min..."
+                :min="0"
+                :step="1"
+                v-model="company.minScale"
+              />
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem :label="L('Số thành viên tối đa:')" prop="maxScale">
+              <InputNumber
+                style="width: 75%;"
+                placeholder="Max..."
+                :min="0"
+                :step="1"
+                v-model="company.maxScale"
+              />
+            </FormItem>
+          </Col>
+          <Col span="10">
+            <FormItem :label="L('Website:')" prop="website">
+              <Input
+                v-model="company.website"
+                placeholder="Nhập tên website..."
+                :maxlength="200"
+                :minlength="4"
+              >
+                <Select v-model="httpSelect" slot="prepend" style="width: 80px">
+                  <Option :value="0">http://</Option>
+                  <Option :value="1">https://</Option>
+                </Select>
+              </Input>
+            </FormItem>
+          </Col>
+        </Row>
+        <FormItem :label="L('Mô tả công ty:')" prop="description">
+          <Input
+            v-model="company.description"
+            type="textarea"
+            :rows="3"
+            placeholder="Nhập mô tả..."
+            :maxlength="230"
+            :minlength="10"
+          />
+        </FormItem>
+
+        <Row :gutter="24">
+          <Col span="8">
+            <FormItem :label="L('Hashtag')">
+              <Select
+                v-model="hashtagOfCompany"
+                multiple
+                v-if="company || hashtags"
+                class="select-cate"
+              >
+                <Option
+                  v-for="(item, index) in hashtags"
+                  :value="item.id"
+                  :key="index"
+                >{{ item.name }}</Option>
+              </Select>
+            </FormItem>
+          </Col>
+          <Col span="8">
+            <FormItem :label="L('Ngành nghề')">
+              <Select
+                v-model="branchJobOfComany"
+                multiple
+                v-if="company || branchJobs"
+                class="select-cate"
+              >
+                <Option
+                  v-for="(item, index) in branchJobs"
+                  :value="item.id"
+                  :key="index"
+                >{{ item.name }}</Option>
+              </Select>
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem :label="L('Quốc tịch:')">
+              <Select v-model="company.nationalityCompanyId" class="select-cate">
+                <Option
+                  v-for="(item, index) in nationalities"
+                  :value="item.id"
+                  :key="index"
+                >{{ item.name }}</Option>
+              </Select>
+            </FormItem>
+          </Col>
+        </Row>
+        <FormItem :label="L('Ảnh Thumbnail:')" prop="thumbnail">
+          <div class="image-cover mx-0 mb-2" v-if="company.thumbnail">
+            <img :src="company.thumbnail ? getLinkPath(company.thumbnail) : '#'" alt="Thumbnail" />
+            <span>
+              <img src="../../../assets/x-button.png" @click="removeImage(company.thumbnail)" />
+            </span>
+          </div>
+          <div
+            class="input-button"
+            v-if="!company.thumbnail"
+            :class="{'d-none' : company.thumbnail}"
+          >
+            <b-form-file
+              id="uploadIcon"
+              v-model="thumbnailFile"
+              size="sm"
+              @change="onChangeThumbnail"
+              plain
             />
-          </FormItem>
-          <FormItem :label="L('Tên đầy đủ công ty:')" prop="fullNameCompany">
-            <Input
-              v-model="company.fullNameCompany"
-              placeholder="Nhập tên đầy đủ công ty..."
-              :maxlength="300"
-              :minlength="2"
-            />
-          </FormItem>
-          <FormItem :label="L('Mô tả công ty:')" prop="description">
-            <Input
-              v-model="company.description"
-              type="textarea"
-              :rows="3"
-              placeholder="Nhập mô tả..."
-              :maxlength="230"
-              :minlength="10"
-            />
-          </FormItem>
-          <FormItem :label="L('Số điện thoại:')" prop="phone">
-            <Input
-              v-model="company.phone"
-              placeholder="Nhập số điện thoại..."
-              :maxlength="11"
-              :minlength="10"
-            />
-          </FormItem>
-          <FormItem :label="L('Email:')" prop="email">
-            <Input
-              v-model="company.email"
-              placeholder="Nhập Email..."
-              type="email"
-              :maxlength="100"
-              :minlength="10"
-            />
-          </FormItem>
-          <FormItem :label="L('Địa chỉ:')" prop="location">
-            <Input
-              v-model="company.location"
-              placeholder="Nhập Địa chỉ..."
-              :maxlength="100"
-              :minlength="10"
-            />
-          </FormItem>
-          <FormItem :label="L('Địa chỉ đầy đủ:')" prop="locationDescription">
-            <Input
-              v-model="company.locationDescription"
-              placeholder="Nhập Địa chỉ đầy đủ..."
-              :maxlength="200"
-              :minlength="10"
-            />
-          </FormItem>
-          <FormItem :label="L('Số thành viên tối thiểu:')" prop="minScale">
-            <Input v-model="company.minScale" placeholder="Nhập số thành viên..." type="number" />
-          </FormItem>
-          <FormItem :label="L('Số thành viên tối đa:')" prop="maxScale">
-            <Input v-model="company.maxScale" placeholder="Nhập số thành viên..." type="number" />
-          </FormItem>
-          <FormItem :label="L('Website:')" prop="website">
-            <Input
-              v-model="company.website"
-              placeholder="Nhập tên website..."
-              :maxlength="200"
-              :minlength="10"
-            />
-          </FormItem>
-        </div>
-        <div class="col-6">
-          <FormItem :label="L('Thể loại:')">
-            <Select v-model="company.phone" multiple class="select-cate">
-              <Option
-                v-for="(item, index) in allCategories"
-                :value="item.id"
-                :key="index"
-              >{{ item.name }}</Option>
-            </Select>
-          </FormItem>
-          <FormItem :label="L('Hashtag')">
-            <Select v-model="hashtags" multiple v-if="post || allHashtags" class="select-cate">
-              <Option
-                v-for="(item, index) in allHashtags"
-                :value="item.id"
-                :key="index"
-              >{{ item.name }}</Option>
-            </Select>
-          </FormItem>
-          <FormItem :label="L('Ảnh Thumbnail:')" prop="thumbnail">
-            <div class="image-cover mx-0 mb-2" v-if="post.objectFile">
-              <img :src="post.objectFile ? getLinkPath(post.objectFile) : '#'" alt="Thumbnail" />
+            <label for="uploadIcon" class="custom-input">
+              <span></span>
+              <span></span>
+            </label>
+          </div>
+        </FormItem>
+        <FormItem :label="L('Ảnh:')" prop="thumbnail">
+          <div class="image-cover mx-0 mb-2" v-if="company.images && company.images.length > 0">
+            <div v-for="(item, index) in company.images" :key="index">
+              <img :src="item ? getLinkPath(item) : '#'" alt="Image" />
               <span>
-                <img src="../../../assets/x-button.png" @click="removeImage(post.objectFile)" />
+                <img src="../../../assets/x-button.png" @click="removeImage(item, index)" />
               </span>
             </div>
-            <div class="input-button" v-if="!post.objectFile" :class="{'d-none' : post.objectFile}">
-              <b-form-file
-                id="uploadIcon"
-                v-model="thumbnailFile"
-                size="sm"
-                @change="onChangeThumbnail"
-                plain
-              />
-              <label for="uploadIcon" class="custom-input">
-                <span></span>
-                <span></span>
-              </label>
-            </div>
+          </div>
+          <div class="uploadOtherImages" v-if="!(company.images && company.images.length > 0)">
+            <b-form-file
+              id="uploadOtherImages"
+              v-model="images"
+              size="sm"
+              @change="onChangeImage"
+              plain
+              multiple
+            />
+            <label for="uploadOtherImages" class="custom-input">
+              <span></span>
+              <span></span>
+            </label>
+          </div>
+        </FormItem>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <FormItem :label="L('Chế độ đãi ngộ')">
+            <editor api-key="no-api-key" v-model="company.treatment" :init="settingEditor" />
           </FormItem>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <FormItem :label="L('Nội dung')">
-            <editor
-              api-key="no-api-key"
-              v-model="company.treatment"
-              :init="{
-                                height: 500,
-                                menubar: true,
-                                plugins: [
-                                'advlist autolink lists link image charmap print preview anchor',
-                                'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste code help wordcount'
-                                ],
-                                toolbar1: 'undo redo | formatselect | bold italic backcolor| image media | \
-                                        charmap | table | Link | alignleft aligncenter alignright alignjustify | \
-                                        bullist numlist outdent indent ',
-                                toolbar2: 'removeformat | paste code | searchreplace | wordcount | fullscreen | help',
-                                automatic_upload: true,
-                                image_title: true,
-                                paste_data_images: true,
-                                images_upload_url: '/api/services/app/Post/UploadImage',
-                                images_upload_handler: saveImage
-                            }"
-            />
+          <FormItem :label="L('Mô tả công ty')">
+            <editor api-key="no-api-key" v-model="company.description" :init="settingEditor" />
           </FormItem>
         </div>
       </div>
@@ -160,7 +241,6 @@
 import { Component, Vue, Inject, Prop, Watch } from "vue-property-decorator";
 import Util from "../../../lib/util";
 import AbpBase from "../../../lib/abpbase";
-import Post from "../../../store/entities/post";
 import { isEqual, forEach, map, clone } from "lodash";
 import IObjectFile from "../../../store/interfaces/IObjectFile";
 import { Action, Getter, namespace } from "vuex-class";
@@ -168,31 +248,81 @@ import PageRequest from "../../../store/entities/page-request";
 import Editor from "@tinymce/tinymce-vue";
 import { FileType } from "../../../store/enums/file-type";
 import Hashtag from "../../../store/entities/hashtag";
+import Company from "../../../store/entities/company";
+import PathNames from "../../../store/constants/path-names";
 
 class PagePostRequest extends PageRequest {
   keyword: string = "";
 }
 @Component({
-  components: { Editor }
+  components: { Editor },
 })
 export default class CreateOrEditCompany extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
-  @Getter("post", { namespace: "post" }) public post!: Post;
-  @Getter("hashtags", { namespace: "post" }) public allHashtags!: Hashtag[];
 
   public deleteFiles: any = [];
   public thumbnailFile: File = null;
-  public postCategories: any = [];
-  public hashtags: any = [];
+  public images: File[] = [];
+  public hashtagOfCompany: string[] = [];
+  public branchJobOfComany: string[] = [];
+  public httpSelect = 0;
+  public settingEditor = {
+    height: 500,
+    menubar: true,
+    plugins: [
+      "advlist autolink lists link image charmap print preview anchor",
+      "searchreplace visualblocks code fullscreen",
+      "insertdatetime media table paste code help wordcount",
+    ],
+    toolbar1:
+      "undo redo | formatselect | bold italic backcolor| image media | \
+                        charmap | table | Link | alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent ",
+    toolbar2:
+      "removeformat | paste code | searchreplace | wordcount | fullscreen | help",
+    automatic_upload: true,
+    image_title: true,
+    paste_data_images: true,
+    images_upload_url: "/api/services/app/Post/UploadImage",
+    images_upload_handler: this.saveImage,
+  };
   pageRequest: PagePostRequest = new PagePostRequest();
 
   get company() {
     return this.$store.state.company.company;
   }
-  created() {
-    if (this.post && this.post.categoryIds) {
-      this.hashtags = map(this.post.hashtagIds, "categoryHashtagOfPostId");
+  async created() {
+    await this.getAllHashtags();
+    await this.getAllNationalities();
+    await this.getAllBranchJobs();
+    if (this.company && this.company.hashtags) {
+      this.hashtagOfCompany = map(this.company.hashtags, "id");
     }
+    if (this.company && this.company.branchJobCompanies) {
+      this.branchJobOfComany = map(this.company.branchJobCompanies, "id");
+    }
+  }
+
+  get nationalities() {
+    return this.$store.state.nationality.nationalities;
+  }
+
+  async getAllHashtags() {
+    await this.$store.dispatch({
+      type: "hashtag/getAllHashtags",
+    });
+  }
+
+  async getAllNationalities() {
+    await this.$store.dispatch({
+      type: "nationality/getAllNationality",
+    });
+  }
+
+  async getAllBranchJobs() {
+    await this.$store.dispatch({
+      type: "branchJob/getAllBranchJob",
+    });
   }
 
   get imageUrl() {
@@ -215,6 +345,14 @@ export default class CreateOrEditCompany extends AbpBase {
     return this.$store.state.company.currentPage;
   }
 
+  get hashtags() {
+    return this.$store.state.hashtag.hashtags;
+  }
+
+  get branchJobs() {
+    return this.$store.state.branchJob.branchJobs;
+  }
+
   async saveImage(blobInfo, success) {
     const requestData = new FormData();
     requestData.append("file", blobInfo.blob());
@@ -226,61 +364,75 @@ export default class CreateOrEditCompany extends AbpBase {
     success(Util.getLinkPath(this.imageUrl));
   }
 
-  removeImage(file: IObjectFile) {
-    if (file.fileType == FileType.thumbnail) {
-      this.post.objectFile = null;
+  removeImage(file: IObjectFile, index?: number) {
+    if (file.fileType == FileType.Thumbnail) {
+      this.company.thumbnail = null;
       this.thumbnailFile = null;
+    } else {
+      if (file.id) {
+        this.deleteFiles.push(file.id);
+      }
+      this.company.images.splice(index, 1);
+      this.images.splice(index, 1);
     }
   }
   resetModel() {
     this.deleteFiles = [];
     this.thumbnailFile = null;
-    this.postCategories = [];
+    this.images = [];
+    this.branchJobOfComany = [];
+    this.hashtagOfCompany = [];
   }
 
   async save() {
-    if (this.post.title && this.post.content) {
+    if (this.company && this.company.name) {
       const requestData = new FormData();
-      if (this.post && this.post.id) requestData.append("id", this.post.id);
+      if (this.company.id) requestData.append("id", this.company.id);
 
-      forEach(this.postCategories, (cate: string) => {
-        requestData.append("categoryIds", cate);
+      forEach(this.branchJobOfComany, (branchJobId: string) => {
+        requestData.append("branchJobIds", branchJobId);
       });
-      forEach(this.hashtags, (hashtag: string) => {
+      forEach(this.hashtagOfCompany, (hashtag: string) => {
         requestData.append("hashtagIds", hashtag);
       });
-      requestData.append("title", this.post.title);
-      requestData.append("description", this.post.description);
-      requestData.append("content", this.post.content);
-      if (this.post && this.post.objectFile && this.post.objectFile.file) {
-        requestData.append("thumbnail", this.post.objectFile.file);
+      requestData.append("title", this.company.title);
+      requestData.append("description", this.company.description);
+      requestData.append("content", this.company.content);
+      if (
+        this.company &&
+        this.company.objectFile &&
+        this.company.objectFile.file
+      ) {
+        requestData.append("thumbnail", this.company.objectFile.file);
       }
 
       forEach(this.deleteFiles, (x: string) => {
         requestData.append("fileIdDelete", x);
       });
-      const categoryIdDelete = map(this.post.categoryIds, "id");
+      const categoryIdDelete = map(this.company.categoryIds, "id");
       forEach(categoryIdDelete, (x: string) => {
         requestData.append("categoryIdDelete", x);
       });
-      const hashtagIdDelete = map(this.post.hashtagIds, "id");
+      const hashtagIdDelete = map(this.company.hashtagIds, "id");
       forEach(hashtagIdDelete, (x: string) => {
         requestData.append("hashtagIdDelete", x);
       });
       await this.$store.dispatch({
-        type: "post/createOrEdit",
+        type: "company/createOrEdit",
         data: requestData,
       });
 
       (this.$refs.companyForm as any).resetFields();
       this.$emit("save-success");
       this.$emit("input", false);
+      this.$router.push({ name: PathNames.Company });
     }
   }
 
   cancel() {
     (this.$refs.companyForm as any).resetFields();
     this.$emit("input", false);
+    this.$router.push({ name: PathNames.Company });
   }
 
   getLinkPath(fileObject: IObjectFile) {
@@ -290,11 +442,23 @@ export default class CreateOrEditCompany extends AbpBase {
   }
 
   onChangeThumbnail(event: any) {
-    this.post.objectFile = {
+    this.company.objectFile = {
       id: "",
       file: event.target.files[0],
-      fileType: FileType.thumbnail,
+      fileType: FileType.Thumbnail,
     } as IObjectFile;
+  }
+
+  onChangeImage(event: any) {
+    this.company.images = this.company.images || [];
+
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.company.images.push({
+        id: "",
+        file: event.target.files[i],
+        fileType: FileType.Image,
+      } as IObjectFile);
+    }
   }
 
   companyRule = {
@@ -424,7 +588,7 @@ export default class CreateOrEditCompany extends AbpBase {
   }
 }
 
-#uploadIcon {
+#uploadIcon #uploadOtherImages {
   display: none;
 }
 

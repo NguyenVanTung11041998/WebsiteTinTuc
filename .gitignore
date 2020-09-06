@@ -9,3 +9,4 @@ aspnet-core/src/CasinoCMS.Web.Host/App_Data/Logs/
 aspnet-core/src/CasinoCMS.Web.Mvc/App_Data/Logs/
 /WebsiteTinTuc.Admin/aspnet-core/src/WebsiteTinTuc.Admin.Web.Host/wwwroot/Uploads/Posts/
 /WebsiteTinTuc.Admin/aspnet-core/src/WebsiteTinTuc.Admin.Web.Host/wwwroot/Company/
+/WebsiteTinTuc.Admin/aspnet-core/src/WebsiteTinTuc.Admin.Web.Host/wwwroot/Uploads/Company/

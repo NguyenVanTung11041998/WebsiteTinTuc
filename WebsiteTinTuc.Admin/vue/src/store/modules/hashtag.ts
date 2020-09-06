@@ -6,7 +6,8 @@ import PageResult from '@/store/entities/page-result';
 import Hashtag from '../entities/hashtag';
 
 interface HashtagState extends ListState<Hashtag> {
-    hashtag: Hashtag
+    hashtag: Hashtag;
+    hashtags: Hashtag[];
 }
 class HashtagModule extends ListModule<HashtagState, any, Hashtag>{
     state = {
@@ -15,10 +16,11 @@ class HashtagModule extends ListModule<HashtagState, any, Hashtag>{
         pageSize: 10,
         list: new Array<Hashtag>(),
         loading: false,
-        hashtag: new Hashtag()
+        hashtag: new Hashtag(),
+        hashtags: new Array<Hashtag>()
     }
     actions = {
-        async getAll(context: ActionContext<HashtagState, any>, payload: any) {
+        async getAllPaging(context: ActionContext<HashtagState, any>, payload: any) {
             context.state.loading = true;
             let reponse = await Ajax.get('/api/services/app/Hashtag/GetAllHashtagPaging', { params: payload.data });
             context.state.loading = false;
@@ -38,6 +40,11 @@ class HashtagModule extends ListModule<HashtagState, any, Hashtag>{
         async get(context: ActionContext<HashtagState, any>, payload: any) {
             let reponse = await Ajax.get('/api/services/app/Hashtag/GetHashtagById?Id=' + payload.id);
             return reponse.data.result as Hashtag;
+        },
+        async getAllHashtags({ commit }) {
+            let response = await Ajax.get('/api/services/app/Hashtag/GetAllHashtags');
+            const data = response.data.result as Hashtag[];
+            commit("setAllHashtag", data);
         }
     };
     mutations = {
@@ -49,6 +56,9 @@ class HashtagModule extends ListModule<HashtagState, any, Hashtag>{
         },
         setHashtag(state: HashtagState, hashtag: Hashtag) {
             state.hashtag = hashtag;
+        },
+        setAllHashtag(state: HashtagState, hashtags: Hashtag[]) {
+            state.hashtags = hashtags;
         }
     }
 }

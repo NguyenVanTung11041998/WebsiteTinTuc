@@ -102,7 +102,7 @@ export default class Hashtags extends AbpBase {
       pageSize: this.pageSize
     };
     await this.$store.dispatch({
-      type: "hashtag/getAll",
+      type: "hashtag/getAllPaging",
       data: param,
     });
   }

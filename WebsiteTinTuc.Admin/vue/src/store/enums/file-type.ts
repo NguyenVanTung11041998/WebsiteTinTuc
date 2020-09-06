@@ -1,4 +1,4 @@
 export enum FileType {
-    thumbnail = 0,
-    image = 1
+    Thumbnail = 0,
+    Image = 1
 }

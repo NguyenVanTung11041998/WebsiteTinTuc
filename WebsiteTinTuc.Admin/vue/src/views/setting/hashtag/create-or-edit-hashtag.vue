@@ -8,7 +8,7 @@
     >
       <Form ref="hashtagForm" label-position="top" :rules="hashtagRule" :model="hashtag">
         <FormItem :label="L('Name')" prop="name">
-          <Input v-model="hashtag.name" :maxlength="32" />
+          <Input v-model="hashtag.name" @keypress.native.enter="save" :maxlength="32" />
         </FormItem>
       </Form>
       <div slot="footer">

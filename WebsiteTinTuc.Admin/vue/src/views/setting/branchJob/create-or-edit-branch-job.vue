@@ -8,7 +8,7 @@
     >
       <Form ref="branchJobForm" label-position="top" :rules="hashtagRule" :model="branchJob">
         <FormItem :label="L('Name')" prop="name">
-          <Input v-model="branchJob.name" :maxlength="32" />
+          <Input v-model="branchJob.name" @keypress.native.enter="save" :maxlength="32" />
         </FormItem>
       </Form>
       <div slot="footer">

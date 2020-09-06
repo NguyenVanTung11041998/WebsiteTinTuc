@@ -192,23 +192,25 @@ class Util {
         return currentPathArr;
     }
     openNewPage(vm: Vue, name: string | undefined, argu?: any, query?: any) {
-        let pageOpenedList = vm.$store.state.app.pageOpenedList;
-        let openedPageLen = pageOpenedList.length;
-        let i = 0;
         let tagHasOpened = false;
-        while (i < openedPageLen) {
-            if (name === pageOpenedList[i].name) { // 页面已经打开
-                vm.$store.commit('app/pageOpenedList', {
-                    index: i,
-                    argu: argu,
-                    query: query
-                });
-                tagHasOpened = true;
-                break;
+        if (vm.$store) {
+            let pageOpenedList = vm.$store.state.app.pageOpenedList;
+            let openedPageLen = pageOpenedList.length;
+            let i = 0;
+            while (i < openedPageLen) {
+                if (name === pageOpenedList[i].name) { // 页面已经打开
+                    vm.$store.commit('app/pageOpenedList', {
+                        index: i,
+                        argu: argu,
+                        query: query
+                    });
+                    tagHasOpened = true;
+                    break;
+                }
+                i++;
             }
-            i++;
         }
-        if (!tagHasOpened) {
+        if (!tagHasOpened && vm.$store) {
             let tag = vm.$store.state.app.tagsList.filter((item: any) => {
                 if (item.children) {
                     return name === item.children[0].name;
@@ -228,7 +230,9 @@ class Util {
                 vm.$store.commit('app/increateTag', tag);
             }
         }
-        vm.$store.commit('app/setCurrentPageName', name);
+        if (vm.$store) {
+            vm.$store.commit('app/setCurrentPageName', name);
+        }
     }
     fullscreenEvent(vm: Vue) {
         vm.$store.commit('app/initCachepage');

@@ -17,7 +17,8 @@ export default class Company {
     minScale?: number;
     maxScale?: number;
     treatment: string;
-    nationalityCompany: string;
+    nationalityCompanyId: string;
+    nationalityCompanyName: string;
     userId: number;
     creatorName: string;
     thumbnail?: IObjectFile;

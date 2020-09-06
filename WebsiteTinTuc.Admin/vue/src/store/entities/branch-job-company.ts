@@ -1,6 +1,6 @@
 export default class BranchJobCompany {
-    CompanyId: string;
-    CompanyName: string;
+    companyId: string;
+    companyName: string;
     branchJobId: string;
     branchJobName: string;
 }

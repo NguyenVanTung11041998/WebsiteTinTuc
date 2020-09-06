@@ -96,7 +96,7 @@ export default class BranchJobs extends AbpBase {
       pageSize: this.pageSize,
     };
     await this.$store.dispatch({
-      type: "branchJob/getAllBranchJobs",
+      type: "branchJob/getAllBranchJobPaging",
       data: param,
     });
   }

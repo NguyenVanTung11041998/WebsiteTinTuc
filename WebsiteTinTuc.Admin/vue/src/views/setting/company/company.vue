@@ -33,7 +33,7 @@
               :no-data-text="L('Không có dữ liệu')"
               border
               :data="list"
-            ></Table>
+            />
             <Page
               show-sizer
               class-name="fengpage"
@@ -43,7 +43,7 @@
               @on-page-size-change="pagesizeChange"
               :page-size="pageSize"
               :current="currentPage"
-            ></Page>
+            />
           </div>
         </div>
       </Card>
@@ -72,7 +72,11 @@ export default class Companies extends AbpBase {
     this.$router.push({ name: PathNames.UpdateCompany });
   }
 
-  async create() {
+  async getAllHashtag() {
+    return await this.$store.dispatch("")
+  }
+
+  create() {
     this.$router.push({ name: PathNames.CreateCompany });
   }
   pageChange(page: number) {
@@ -88,11 +92,6 @@ export default class Companies extends AbpBase {
     await this.$store.dispatch({
       type: "company/getCompanyById",
       id: id,
-    });
-  }
-  async getAllHashtags() {
-    await this.$store.dispatch({
-      type: "hashtag/getAllHashtags",
     });
   }
 
@@ -126,6 +125,7 @@ export default class Companies extends AbpBase {
   get CompanyById() {
     return this.$store.state.company.companyById;
   }
+
   columns = [
     {
       title: this.L("Tiêu đề bài viết"),

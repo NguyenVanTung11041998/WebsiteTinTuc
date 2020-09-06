@@ -5,7 +5,8 @@ import { ActionContext } from "vuex";
 import Ajax from '../../lib/ajax';
 import PageResult from "../entities/page-result";
 interface BranchJobState extends ListState<BranchJob> {
-    branchJob: BranchJob
+    branchJob: BranchJob;
+    branchJobs: BranchJob[];
 }
 class BranchJobModule extends ListModule<BranchJobState, any, BranchJob>{
     state = {
@@ -14,10 +15,11 @@ class BranchJobModule extends ListModule<BranchJobState, any, BranchJob>{
         pageSize: 10,
         list: new Array<BranchJob>(),
         loading: false,
-        branchJob: new BranchJob()
+        branchJob: new BranchJob(),
+        branchJobs: new Array<BranchJob>()
     }
     actions = {
-        async getAllBranchJobs(context: ActionContext<BranchJobState, any>, payload: any) {
+        async getAllBranchJobPaging(context: ActionContext<BranchJobState, any>, payload: any) {
             context.state.loading = true;
             let res = await Ajax.get('/api/services/app/BranchJob/GetAllBranchJobPaging', { params: payload.data });
             context.state.loading = false;
@@ -33,6 +35,11 @@ class BranchJobModule extends ListModule<BranchJobState, any, BranchJob>{
         },
         async deleteBranchJob(context: ActionContext<BranchJob, any>, payload: any) {
             await Ajax.delete(`/api/services/app/BranchJob/Delete?Id= ${payload.data}`);
+        },
+        async getAllBranchJob({ commit }) {
+            const response = await Ajax.get('/api/services/app/BranchJob/GetAllBranchJobs');
+            const data = response.data.result as BranchJob[];
+            commit("setAllBranchJob", data);
         }
     };
     mutations = {
@@ -44,6 +51,9 @@ class BranchJobModule extends ListModule<BranchJobState, any, BranchJob>{
         },
         setBranchJob(state: BranchJobState, branchJob: BranchJob) {
             state.branchJob = branchJob;
+        },
+        setAllBranchJob(state: BranchJobState, branchJobs: BranchJob[]) {
+            state.branchJobs = branchJobs;
         }
     }
 }

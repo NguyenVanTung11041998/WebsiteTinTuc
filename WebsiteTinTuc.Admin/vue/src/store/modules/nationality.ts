@@ -6,7 +6,8 @@ import PageResult from '@/store/entities/page-result';
 import Nationality from '../entities/nationality';
 
 interface NationalityState extends ListState<Nationality> {
-    nationality: Nationality
+    nationality: Nationality;
+    nationalities: Nationality[];
 }
 class NationalityModule extends ListModule<NationalityState, any, Nationality>{
     state = {
@@ -15,7 +16,8 @@ class NationalityModule extends ListModule<NationalityState, any, Nationality>{
         pageSize: 10,
         list: new Array<Nationality>(),
         loading: false,
-        nationality: new Nationality()
+        nationality: new Nationality(),
+        nationalities: new Array<Nationality>()
     }
     actions = {
         async getAllNationalityPaging(context: ActionContext<NationalityState, any>, payload: any) {
@@ -34,6 +36,11 @@ class NationalityModule extends ListModule<NationalityState, any, Nationality>{
         },
         async deleteNationality(context: ActionContext<NationalityState, any>, payload: any) {
             await Ajax.delete('api/services/app/Nationality/DeleteNationality?id=' + payload.data);
+        },
+        async getAllNationality({ commit }) {
+            const res = await Ajax.get('api/services/app/Nationality/GetAll');
+            const data = res.data.result as Nationality[];
+            commit("setNationalities", data);
         }
     };
     mutations = {
@@ -45,6 +52,9 @@ class NationalityModule extends ListModule<NationalityState, any, Nationality>{
         },
         setNationality(state: NationalityState, nationality: Nationality) {
             state.nationality = nationality;
+        },
+        setNationalities(state: NationalityState, nationalities: Nationality[]) {
+            state.nationalities = nationalities;
         }
     }
 }

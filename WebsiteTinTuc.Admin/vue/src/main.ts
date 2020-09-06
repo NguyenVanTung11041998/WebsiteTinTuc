@@ -41,7 +41,6 @@ Ajax.get('/AbpUserConfiguration/GetAll').then(data => {
       await this.$store.dispatch({
         type: 'session/init'
       });
-      
       if (!!this.$store.state.session.user && this.$store.state.session.application.features['SignalR']) {
         if (this.$store.state.session.application.features['SignalR.AspNetCore']) {
           SignalRAspNetCoreHelper.initSignalR();
