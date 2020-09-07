@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Thêm mới / Chỉnh sửa</h1>
+    <h1>{{ !company.id ? "Thêm mới" : "Chỉnh sửa" }}</h1>
     <br />
     <Form ref="companyForm" label-position="top" :rules="companyRule" :model="company">
       <div class="row">
@@ -110,16 +110,6 @@
             </FormItem>
           </Col>
         </Row>
-        <FormItem :label="L('Mô tả công ty:')" prop="description">
-          <Input
-            v-model="company.description"
-            type="textarea"
-            :rows="3"
-            placeholder="Nhập mô tả..."
-            :maxlength="230"
-            :minlength="10"
-          />
-        </FormItem>
 
         <Row :gutter="24">
           <Col span="8">
@@ -155,7 +145,7 @@
             </FormItem>
           </Col>
           <Col span="4">
-            <FormItem :label="L('Quốc tịch:')">
+            <FormItem :label="L('Quốc tịch:')" prop="nationalityId">
               <Select v-model="company.nationalityCompanyId" class="select-cate">
                 <Option
                   v-for="(item, index) in nationalities"
@@ -191,23 +181,29 @@
             </label>
           </div>
         </FormItem>
-        <FormItem :label="L('Ảnh:')" prop="thumbnail">
-          <div class="image-cover mx-0 mb-2" v-if="company.images && company.images.length > 0">
-            <div v-for="(item, index) in company.images" :key="index">
-              <img :src="item ? getLinkPath(item) : '#'" alt="Image" />
-              <span>
-                <img src="../../../assets/x-button.png" @click="removeImage(item, index)" />
-              </span>
-            </div>
+        <FormItem :label="L('Ảnh:')" prop="images">
+          <div v-if="company.images && company.images.length > 0">
+            <Row :gutter="24">
+              <Col span="4" v-for="(item, index) in company.images" :key="index">
+                <div class="col-image">
+                  <img :src="item ? getLinkPath(item) : '#'" alt="Image" />
+                  <span>
+                    <div class="button-image">
+                      <img src="../../../assets/x-button.png" @click="removeImage(item, index)" />
+                    </div>
+                  </span>
+                </div>
+              </Col>
+            </Row>
           </div>
-          <div class="uploadOtherImages" v-if="!(company.images && company.images.length > 0)">
+          <div class="uploadOtherImages">
             <b-form-file
               id="uploadOtherImages"
               v-model="images"
               size="sm"
               @change="onChangeImage"
-              plain
               multiple
+              plain
             />
             <label for="uploadOtherImages" class="custom-input">
               <span></span>
@@ -301,6 +297,18 @@ export default class CreateOrEditCompany extends AbpBase {
     if (this.company && this.company.branchJobCompanies) {
       this.branchJobOfComany = map(this.company.branchJobCompanies, "id");
     }
+    if (!this.company.id) {
+      this.company.thumbnail = null;
+    } else {
+      await this.getCompanyById(this.company.id);
+    }
+  }
+
+  async getCompanyById(id: string) {
+    await this.$store.dispatch({
+      type: "company/get",
+      payload: id,
+    });
   }
 
   get nationalities() {
@@ -395,15 +403,42 @@ export default class CreateOrEditCompany extends AbpBase {
       forEach(this.hashtagOfCompany, (hashtag: string) => {
         requestData.append("hashtagIds", hashtag);
       });
-      requestData.append("title", this.company.title);
+      requestData.append("name", this.company.name);
       requestData.append("description", this.company.description);
-      requestData.append("content", this.company.content);
+      requestData.append("phone", this.company.phone);
+      requestData.append("email", this.company.email);
+      requestData.append("fullNameCompany", this.company.fullNameCompany);
+      requestData.append(
+        "locationDescription",
+        this.company.locationDescription
+      );
+      requestData.append("location", this.company.location);
+      requestData.append("website", this.company.website);
+      requestData.append("treatment", this.company.treatment);
+      requestData.append(
+        "nationalityCompanyId",
+        this.company.nationalityCompanyId
+      );
+      if (this.company.maxScale != null) {
+        requestData.append("maxScale", this.company.maxScale);
+      }
+
+      if (this.company.minScale != null) {
+        requestData.append("minScale", this.company.minScale);
+      }
+
       if (
         this.company &&
-        this.company.objectFile &&
-        this.company.objectFile.file
+        this.company.thumbnail &&
+        this.company.thumbnail.file
       ) {
-        requestData.append("thumbnail", this.company.objectFile.file);
+        requestData.append("thumbnail", this.company.thumbnail.file);
+      }
+
+      if (this.images && this.images.length > 0) {
+        forEach(this.images, (item: IObjectFile) => {
+          requestData.append("files", item.file);
+        });
       }
 
       forEach(this.deleteFiles, (x: string) => {
@@ -417,8 +452,17 @@ export default class CreateOrEditCompany extends AbpBase {
       forEach(hashtagIdDelete, (x: string) => {
         requestData.append("hashtagIdDelete", x);
       });
+
+      forEach(this.hashtagOfCompany, (item: string) => {
+        requestData.append("hashtagIds", item);
+      });
+
+      forEach(this.branchJobOfComany, (item: string) => {
+        requestData.append("branchJobOfComanyIds", item);
+      });
+
       await this.$store.dispatch({
-        type: "company/createOrEdit",
+        type: `company/${this.company.id ? "updateCompany" : "createCompany"}`,
         data: requestData,
       });
 
@@ -442,7 +486,7 @@ export default class CreateOrEditCompany extends AbpBase {
   }
 
   onChangeThumbnail(event: any) {
-    this.company.objectFile = {
+    this.company.thumbnail = {
       id: "",
       file: event.target.files[0],
       fileType: FileType.Thumbnail,
@@ -451,7 +495,6 @@ export default class CreateOrEditCompany extends AbpBase {
 
   onChangeImage(event: any) {
     this.company.images = this.company.images || [];
-
     for (let i = 0; i < event.target.files.length; i++) {
       this.company.images.push({
         id: "",
@@ -462,17 +505,39 @@ export default class CreateOrEditCompany extends AbpBase {
   }
 
   companyRule = {
-    title: [
+    name: [
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("name")),
         trigger: "blur",
       },
     ],
-    content: [
+    fullNameCompany: [
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("content")),
+        trigger: "blur",
+      },
+    ],
+    location: [
+      {
+        required: true,
+        message: this.L(
+          "This field is required",
+          undefined,
+          this.L("location")
+        ),
+        trigger: "blur",
+      },
+    ],
+    locationDescription: [
+      {
+        required: true,
+        message: this.L(
+          "This field is required",
+          undefined,
+          this.L("locationDescription")
+        ),
         trigger: "blur",
       },
     ],
@@ -483,6 +548,17 @@ export default class CreateOrEditCompany extends AbpBase {
           "This field is required",
           undefined,
           this.L("description")
+        ),
+        trigger: "blur",
+      },
+    ],
+    nationalityId: [
+      {
+        required: true,
+        message: this.L(
+          "This field is required",
+          undefined,
+          this.L("nationality")
         ),
         trigger: "blur",
       },
@@ -588,7 +664,82 @@ export default class CreateOrEditCompany extends AbpBase {
   }
 }
 
-#uploadIcon #uploadOtherImages {
+.uploadOtherImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+  margin-right: 20px;
+  input {
+    position: absolute;
+    z-index: -1;
+  }
+
+  .custom-input {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    margin: 0;
+    cursor: pointer;
+    border: 2px dashed #a5a5a5;
+    border-radius: 50%;
+    transition: 0.1s;
+    &:hover {
+      width: 100%;
+      height: 100%;
+    }
+
+    span:first-child {
+      display: inline-block;
+      height: 2px;
+      width: 60%;
+      background-color: #a5a5a5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    span:last-child {
+      display: inline-block;
+      height: 2px;
+      width: 60%;
+      background-color: #a5a5a5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.col-image {
+  position: relative;
+  img {
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .button-image {
+    position: absolute;
+    top: -20px;
+    left: 100%;
+    width: 8%;
+    cursor: pointer;
+  }
+}
+
+#uploadIcon {
+  display: none;
+}
+
+#uploadOtherImages {
   display: none;
 }
 

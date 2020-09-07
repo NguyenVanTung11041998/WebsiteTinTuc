@@ -4,6 +4,7 @@ using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -115,7 +116,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         }
 
         [AbpAuthorize(PermissionNames.Pages_Create_Company)]
-        public async Task CreateCompanyAsync(CompanyRequest input)
+        public async Task CreateCompanyAsync([FromForm] CompanyRequest input)
         {
             bool checkExits = await WorkScope.GetAll<Company>().AnyAsync(x => x.Name == input.Name);
             if (checkExits)
@@ -144,7 +145,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         }
 
         [AbpAuthorize(PermissionNames.Pages_Update_Company)]
-        public async Task UpdateCompanyAsync(CompanyRequest input)
+        public async Task UpdateCompanyAsync([FromForm] CompanyRequest input)
         {
             var user = await GetCurrentUserAsync();
             bool checkExits = await WorkScope.GetAll<Company>()

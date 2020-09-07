@@ -78,7 +78,7 @@ export default class CreateOrEditNationality extends AbpBase {
     this.nationality.image = {
       id: "",
       file: event.target.files[0],
-      fileType: FileType.image,
+      fileType: FileType.Image,
     } as IObjectFile;
   }
   async save() {

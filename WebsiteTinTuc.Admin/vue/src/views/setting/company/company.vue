@@ -163,7 +163,6 @@ export default class Companies extends AbpBase {
               on: {
                 click: async () => {
                   await this.getCompanyById(params.row.id);
-                  await this.getAllHashtags();
                   this.edit();
                 },
               },

@@ -146,7 +146,7 @@
         }
 
         removeImage(file: IObjectFile) {
-            if (file.fileType == FileType.thumbnail) {
+            if (file.fileType == FileType.Thumbnail) {
                 this.post.objectFile = null;
                 this.thumbnailFile = null;
             }
@@ -213,7 +213,7 @@
             this.post.objectFile = {
                 id: "",
                 file: event.target.files[0],
-                fileType: FileType.thumbnail
+                fileType: FileType.Thumbnail
             } as IObjectFile;
         }
 
