@@ -311,7 +311,7 @@ export default class CreateOrEditCompany extends AbpBase {
     if (id) {
       this.company = await this.$store.dispatch({
         type: "company/get",
-        id: id,
+        id: id
       });
     }
 
