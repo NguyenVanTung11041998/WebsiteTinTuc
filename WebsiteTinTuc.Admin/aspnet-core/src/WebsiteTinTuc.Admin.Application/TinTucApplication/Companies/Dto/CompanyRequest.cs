@@ -21,7 +21,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies.Dto
         public int? MinScale { get; set; }
         public string Treatment { get; set; }
         public int? MaxScale { get; set; }
-        public Guid NationalityCompanyId { get; set; }
+        public Guid NationalityId { get; set; }
         public List<IFormFile> Files { get; set; }
         public IFormFile Thumbnail { get; set; }
         public List<Guid> HashtagIds { get; set; }

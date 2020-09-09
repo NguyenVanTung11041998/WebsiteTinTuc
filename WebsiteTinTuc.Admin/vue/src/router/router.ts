@@ -69,7 +69,7 @@ export const appRouters: Array<Router> = [{
         { path: Path.Hashtag, permission: PermissionNames.Pages_View_Hashtag, meta: { title: 'Hashtag' }, name: PathNames.Hashtag, component: hashtags },
         { path: Path.Company, permission: PermissionNames.Pages_View_Company, meta: { title: 'Công ty' }, name: PathNames.Company, component: companies },
         { path: `${Path.Company}/${Path.Create}`, hidden: true, permission: PermissionNames.Pages_Create_Company, meta: { title: 'Thêm công ty' }, name: PathNames.CreateCompany, component: createOrEditCompany },
-        { path: `${Path.Company}/${Path.Update}`, hidden: true, permission: PermissionNames.Pages_Update_Company, meta: { title: 'Sửa công ty' }, name: PathNames.UpdateCompany, component: createOrEditCompany },
+        { path: `${Path.Company}/${Path.Update}/:id`, hidden: true, permission: PermissionNames.Pages_Update_Company, meta: { title: 'Sửa công ty' }, name: PathNames.UpdateCompany, component: createOrEditCompany },
         { path: Path.Post, permission: PermissionNames.Pages_View_Post, meta: { title: 'Bài viết' }, name: PathNames.Post, component: posts },
         { path: Path.Nationality, permission: PermissionNames.Pages_View_Nationality, meta: { title: 'Quốc tịch' }, name: PathNames.Nationality, component: nationalities },
         { path: Path.BranchJob, permission: PermissionNames.Pages_View_BranchJob, meta: { title: 'Ngành nghề' }, name: PathNames.BranchJob, component: branchJobs },

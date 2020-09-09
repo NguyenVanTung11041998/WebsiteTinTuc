@@ -23,12 +23,12 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
     [AbpAuthorize]
     public class CompanyAppService : AdminAppServiceBase, ICompanyAppService
     {
-        private async Task SaveImage(string fileLocation, Guid companyId, IFormFile file)
+        private async Task SaveImage(string fileLocation, Guid companyId, IFormFile file, FileType fileType = FileType.Image)
         {
             string fileName = await UploadFiles.UploadAsync(fileLocation, file);
             var asset = new Asset
             {
-                FileType = FileType.Image,
+                FileType = fileType,
                 Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}/{fileName}",
                 CompanyId = companyId
             };
@@ -38,7 +38,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         private async Task DeleteHashtags(Guid companyId, List<Guid> hashtagIds)
         {
             var hashtags = await WorkScope.GetAll<CompanyPostHashtag>()
-                                          .Where(x => hashtagIds.Contains(x.HashtagId) && x.CompanyId == companyId)
+                                          .Where(x => hashtagIds.Contains(x.Id))
                                           .ToListAsync();
 
             foreach (var item in hashtags)
@@ -50,7 +50,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         private async Task DeleteBranchJobCompanies(Guid companyId, List<Guid> branchJobCompanyIds)
         {
             var branchJobCompanies = await WorkScope.GetAll<BranchJobCompany>()
-                                          .Where(x => branchJobCompanyIds.Contains(x.BranchJobId) && x.CompanyId == companyId)
+                                          .Where(x => branchJobCompanyIds.Contains(x.Id))
                                           .ToListAsync();
 
             foreach (var item in branchJobCompanies)
@@ -85,7 +85,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
 
             if (thumbnail?.Length > 0)
             {
-                await SaveImage(fileLocation, companyId, thumbnail);
+                await SaveImage(fileLocation, companyId, thumbnail, FileType.Thumbnail);
             }
 
             if (hashtagIds?.Count > 0)
@@ -155,6 +155,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
 
             var company = await WorkScope.GetAll<Company>()
                                 .WhereIf(user.UserType == UserType.Hr, x => x.UserId == user.Id)
+                                .Include(x => x.Posts)
                                 .FirstOrDefaultAsync(x => x.Id == input.Id);
             if (company == default)
                 throw new UserFriendlyException("Công ty không thể sửa");
@@ -169,9 +170,16 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
 
             await WorkScope.UpdateRangeAsync(company.Posts);
             await WorkScope.UpdateAsync(company);
-            await DeleteHashtags(company.Id, input.HashtagDeletes);
-            await DeleteBranchJobCompanies(company.Id, input.BranchJobCompanyDeletes);
-            await DeleteImages(company.Id, input.ImageDeletes);
+
+            if (input.HashtagDeletes != null)
+                await DeleteHashtags(company.Id, input.HashtagDeletes);
+
+            if (input.BranchJobCompanyDeletes != null)
+                await DeleteBranchJobCompanies(company.Id, input.BranchJobCompanyDeletes);
+
+            if (input.ImageDeletes != null)
+                await DeleteImages(company.Id, input.ImageDeletes);
+
             await SaveImageHashtagAndCompanyJob(input.Id.Value, input.Files, input.Thumbnail, input.HashtagIds, input.BranchJobCompanyIds);
         }
 
@@ -190,13 +198,11 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                 .Select(x => new CompanyModel
                 {
                     Name = x.Name,
+                    FullNameCompany = x.FullNameCompany,
                     CreationTime = x.CreationTime,
-                    LocationDescription = x.LocationDescription,
-                    Email = x.Email,
-                    Phone = x.Phone,
-                    Website = x.Website
-                })
-                .ToListAsync();
+                    Id = x.Id,
+                    LocationDescription = x.LocationDescription
+                }).ToListAsync();
             return new PagedResultDto<CompanyModel>(totalCount, list);
         }
 
@@ -226,7 +232,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                 Treatment = x.Treatment,
                                 Website = x.Website,
                                 Phone = x.Phone,
-                                Thumbnail = x.Assets.Where(p => p.FileType == FileType.Thumbnail).Select(p => new ObjectFile
+                                Thumbnail = x.Assets.Where(p => p.FileType == FileType.Thumbnail && p.CompanyId == id).Select(p => new ObjectFile
                                 {
                                     FileType = p.FileType,
                                     Id = p.Id,
@@ -237,7 +243,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                     Id = p.Id,
                                     BranchJobId = p.BranchJobId
                                 }),
-                                Images = x.Assets.Where(p => p.FileType == FileType.Image).Select(p => new ObjectFile
+                                Images = x.Assets.Where(p => p.FileType == FileType.Image && p.CompanyId == id).Select(p => new ObjectFile
                                 {
                                     FileType = p.FileType,
                                     Id = p.Id,
@@ -247,7 +253,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                 {
                                     Id = p.Id,
                                     HashtagId = p.HashtagId
-                                })
+                                }),
+                                NationalityId = x.NationalityId
                             }).FirstOrDefaultAsync();
 
             if (company == default)

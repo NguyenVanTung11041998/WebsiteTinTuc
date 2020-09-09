@@ -146,7 +146,7 @@
           </Col>
           <Col span="4">
             <FormItem :label="L('Quốc tịch:')" prop="nationalityId">
-              <Select v-model="company.nationalityCompanyId" class="select-cate">
+              <Select v-model="company.nationalityId" class="select-cate">
                 <Option
                   v-for="(item, index) in nationalities"
                   :value="item.id"
@@ -256,7 +256,7 @@ class PagePostRequest extends PageRequest {
 export default class CreateOrEditCompany extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
 
-  public deleteFiles: any = [];
+  public deleteFiles: string[] = [];
   public thumbnailFile: File = null;
   public images: File[] = [];
   public hashtagOfCompany: string[] = [];
@@ -282,25 +282,50 @@ export default class CreateOrEditCompany extends AbpBase {
     images_upload_url: "/api/services/app/Post/UploadImage",
     images_upload_handler: this.saveImage,
   };
-  pageRequest: PagePostRequest = new PagePostRequest();
 
-  get company() {
-    return this.$store.state.company.company;
-  }
+  defaultCompany = {
+    name: "",
+    treatment: "",
+    nationalityId: null,
+    description: "",
+    phone: "",
+    locationDescription: "",
+    fullNameCompany: "",
+    id: null,
+    hashtags: [],
+    email: "",
+    location: "",
+    minScale: 0,
+    maxScale: 1,
+    thumbnail: null,
+    images: [],
+    branchJobCompanies: [],
+    website: "",
+  } as Company;
+
+  company = new Company();
+
   async created() {
+    this.company = this.defaultCompany;
+    const id = this.$route.params.id;
+    if (id) {
+      this.company = await this.$store.dispatch({
+        type: "company/get",
+        id: id,
+      });
+    }
+
     await this.getAllHashtags();
     await this.getAllNationalities();
     await this.getAllBranchJobs();
     if (this.company && this.company.hashtags) {
-      this.hashtagOfCompany = map(this.company.hashtags, "id");
+      this.hashtagOfCompany = map(this.company.hashtags, "hashtagId");
     }
     if (this.company && this.company.branchJobCompanies) {
-      this.branchJobOfComany = map(this.company.branchJobCompanies, "id");
-    }
-    if (!this.company.id) {
-      this.company.thumbnail = null;
-    } else {
-      await this.getCompanyById(this.company.id);
+      this.branchJobOfComany = map(
+        this.company.branchJobCompanies,
+        "branchJobId"
+      );
     }
   }
 
@@ -376,6 +401,9 @@ export default class CreateOrEditCompany extends AbpBase {
     if (file.fileType == FileType.Thumbnail) {
       this.company.thumbnail = null;
       this.thumbnailFile = null;
+      if (file.id) {
+        this.deleteFiles.push(file.id);
+      }
     } else {
       if (file.id) {
         this.deleteFiles.push(file.id);
@@ -395,14 +423,10 @@ export default class CreateOrEditCompany extends AbpBase {
   async save() {
     if (this.company && this.company.name) {
       const requestData = new FormData();
-      if (this.company.id) requestData.append("id", this.company.id);
 
-      forEach(this.branchJobOfComany, (branchJobId: string) => {
-        requestData.append("branchJobIds", branchJobId);
-      });
-      forEach(this.hashtagOfCompany, (hashtag: string) => {
-        requestData.append("hashtagIds", hashtag);
-      });
+      if (this.company.id) {
+        requestData.append("id", this.company.id);
+      }
       requestData.append("name", this.company.name);
       requestData.append("description", this.company.description);
       requestData.append("phone", this.company.phone);
@@ -415,16 +439,13 @@ export default class CreateOrEditCompany extends AbpBase {
       requestData.append("location", this.company.location);
       requestData.append("website", this.company.website);
       requestData.append("treatment", this.company.treatment);
-      requestData.append(
-        "nationalityCompanyId",
-        this.company.nationalityCompanyId
-      );
+      requestData.append("nationalityId", this.company.nationalityId);
       if (this.company.maxScale != null) {
-        requestData.append("maxScale", this.company.maxScale);
+        requestData.append("maxScale", `${this.company.maxScale}`);
       }
 
       if (this.company.minScale != null) {
-        requestData.append("minScale", this.company.minScale);
+        requestData.append("minScale", `${this.company.minScale}`);
       }
 
       if (
@@ -436,21 +457,24 @@ export default class CreateOrEditCompany extends AbpBase {
       }
 
       if (this.images && this.images.length > 0) {
-        forEach(this.images, (item: IObjectFile) => {
-          requestData.append("files", item.file);
+        forEach(this.company.images, (item: IObjectFile) => {
+          if (item.file) {
+            requestData.append("files", item.file);
+          }
         });
       }
 
       forEach(this.deleteFiles, (x: string) => {
-        requestData.append("fileIdDelete", x);
+        requestData.append("ImageDeletes", x);
       });
-      const categoryIdDelete = map(this.company.categoryIds, "id");
-      forEach(categoryIdDelete, (x: string) => {
-        requestData.append("categoryIdDelete", x);
-      });
-      const hashtagIdDelete = map(this.company.hashtagIds, "id");
+      const hashtagIdDelete = map(this.company.hashtags, "id");
       forEach(hashtagIdDelete, (x: string) => {
-        requestData.append("hashtagIdDelete", x);
+        requestData.append("hashtagDeletes", x);
+      });
+
+      const branchJobIdDelete = map(this.company.branchJobCompanies, "id");
+      forEach(branchJobIdDelete, (x: string) => {
+        requestData.append("branchJobCompanyDeletes", x);
       });
 
       forEach(this.hashtagOfCompany, (item: string) => {
@@ -458,7 +482,7 @@ export default class CreateOrEditCompany extends AbpBase {
       });
 
       forEach(this.branchJobOfComany, (item: string) => {
-        requestData.append("branchJobOfComanyIds", item);
+        requestData.append("branchJobCompanyIds", item);
       });
 
       await this.$store.dispatch({
@@ -469,6 +493,14 @@ export default class CreateOrEditCompany extends AbpBase {
       (this.$refs.companyForm as any).resetFields();
       this.$emit("save-success");
       this.$emit("input", false);
+
+      this.$Message.success(
+        `${
+          !this.company.id
+            ? "Thêm mới công ty thành công"
+            : "Sửa công ty thành công"
+        }`
+      );
       this.$router.push({ name: PathNames.Company });
     }
   }

@@ -68,12 +68,8 @@ class PageCompanyRequest extends PageRequest {
 })
 export default class Companies extends AbpBase {
   pageRequest: PageCompanyRequest = new PageCompanyRequest();
-  edit() {
-    this.$router.push({ name: PathNames.UpdateCompany });
-  }
-
-  async getAllHashtag() {
-    return await this.$store.dispatch("")
+  edit(id: string) {
+    this.$router.push({ name: PathNames.UpdateCompany, params: { id } });
   }
 
   create() {
@@ -122,27 +118,24 @@ export default class Companies extends AbpBase {
   get currentPage() {
     return this.$store.state.company.currentPage;
   }
-  get CompanyById() {
-    return this.$store.state.company.companyById;
-  }
 
   columns = [
     {
-      title: this.L("Tiêu đề bài viết"),
-      key: "title",
-      width: 200,
+      title: this.L("Tên công ty"),
+      key: "name",
+      width: 200
     },
     {
-      title: this.L("Ngày đăng"),
+      title: this.L("Ngày tạo"),
       key: "creationTime",
       width: 150,
       render: (h: any, params: any) => {
         return h("span", new Date(params.row.creationTime).toLocaleString());
-      },
+      }
     },
     {
-      title: this.L("Mô tả bài viết"),
-      key: "description",
+      title: this.L("Địa chỉ"),
+      key: "locationDescription"
     },
     {
       title: this.L("Thao tác"),
@@ -161,10 +154,9 @@ export default class Companies extends AbpBase {
                 marginRight: "5px",
               },
               on: {
-                click: async () => {
-                  await this.getCompanyById(params.row.id);
-                  this.edit();
-                },
+                click: () => {
+                  this.edit(params.row.id);
+                }
               },
             },
             this.L("Sửa")
@@ -186,16 +178,17 @@ export default class Companies extends AbpBase {
                     onOk: async () => {
                       await this.$store.dispatch({
                         type: "company/delete",
-                        data: params.row,
+                        data: params.row.id,
                       });
+                      this.$Message.success(`Xóa công ty ${params.row.name} thành công`);
                       await this.getPage();
                     },
                   });
                 },
-              },
+              }
             },
             this.L("Xóa")
-          ),
+          )
         ]);
       },
     },
