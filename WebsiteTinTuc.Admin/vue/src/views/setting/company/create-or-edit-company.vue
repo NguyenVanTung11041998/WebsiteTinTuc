@@ -251,7 +251,7 @@ class PagePostRequest extends PageRequest {
   keyword: string = "";
 }
 @Component({
-  components: { Editor },
+  components: { Editor }
 })
 export default class CreateOrEditCompany extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
@@ -280,7 +280,7 @@ export default class CreateOrEditCompany extends AbpBase {
     image_title: true,
     paste_data_images: true,
     images_upload_url: "/api/services/app/Post/UploadImage",
-    images_upload_handler: this.saveImage,
+    images_upload_handler: this.saveImage
   };
 
   defaultCompany = {
@@ -300,7 +300,7 @@ export default class CreateOrEditCompany extends AbpBase {
     thumbnail: null,
     images: [],
     branchJobCompanies: [],
-    website: "",
+    website: ""
   } as Company;
 
   company = new Company();
@@ -332,7 +332,7 @@ export default class CreateOrEditCompany extends AbpBase {
   async getCompanyById(id: string) {
     await this.$store.dispatch({
       type: "company/get",
-      payload: id,
+      payload: id
     });
   }
 
@@ -342,19 +342,19 @@ export default class CreateOrEditCompany extends AbpBase {
 
   async getAllHashtags() {
     await this.$store.dispatch({
-      type: "hashtag/getAllHashtags",
+      type: "hashtag/getAllHashtags"
     });
   }
 
   async getAllNationalities() {
     await this.$store.dispatch({
-      type: "nationality/getAllNationality",
+      type: "nationality/getAllNationality"
     });
   }
 
   async getAllBranchJobs() {
     await this.$store.dispatch({
-      type: "branchJob/getAllBranchJob",
+      type: "branchJob/getAllBranchJob"
     });
   }
 
@@ -391,7 +391,7 @@ export default class CreateOrEditCompany extends AbpBase {
     requestData.append("file", blobInfo.blob());
     await this.$store.dispatch({
       type: "post/uploadImage",
-      data: requestData,
+      data: requestData
     });
 
     success(Util.getLinkPath(this.imageUrl));
@@ -487,7 +487,7 @@ export default class CreateOrEditCompany extends AbpBase {
 
       await this.$store.dispatch({
         type: `company/${this.company.id ? "updateCompany" : "createCompany"}`,
-        data: requestData,
+        data: requestData
       });
 
       (this.$refs.companyForm as any).resetFields();
@@ -521,7 +521,7 @@ export default class CreateOrEditCompany extends AbpBase {
     this.company.thumbnail = {
       id: "",
       file: event.target.files[0],
-      fileType: FileType.Thumbnail,
+      fileType: FileType.Thumbnail
     } as IObjectFile;
   }
 
@@ -531,7 +531,7 @@ export default class CreateOrEditCompany extends AbpBase {
       this.company.images.push({
         id: "",
         file: event.target.files[i],
-        fileType: FileType.Image,
+        fileType: FileType.Image
       } as IObjectFile);
     }
   }
@@ -541,15 +541,15 @@ export default class CreateOrEditCompany extends AbpBase {
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("name")),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
     fullNameCompany: [
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("content")),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
     location: [
       {
@@ -559,8 +559,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("location")
         ),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
     locationDescription: [
       {
@@ -570,8 +570,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("locationDescription")
         ),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
     description: [
       {
@@ -581,8 +581,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("description")
         ),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
     nationalityId: [
       {
@@ -592,8 +592,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("nationality")
         ),
-        trigger: "blur",
-      },
+        trigger: "blur"
+      }
     ],
   };
 }
