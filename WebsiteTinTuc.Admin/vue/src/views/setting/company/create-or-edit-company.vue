@@ -2,7 +2,12 @@
   <div>
     <h1>{{ !company.id ? "Thêm mới" : "Chỉnh sửa" }}</h1>
     <br />
-    <Form ref="companyForm" label-position="top" :rules="companyRule" :model="company">
+    <Form
+      ref="companyForm"
+      label-position="top"
+      :rules="companyRule"
+      :model="company"
+    >
       <div class="row">
         <Row :gutter="24">
           <Col span="12">
@@ -79,6 +84,7 @@
                 placeholder="Min..."
                 :min="0"
                 :step="1"
+                :editable="true"
                 v-model="company.minScale"
               />
             </FormItem>
@@ -90,6 +96,7 @@
                 placeholder="Max..."
                 :min="0"
                 :step="1"
+                :editable="true"
                 v-model="company.maxScale"
               />
             </FormItem>
@@ -124,7 +131,8 @@
                   v-for="(item, index) in hashtags"
                   :value="item.id"
                   :key="index"
-                >{{ item.name }}</Option>
+                  >{{ item.name }}</Option
+                >
               </Select>
             </FormItem>
           </Col>
@@ -140,7 +148,8 @@
                   v-for="(item, index) in branchJobs"
                   :value="item.id"
                   :key="index"
-                >{{ item.name }}</Option>
+                  >{{ item.name }}</Option
+                >
               </Select>
             </FormItem>
           </Col>
@@ -151,22 +160,29 @@
                   v-for="(item, index) in nationalities"
                   :value="item.id"
                   :key="index"
-                >{{ item.name }}</Option>
+                  >{{ item.name }}</Option
+                >
               </Select>
             </FormItem>
           </Col>
         </Row>
         <FormItem :label="L('Ảnh Thumbnail:')" prop="thumbnail">
           <div class="image-cover mx-0 mb-2" v-if="company.thumbnail">
-            <img :src="company.thumbnail ? getLinkPath(company.thumbnail) : '#'" alt="Thumbnail" />
+            <img
+              :src="company.thumbnail ? getLinkPath(company.thumbnail) : '#'"
+              alt="Thumbnail"
+            />
             <span>
-              <img src="../../../assets/x-button.png" @click="removeImage(company.thumbnail)" />
+              <img
+                src="../../../assets/x-button.png"
+                @click="removeImage(company.thumbnail)"
+              />
             </span>
           </div>
           <div
             class="input-button"
             v-if="!company.thumbnail"
-            :class="{'d-none' : company.thumbnail}"
+            :class="{ 'd-none': company.thumbnail }"
           >
             <b-form-file
               id="uploadIcon"
@@ -184,12 +200,19 @@
         <FormItem :label="L('Ảnh:')" prop="images">
           <div v-if="company.images && company.images.length > 0">
             <Row :gutter="24">
-              <Col span="4" v-for="(item, index) in company.images" :key="index">
+              <Col
+                span="4"
+                v-for="(item, index) in company.images"
+                :key="index"
+              >
                 <div class="col-image">
                   <img :src="item ? getLinkPath(item) : '#'" alt="Image" />
                   <span>
                     <div class="button-image">
-                      <img src="../../../assets/x-button.png" @click="removeImage(item, index)" />
+                      <img
+                        src="../../../assets/x-button.png"
+                        @click="removeImage(item, index)"
+                      />
                     </div>
                   </span>
                 </div>
@@ -215,20 +238,28 @@
       <div class="row">
         <div class="col-12">
           <FormItem :label="L('Chế độ đãi ngộ')">
-            <editor api-key="no-api-key" v-model="company.treatment" :init="settingEditor" />
+            <editor
+              api-key="no-api-key"
+              v-model="company.treatment"
+              :init="settingEditor"
+            />
           </FormItem>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <FormItem :label="L('Mô tả công ty')">
-            <editor api-key="no-api-key" v-model="company.description" :init="settingEditor" />
+            <editor
+              api-key="no-api-key"
+              v-model="company.description"
+              :init="settingEditor"
+            />
           </FormItem>
         </div>
       </div>
       <div class="row footer">
-        <Button @click="cancel">{{L('Cancel')}}</Button>
-        <Button @click="save" type="primary">{{L('OK')}}</Button>
+        <Button @click="cancel">{{ L("Cancel") }}</Button>
+        <Button @click="save" type="primary">{{ L("OK") }}</Button>
       </div>
     </Form>
   </div>
@@ -251,7 +282,7 @@ class PagePostRequest extends PageRequest {
   keyword: string = "";
 }
 @Component({
-  components: { Editor }
+  components: { Editor },
 })
 export default class CreateOrEditCompany extends AbpBase {
   @Prop({ type: Boolean, default: false }) value: boolean;
@@ -280,7 +311,7 @@ export default class CreateOrEditCompany extends AbpBase {
     image_title: true,
     paste_data_images: true,
     images_upload_url: "/api/services/app/Post/UploadImage",
-    images_upload_handler: this.saveImage
+    images_upload_handler: this.saveImage,
   };
 
   defaultCompany = {
@@ -300,18 +331,18 @@ export default class CreateOrEditCompany extends AbpBase {
     thumbnail: null,
     images: [],
     branchJobCompanies: [],
-    website: ""
+    website: "",
   } as Company;
 
   company = new Company();
 
   async created() {
-    this.company = this.defaultCompany;
+    this.company = { ...this.defaultCompany };
     const id = this.$route.params.id;
     if (id) {
       this.company = await this.$store.dispatch({
         type: "company/get",
-        id: id
+        id: id,
       });
     }
 
@@ -332,7 +363,7 @@ export default class CreateOrEditCompany extends AbpBase {
   async getCompanyById(id: string) {
     await this.$store.dispatch({
       type: "company/get",
-      payload: id
+      payload: id,
     });
   }
 
@@ -342,19 +373,19 @@ export default class CreateOrEditCompany extends AbpBase {
 
   async getAllHashtags() {
     await this.$store.dispatch({
-      type: "hashtag/getAllHashtags"
+      type: "hashtag/getAllHashtags",
     });
   }
 
   async getAllNationalities() {
     await this.$store.dispatch({
-      type: "nationality/getAllNationality"
+      type: "nationality/getAllNationality",
     });
   }
 
   async getAllBranchJobs() {
     await this.$store.dispatch({
-      type: "branchJob/getAllBranchJob"
+      type: "branchJob/getAllBranchJob",
     });
   }
 
@@ -391,7 +422,7 @@ export default class CreateOrEditCompany extends AbpBase {
     requestData.append("file", blobInfo.blob());
     await this.$store.dispatch({
       type: "post/uploadImage",
-      data: requestData
+      data: requestData,
     });
 
     success(Util.getLinkPath(this.imageUrl));
@@ -437,6 +468,14 @@ export default class CreateOrEditCompany extends AbpBase {
         this.company.locationDescription
       );
       requestData.append("location", this.company.location);
+
+      if (!this.company.website.startsWith("http")) {
+        this.company.website =
+          this.httpSelect == 0
+            ? `http://${this.company.website}`
+            : `https://${this.company.website}`;
+      }
+
       requestData.append("website", this.company.website);
       requestData.append("treatment", this.company.treatment);
       requestData.append("nationalityId", this.company.nationalityId);
@@ -487,7 +526,7 @@ export default class CreateOrEditCompany extends AbpBase {
 
       await this.$store.dispatch({
         type: `company/${this.company.id ? "updateCompany" : "createCompany"}`,
-        data: requestData
+        data: requestData,
       });
 
       (this.$refs.companyForm as any).resetFields();
@@ -521,7 +560,7 @@ export default class CreateOrEditCompany extends AbpBase {
     this.company.thumbnail = {
       id: "",
       file: event.target.files[0],
-      fileType: FileType.Thumbnail
+      fileType: FileType.Thumbnail,
     } as IObjectFile;
   }
 
@@ -531,7 +570,7 @@ export default class CreateOrEditCompany extends AbpBase {
       this.company.images.push({
         id: "",
         file: event.target.files[i],
-        fileType: FileType.Image
+        fileType: FileType.Image,
       } as IObjectFile);
     }
   }
@@ -541,15 +580,15 @@ export default class CreateOrEditCompany extends AbpBase {
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("name")),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     fullNameCompany: [
       {
         required: true,
         message: this.L("This field is required", undefined, this.L("content")),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     location: [
       {
@@ -559,8 +598,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("location")
         ),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     locationDescription: [
       {
@@ -570,8 +609,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("locationDescription")
         ),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     description: [
       {
@@ -581,8 +620,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("description")
         ),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     nationalityId: [
       {
@@ -592,8 +631,8 @@ export default class CreateOrEditCompany extends AbpBase {
           undefined,
           this.L("nationality")
         ),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
   };
 }

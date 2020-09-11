@@ -28,7 +28,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies.Dto
         public ObjectFile Thumbnail { get; set; }
         public ObjectFile NationalityImage { get; set; }
         public IEnumerable<ObjectFile> Images { get; set; }
-        public IEnumerable<HashtagCompanyModel> Hashtags { get; set; }
+        public IEnumerable<HashtagCompanyPostModel> Hashtags { get; set; }
         public IEnumerable<Post> Posts { get; set; }
         public IEnumerable<BranchJobCompanyModel> BranchJobCompanies { get; set; }
     }

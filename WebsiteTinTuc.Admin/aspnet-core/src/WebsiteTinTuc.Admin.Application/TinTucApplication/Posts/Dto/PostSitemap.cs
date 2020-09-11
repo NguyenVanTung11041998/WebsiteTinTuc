@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace WebsiteTinTuc.User.Models
+namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
 {
-    public class Post
+    public class PostSitemap
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

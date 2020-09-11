@@ -1,5 +1,6 @@
 ﻿using Abp.AutoMapper;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WebsiteTinTuc.Admin.Entities;
 
@@ -13,7 +14,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
         [MinLength(6)]
         public string Title { get; set; }
         public string Content { get; set; }
-        public long NumberOfViews { get; set; }
         public JobType JobType { get; set; }
         public long MinMoney { get; set; }
         public long MaxMoney { get; set; }
@@ -21,6 +21,9 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
         public int? TimeExperience { get; set; }
         public DateTime? EndDate { get; set; }
         public ExperienceType ExperienceType { get; set; }
+        public List<Guid> HashtagIds { get; set; }
+        public List<Guid> HashtagIdDeletes { get; set; }
         public Guid CompanyId { get; set; }
+        public Guid LevelId { get; set; }
     }
 }

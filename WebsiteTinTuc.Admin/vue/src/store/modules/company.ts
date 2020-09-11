@@ -6,7 +6,8 @@ import PageResult from '@/store/entities/page-result';
 import Company from '../entities/company';
 
 interface CompanyState extends ListState<Company> {
-    company: Company
+    company: Company;
+    companies: Company[];
 }
 class CompanyModule extends ListModule<CompanyState, any, Company>{
     state = {
@@ -15,7 +16,8 @@ class CompanyModule extends ListModule<CompanyState, any, Company>{
         pageSize: 10,
         list: new Array<Company>(),
         loading: false,
-        company: new Company()
+        company: new Company(),
+        companies: new Array<Company>()
     }
     actions = {
         async getAll(context: ActionContext<CompanyState, any>, payload: any) {
@@ -35,9 +37,13 @@ class CompanyModule extends ListModule<CompanyState, any, Company>{
         async delete(context: ActionContext<CompanyState, any>, payload: any) {
             await Ajax.delete('/api/services/app/Company/DeleteCompany?Id=' + payload.data);
         },
-        async get(context: ActionContext<CompanyState, any>, payload: any) {
+        async get(context: ActionContext<CompanyState, any>, payload: any): Promise<Company> {
             let reponse = await Ajax.get('/api/services/app/Company/GetCompanyById?Id=' + payload.id);
             return reponse.data.result as Company;
+        },
+        async getAllCompanies(context: ActionContext<CompanyState, any>) {
+            const response = await Ajax.get('/api/services/app/Company/GetAllCompanies');
+            context.state.companies = response.data.result as Company[];
         }
     };
     mutations = {

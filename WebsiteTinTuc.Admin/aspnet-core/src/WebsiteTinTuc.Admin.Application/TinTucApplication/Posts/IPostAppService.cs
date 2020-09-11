@@ -14,5 +14,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         Task EditPostAsync(PostRequest input);
         Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PageRequest input);
         Task<PostDto> GetPostByIdAsync(Guid id);
+        Task DeletePostAsync(Guid id);
     }
 }

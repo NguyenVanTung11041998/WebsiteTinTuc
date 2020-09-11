@@ -39,11 +39,14 @@ class PostModule extends ListModule<PostState, any, Post>{
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
-        async createOrEdit(context: ActionContext<PostState, any>, payload: any) {
-            await Ajax.post('/api/services/app/Post/CreateOrEdit', payload.data);
+        async create(context: ActionContext<PostState, any>, payload: any) {
+            await Ajax.post('/api/services/app/Post/CreatePost', payload.data);
+        },
+        async update(context: ActionContext<PostState, any>, payload: any) {
+            await Ajax.put('/api/services/app/Post/EditPost', payload.data);
         },
         async delete(context: ActionContext<PostState, any>, payload: any) {
-            await Ajax.delete('/api/services/app/Post/Delete?Id=' + payload.data);
+            await Ajax.delete('/api/services/app/Post/DeletePost?Id=' + payload.data);
         },
         async getPostById(context: ActionContext<PostState, any>, payload: any) {
             let response = await Ajax.get('/api/services/app/Post/GetPostById?Id=' + payload.id);

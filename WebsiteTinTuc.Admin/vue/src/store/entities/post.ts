@@ -1,18 +1,27 @@
-import IObjectFile from "../interfaces/IObjectFile";
+import { JobType } from "../enums/job-type";
+import { MoneyType } from "../enums/money-type";
+import { ExperienceType } from "../enums/experience-type";
+import { HashtagModel } from "./company";
 
 export default class Post {
-    id: string;
+    id?: string;
     title: string;
     content: string;
-    description: string;
+    creationTime: Date;
     postUrl: string;
     numberOfViews: number;
-    numberOfLikes: number;
-    numberOfComments: number;
-    objectFile?: IObjectFile;
-    creationTime: Date;
-    categoryIds: CategoryHashtagModel[];
-    hashtagIds: CategoryHashtagModel[];
+    jobType: JobType;
+    minMoney: number;
+    maxMoney: number;
+    moneyType: MoneyType;
+    timeExperience?: number;
+    endDate?: Date;
+    experienceType: ExperienceType;
+    companyId: string;
+    levelId: string;
+    companyName: string;
+    levelName: string;
+    hashtags: HashtagModel[];
 }
 
 export class CategoryHashtagModel {

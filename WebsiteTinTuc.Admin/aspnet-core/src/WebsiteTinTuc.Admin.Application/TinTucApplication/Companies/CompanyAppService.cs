@@ -249,7 +249,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                     Id = p.Id,
                                     Path = p.Path
                                 }),
-                                Hashtags = x.CompanyPostHashtags.Select(p => new HashtagCompanyModel
+                                Hashtags = x.CompanyPostHashtags.Select(p => new HashtagCompanyPostModel
                                 {
                                     Id = p.Id,
                                     HashtagId = p.HashtagId
@@ -261,6 +261,17 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                 throw new UserFriendlyException("Không tồn tại công ty");
 
             return company;
+        }
+
+        public async Task<List<CompanySelectModel>> GetAllCompanies()
+        {
+            var list = await WorkScope.GetAll<Company>()
+                                .Select(x => new CompanySelectModel
+                                {
+                                    Id = x.Id,
+                                    Name = x.Name
+                                }).ToListAsync();
+            return list;
         }
     }
 }
