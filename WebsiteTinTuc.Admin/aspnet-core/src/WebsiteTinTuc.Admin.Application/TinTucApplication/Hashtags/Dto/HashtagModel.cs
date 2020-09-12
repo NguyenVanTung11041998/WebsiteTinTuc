@@ -7,6 +7,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags.Dto
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string HashtagUrl { get; set; }
+        public bool IsHot { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }

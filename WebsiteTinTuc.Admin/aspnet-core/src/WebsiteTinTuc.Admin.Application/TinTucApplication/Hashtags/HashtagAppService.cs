@@ -44,6 +44,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                     throw new UserFriendlyException("Hashtag không tồn tại");
 
                 hashtag.Name = input.Name;
+                hashtag.IsHot = input.IsHot;
                 hashtag.HashtagUrl = input.Name.RemoveSign4VietnameseString().ToIdentifier();
                 await WorkScope.UpdateAsync(hashtag);
             }
@@ -52,6 +53,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                 var hashtag = new Hashtag
                 {
                     Name = input.Name,
+                    IsHot = input.IsHot,
                     HashtagUrl = input.Name.RemoveSign4VietnameseString().ToIdentifier()
                 };
                 await WorkScope.InsertAsync(hashtag);
@@ -92,7 +94,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                                           HashtagUrl = x.HashtagUrl,
                                           Id = x.Id,
                                           Name = x.Name,
-                                          CreationTime = x.CreationTime
+                                          CreationTime = x.CreationTime,
+                                          IsHot = x.IsHot
                                       });
             int totalCount = await query.CountAsync();
             var hashtags = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize).ToListAsync();
@@ -108,7 +111,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                             HashtagUrl = x.HashtagUrl,
                             Id = x.Id,
                             Name = x.Name,
-                            CreationTime = x.CreationTime
+                            CreationTime = x.CreationTime,
+                            IsHot = x.IsHot
                         }).ToListAsync();
         }
     }

@@ -17,7 +17,6 @@ using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
 using WebsiteTinTuc.Admin.Models;
 using WebsiteTinTuc.Admin.Net.MimeTypes;
-using WebsiteTinTuc.Admin.TinTucApplication.Hashtags.Dto;
 using WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
@@ -104,7 +103,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             {
                 Id = post.Id,
                 AgencyName = company.Name,
-                IsCreate = true,
+                IsCreate = false,
                 PostUrl = post.PostUrl,
                 Title = post.Title
             };
@@ -176,7 +175,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             httpClient.BaseAddress = new Uri(ConstantVariable.WebUserUrl);
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypeNames.ApplicationJson));
-            var response = await httpClient.PostAsJsonAsync("api/SiteMap/UpdateSiteMap", input);
+            var response = await httpClient.PostAsJsonAsync("api/SiteMap", input);
             if (!response.IsSuccessStatusCode)
                 throw new UserFriendlyException("Update sitemap fail, check web user");
         }

@@ -29,21 +29,21 @@ namespace WebsiteTinTuc.User.Controllers
                     new XElement("loc", post.PostUrl),
                     new XElement("agency", post.AgencyName),
                     new XElement("title", post.Title),
-                    new XElement("lastmod", DateTime.Now)
+                    new XElement("lastmod", DateTime.Now),
+                    new XAttribute("post_id", post.Id)
                 ));
-                element.FirstAttribute.Value = $"{post.Id}";
                 doc.Add(element);
             }
             else
             {
-                var element = doc.Elements().FirstOrDefault(x => x.FirstAttribute.Value == $"{post.Id}");
+                var element = doc.Elements().FirstOrDefault(x => x.Attributes().Any(p => p.Value == $"{post.Id}"));
                 element.ReplaceWith(new XElement("url",
                     new XElement("loc", post.PostUrl),
                     new XElement("agency", post.AgencyName),
                     new XElement("title", post.Title),
-                    new XElement("lastmod", DateTime.Now)
+                    new XElement("lastmod", DateTime.Now),
+                    new XAttribute("post_id", post.Id)
                 ));
-                element.FirstAttribute.Value = $"{post.Id}";
             }
             doc.Save(filePathXml);
             return Ok();

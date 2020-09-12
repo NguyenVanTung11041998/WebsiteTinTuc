@@ -456,7 +456,7 @@ export default class CreateOrEditCompany extends AbpBase {
       const requestData = new FormData();
 
       if (this.company.id) {
-        requestData.append("id", this.company.id);
+        requestData.append("id", this.company.id.toString());
       }
       requestData.append("name", this.company.name);
       requestData.append("description", this.company.description);

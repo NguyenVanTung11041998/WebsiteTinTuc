@@ -2,9 +2,10 @@ import { JobType } from "../enums/job-type";
 import { MoneyType } from "../enums/money-type";
 import { ExperienceType } from "../enums/experience-type";
 import { HashtagModel } from "./company";
+import Entity from "./entity";
+import { Guid } from "guid-typescript";
 
-export default class Post {
-    id?: string;
+export default class Post extends Entity<Guid> {
     title: string;
     content: string;
     creationTime: Date;
@@ -24,7 +25,6 @@ export default class Post {
     hashtags: HashtagModel[];
 }
 
-export class CategoryHashtagModel {
-    id: string;
+export class CategoryHashtagModel extends Entity<Guid> {
     categoryHashtagOfPostId: string;
 }

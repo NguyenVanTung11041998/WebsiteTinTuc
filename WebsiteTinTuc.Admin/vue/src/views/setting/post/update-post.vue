@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Thêm mới / Chỉnh sửa</h1>
+    <h1>{{ post.id ? "Sửa bài viết" : "Thêm bài viết" }}</h1>
     <br />
     <Form ref="postForm" label-position="top" :rules="postRule" :model="post">
       <Row :gutter="24">
@@ -84,6 +84,10 @@
               :step="1000"
               :editable="true"
               v-model="post.minMoney"
+              :formatter="
+                value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              "
+              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
             />
           </FormItem>
         </Col>
@@ -96,6 +100,10 @@
               :step="1000"
               :editable="true"
               v-model="post.maxMoney"
+              :formatter="
+                value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              "
+              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
             />
           </FormItem>
         </Col>
@@ -306,7 +314,7 @@ export default class UpdatePost extends AbpBase {
         endDate: this.post.endDate,
         moneyType: this.post.moneyType,
         timeExperience: this.post.timeExperience,
-        hashtagIdDeletes: hashtagIdDeletes
+        hashtagIdDeletes: hashtagIdDeletes,
       };
       await this.$store.dispatch({
         type: `post/${this.post.id ? "update" : "create"}`,

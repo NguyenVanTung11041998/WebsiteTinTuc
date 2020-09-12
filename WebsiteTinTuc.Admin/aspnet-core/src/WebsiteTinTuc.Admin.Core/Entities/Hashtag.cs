@@ -8,6 +8,7 @@ namespace WebsiteTinTuc.Admin.Entities
     {
         public string Name { get; set; }
         public string HashtagUrl { get; set; }
+        public bool IsHot { get; set; }
         public virtual ICollection<CompanyPostHashtag> CompanyPostHashtags { get; set; }
     }
 }

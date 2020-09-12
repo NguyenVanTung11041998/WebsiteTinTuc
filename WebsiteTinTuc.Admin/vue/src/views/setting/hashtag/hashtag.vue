@@ -28,7 +28,7 @@
             :no-data-text="L('Không có dữ liệu')"
             border
             :data="list"
-          ></Table>
+          />
           <Page
             show-sizer
             class-name="fengpage"
@@ -38,7 +38,7 @@
             @on-page-size-change="pagesizeChange"
             :page-size="pageSize"
             :current="currentPage"
-          ></Page>
+          />
         </div>
       </div>
     </Card>
@@ -122,9 +122,14 @@ export default class Hashtags extends AbpBase {
     },
     {
       title: this.L("Thời gian tạo"),
-      key: "creationTime",
       render: (h: any, params: any) => {
         return h("span", new Date(params.row.creationTime).toLocaleString());
+      }
+    },
+    {
+      title: this.L("Là hot"),
+      render: (h: any, params: any) => {
+        return h("span", params.row.isHot ? "Có" : "Không");
       }
     },
     {

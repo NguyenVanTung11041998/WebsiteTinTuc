@@ -1,9 +1,10 @@
 import IObjectFile from "../interfaces/IObjectFile";
 import Post from "./post";
 import BranchJobCompany from "./branch-job-company";
+import Entity from "./entity";
+import { Guid } from "guid-typescript";
 
-export default class Company {
-    id?: string;
+export default class Company  extends Entity<Guid> {
     name: string;
     creationTime: Date;
     description: string;
@@ -28,16 +29,14 @@ export default class Company {
     branchJobCompanies?: Array<BranchJobCompanyModel>;
 }
 
-export class HashtagModel {
-    id: string;
+export class HashtagModel extends Entity<Guid> {
     companyId: string;
     hashtagId: string;
     companyName: string;
     hashtagName: string;
 }
 
-export class BranchJobCompanyModel {
-    id: string;
+export class BranchJobCompanyModel extends Entity<Guid> {
     companyId: string;
     branchJobId: string;
     companyName: string;
