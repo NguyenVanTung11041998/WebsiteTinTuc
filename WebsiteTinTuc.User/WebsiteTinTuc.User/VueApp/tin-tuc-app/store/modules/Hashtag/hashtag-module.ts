@@ -12,7 +12,7 @@ const state: HashtagState = {
 };
 
 const getters: GetterTree<HashtagState, RootState> = {
-    categories(state: HashtagState) {
+    hashtags(state: HashtagState) {
         return state.hashtags;
     }
 };
@@ -24,10 +24,10 @@ const mutations: MutationTree<HashtagState> = {
 };
 
 const actions: ActionTree<HashtagState, RootState> = {
-	async getAllHashtag({ commit }): Promise<any> {
-        const response = await HASHTAG_SERVICES.getAllHashtag();
-		commit('SET_HASHTAGDATA', response.result);
-        return response;
+	async getAllHashtagIsHot({ commit }) {
+		const response = await HASHTAG_SERVICES.getAllHashtagIsHot();
+		const data = response.result as Hashtag[];
+		commit('SET_HASHTAGDATA', data);
 	}
 };
 

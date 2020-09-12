@@ -14,5 +14,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         Task<PagedResultDto<CompanyModel>> GetCompanyPagingAsync(CompanyFilterPaging input);
         Task<CompanyModel> GetCompanyByIdAsync(Guid id);
         Task<List<CompanySelectModel>> GetAllCompanies();
+        Task SettingHotOfCompany(Guid id);
     }
 }

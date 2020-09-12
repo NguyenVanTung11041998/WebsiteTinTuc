@@ -6,7 +6,7 @@
           <Form ref="queryForm" :label-width="100" label-position="left" inline>
             <Row :gutter="16">
               <Col span="8">
-                <FormItem :label="L('Từ khóa')+':'" style="width:100%">
+                <FormItem :label="L('Từ khóa') + ':'" style="width:100%">
                   <Input
                     v-model="pageRequest.keyword"
                     :placeholder="L('Tên bài viết')"
@@ -16,14 +16,17 @@
               </Col>
             </Row>
             <Row>
-              <Button @click="create" type="primary" size="large">{{L('Thêm mới')}}</Button>
+              <Button @click="create" type="primary" size="large">{{
+                L("Thêm mới")
+              }}</Button>
               <Button
                 icon="ios-search"
                 type="primary"
                 size="large"
                 @click="getPage"
                 class="toolbar-btn"
-              >{{L('Tìm kiếm')}}</Button>
+                >{{ L("Tìm kiếm") }}</Button
+              >
             </Row>
           </Form>
           <div class="margin-top-10">
@@ -58,13 +61,15 @@ import PageRequest from "../../../store/entities/page-request";
 import CreateOrEditCompany from "./create-or-edit-company.vue";
 import Company from "../../../store/entities/company";
 import PathNames from "../../../store/constants/path-names";
+import GrantedPermission from "../../../store/constants/granted-permission";
+import PermissionNames from "../../../store/constants/permission-names";
 
 class PageCompanyRequest extends PageRequest {
   keyword: string = "";
 }
 
 @Component({
-  components: { CreateOrEditCompany }
+  components: { CreateOrEditCompany },
 })
 export default class Companies extends AbpBase {
   pageRequest: PageCompanyRequest = new PageCompanyRequest();
@@ -123,7 +128,7 @@ export default class Companies extends AbpBase {
     {
       title: this.L("Tên công ty"),
       key: "name",
-      width: 200
+      width: 200,
     },
     {
       title: this.L("Ngày tạo"),
@@ -131,11 +136,57 @@ export default class Companies extends AbpBase {
       width: 150,
       render: (h: any, params: any) => {
         return h("span", new Date(params.row.creationTime).toLocaleString());
-      }
+      },
     },
     {
       title: this.L("Địa chỉ"),
-      key: "locationDescription"
+      key: "locationDescription",
+    },
+    {
+      title: this.L("Nổi bật"),
+      render: (h: any, params: any) => {
+        return h("div", [
+          h("span", params.row.isHot ? "Có" : "Không"),
+          h(
+            "Button",
+            {
+              props: {
+                type: "success",
+                size: "small",
+              },
+              style: {
+                marginLeft: "20px",
+                display: GrantedPermission.isGranted(
+                  PermissionNames.Pages_Setting_Hot_Company
+                )
+                  ? ""
+                  : "none",
+              },
+              on: {
+                click: async () => {
+                  this.$Modal.confirm({
+                    title: this.L("Tips"),
+                    content: this.L("Bạn có muốn thay đổi không?"),
+                    okText: this.L("Yes"),
+                    cancelText: this.L("No"),
+                    onOk: async () => {
+                      await this.$store.dispatch({
+                        type: "company/settingHotOfCompany",
+                        id: params.row.id,
+                      });
+                      this.$Message.success(
+                        `Thay đổi nổi bật công ty ${params.row.name} thành công`
+                      );
+                      await this.getPage();
+                    },
+                  });
+                },
+              },
+            },
+            this.L("Thay đổi")
+          ),
+        ]);
+      },
     },
     {
       title: this.L("Thao tác"),
@@ -152,11 +203,16 @@ export default class Companies extends AbpBase {
               },
               style: {
                 marginRight: "5px",
+                display: GrantedPermission.isGranted(
+                  PermissionNames.Pages_Update_Company
+                )
+                  ? ""
+                  : "none",
               },
               on: {
                 click: () => {
                   this.edit(params.row.id);
-                }
+                },
               },
             },
             this.L("Sửa")
@@ -167,6 +223,13 @@ export default class Companies extends AbpBase {
               props: {
                 type: "error",
                 size: "small",
+              },
+              style: {
+                display: GrantedPermission.isGranted(
+                  PermissionNames.Pages_Delete_Company
+                )
+                  ? ""
+                  : "none",
               },
               on: {
                 click: async () => {
@@ -180,15 +243,17 @@ export default class Companies extends AbpBase {
                         type: "company/delete",
                         data: params.row.id,
                       });
-                      this.$Message.success(`Xóa công ty ${params.row.name} thành công`);
+                      this.$Message.success(
+                        `Xóa công ty ${params.row.name} thành công`
+                      );
                       await this.getPage();
                     },
                   });
                 },
-              }
+              },
             },
             this.L("Xóa")
-          )
+          ),
         ]);
       },
     },

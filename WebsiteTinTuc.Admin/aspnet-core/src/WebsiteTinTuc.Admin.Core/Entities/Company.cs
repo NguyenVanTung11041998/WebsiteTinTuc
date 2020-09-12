@@ -21,6 +21,7 @@ namespace WebsiteTinTuc.Admin.Entities
         public int? MinScale { get; set; }
         public string Treatment { get; set; }
         public int? MaxScale { get; set; }
+        public bool IsHot { get; set; }
         public string CompanyUrl { get; set; }
         [ForeignKey(nameof(Nationality))]
         public Guid NationalityId { get; set; }

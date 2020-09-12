@@ -127,7 +127,7 @@ export default class Hashtags extends AbpBase {
       }
     },
     {
-      title: this.L("Là hot"),
+      title: this.L("Nổi bật"),
       render: (h: any, params: any) => {
         return h("span", params.row.isHot ? "Có" : "Không");
       }

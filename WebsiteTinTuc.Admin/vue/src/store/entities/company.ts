@@ -4,7 +4,7 @@ import BranchJobCompany from "./branch-job-company";
 import Entity from "./entity";
 import { Guid } from "guid-typescript";
 
-export default class Company  extends Entity<Guid> {
+export default class Company extends Entity<Guid> {
     name: string;
     creationTime: Date;
     description: string;
@@ -17,6 +17,7 @@ export default class Company  extends Entity<Guid> {
     minScale?: number;
     maxScale?: number;
     treatment: string;
+    isHot: boolean;
     nationalityId: string;
     nationalityCompanyName: string;
     userId: number;

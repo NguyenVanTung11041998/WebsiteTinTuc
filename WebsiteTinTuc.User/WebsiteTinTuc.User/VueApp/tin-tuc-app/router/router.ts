@@ -8,16 +8,11 @@ const routePrefix = 'home';
 const routes = [
 	{
 		path: '/',
-		redirect: { name: 'home' }
+		component: Home
 	},
 	{
 		name: 'home',
 		path: `/${routePrefix}`,
-		component: Home
-	},
-	{
-		name: 'category',
-		path: `/${routePrefix}/danh-muc/:id`,
 		component: Home
 	},
 	{

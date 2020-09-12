@@ -12,6 +12,7 @@
         public const string Pages_Create_Company = "Pages.Create.Company";
         public const string Pages_Update_Company = "Pages.Update.Company";
         public const string Pages_Delete_Company = "Pages.Delete.Company";
+        public const string Pages_Setting_Hot_Company = "Pages.Setting.Hot.Company";
 
         public const string Pages_View_Hashtag = "Pages.View.Hashtag";
         public const string Pages_Create_Hashtag = "Pages.Create.Hashtag";

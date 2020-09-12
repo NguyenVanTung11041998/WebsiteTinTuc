@@ -18,6 +18,7 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_Create_Company,
                     PermissionNames.Pages_Update_Company,
                     PermissionNames.Pages_Delete_Company,
+                    PermissionNames.Pages_Setting_Hot_Company,
                     PermissionNames.Pages_View_Hashtag,
                     PermissionNames.Pages_Create_Hashtag,
                     PermissionNames.Pages_Update_Hashtag,

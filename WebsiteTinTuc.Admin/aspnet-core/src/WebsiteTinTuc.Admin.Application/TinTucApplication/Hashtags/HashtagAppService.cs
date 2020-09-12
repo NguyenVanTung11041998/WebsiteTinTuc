@@ -115,5 +115,20 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
                             IsHot = x.IsHot
                         }).ToListAsync();
         }
+
+        [AbpAllowAnonymous]
+        public async Task<List<HashtagModel>> GetAllHashtagIsHot()
+        {
+            var list = await WorkScope.GetAll<Hashtag>()
+                            .Where(x => !x.IsHot)
+                            .OrderByDescending(x => x.CreationTime)
+                            .Select(x => new HashtagModel
+                            {
+                                HashtagUrl = x.HashtagUrl,
+                                Name = x.Name,
+                                Id = x.Id
+                            }).ToListAsync();
+            return list;
+        }
     }
 }

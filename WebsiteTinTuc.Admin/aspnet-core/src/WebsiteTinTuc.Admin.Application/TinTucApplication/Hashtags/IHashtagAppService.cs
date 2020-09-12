@@ -15,5 +15,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
         Task DeleteAsync(Guid id);
         Task<PagedResultDto<HashtagModel>> GetAllHashtagPagingAsync(PageRequest input);
         Task<List<HashtagModel>> GetAllHashtags();
+        Task<List<HashtagModel>> GetAllHashtagIsHot();
     }
 }

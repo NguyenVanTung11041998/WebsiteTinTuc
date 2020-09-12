@@ -10,7 +10,7 @@
         <FormItem :label="L('Name')" prop="name">
           <Input v-model="hashtag.name" @keypress.native.enter="save" :maxlength="32" />
         </FormItem>
-        <Checkbox v-model="hashtag.isHot">Hot</Checkbox>
+        <Checkbox v-model="hashtag.isHot">Nổi bật</Checkbox>
       </Form>
       <div slot="footer">
         <Button @click="cancel">{{L('Cancel')}}</Button>

@@ -44,6 +44,9 @@ class CompanyModule extends ListModule<CompanyState, any, Company>{
         async getAllCompanies(context: ActionContext<CompanyState, any>) {
             const response = await Ajax.get('/api/services/app/Company/GetAllCompanies');
             context.state.companies = response.data.result as Company[];
+        },
+        async settingHotOfCompany(context: ActionContext<CompanyState, any>, payload) {
+            await Ajax.put(`/api/services/app/Company/SettingHotOfCompany?Id=${payload.id}`);
         }
     };
     mutations = {

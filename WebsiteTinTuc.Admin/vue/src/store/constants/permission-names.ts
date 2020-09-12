@@ -9,6 +9,7 @@ export default class PermissionNames {
     static readonly Pages_Create_Company = "Pages.Create.Company";
     static readonly Pages_Update_Company = "Pages.Update.Company";
     static readonly Pages_Delete_Company = "Pages.Delete.Company";
+    static readonly Pages_Setting_Hot_Company = "Pages.Setting.Hot.Company";
 
     static readonly Pages_View_Hashtag = "Pages.View.Hashtag";
     static readonly Pages_Create_Hashtag = "Pages.Create.Hashtag";

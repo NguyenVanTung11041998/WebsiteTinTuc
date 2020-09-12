@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from './state';
 import { vuexPageModule } from './modules/VueX/vuexpage-module';
-import { CategoryModule } from './modules/Category/category-module';
 import { HashtagModule } from './modules/Hashtag/hashtag-module';
 
 Vue.use(Vuex);
@@ -13,7 +12,6 @@ const store: StoreOptions<RootState> = {
     },
     modules: {
         vuexPageModule,
-        CategoryModule,
         HashtagModule
     }
 };

@@ -201,6 +201,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                     FullNameCompany = x.FullNameCompany,
                     CreationTime = x.CreationTime,
                     Id = x.Id,
+                    IsHot = x.IsHot,
                     LocationDescription = x.LocationDescription
                 }).ToListAsync();
             return new PagedResultDto<CompanyModel>(totalCount, list);
@@ -232,6 +233,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                 Treatment = x.Treatment,
                                 Website = x.Website,
                                 Phone = x.Phone,
+                                IsHot = x.IsHot,
                                 Thumbnail = x.Assets.Where(p => p.FileType == FileType.Thumbnail && p.CompanyId == id).Select(p => new ObjectFile
                                 {
                                     FileType = p.FileType,
@@ -263,6 +265,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
             return company;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_View_Company)]
         public async Task<List<CompanySelectModel>> GetAllCompanies()
         {
             var list = await WorkScope.GetAll<Company>()
@@ -272,6 +275,20 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                                     Name = x.Name
                                 }).ToListAsync();
             return list;
+        }
+
+        [HttpPut]
+        [AbpAuthorize(PermissionNames.Pages_Setting_Hot_Company)]
+        public async Task SettingHotOfCompany(Guid id)
+        {
+            var company = await WorkScope.GetAll<Company>()
+                                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (company == default)
+                throw new UserFriendlyException("Công ty không tồn tại");
+
+            company.IsHot = !company.IsHot;
+            await WorkScope.UpdateAsync(company);
         }
     }
 }

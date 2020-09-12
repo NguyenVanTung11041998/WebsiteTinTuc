@@ -1,6 +1,6 @@
 ﻿namespace WebsiteTinTuc.Admin.Authorization
 {
-    public class PermissionDIsplayName
+    public class PermissionDisplayName
     {
         public const string Pages_Tenants = "Quản trị tenant";
 
@@ -12,6 +12,7 @@
         public const string Pages_Create_Company = "Tạo công ty";
         public const string Pages_Update_Company = "Sửa công ty";
         public const string Pages_Delete_Company = "Xóa công ty";
+        public const string Pages_Setting_Hot_Company = "Cài đặt nổi bật công ty";
 
         public const string Pages_View_Hashtag = "Xem hashtag";
         public const string Pages_Create_Hashtag = "Thêm hashtag";

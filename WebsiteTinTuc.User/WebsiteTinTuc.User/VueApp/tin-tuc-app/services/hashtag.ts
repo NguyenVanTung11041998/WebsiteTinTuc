@@ -1,14 +1,14 @@
-import request from '@/tin-tuc-app/constants/request'
+import request from '@/tin-tuc-app/constants/request';
 
-const getAllHashtag = (): Promise<any> => {
+const getAllHashtagIsHot = (): Promise<any> => {
 	return request({
 		method: 'GET',
-		url: '/api/services/app/Hashtag/GetAllHashtags',
+		url: '/api/services/app/Hashtag/GetAllHashtagIsHot',
 	});
 }
 
 const HASHTAG_SERVICES = {
-	getAllHashtag: getAllHashtag
+	getAllHashtagIsHot: getAllHashtagIsHot
 }
 
 Object.freeze(HASHTAG_SERVICES);
