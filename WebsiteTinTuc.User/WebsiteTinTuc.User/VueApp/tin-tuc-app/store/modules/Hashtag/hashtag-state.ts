@@ -1,5 +1,5 @@
-import { Hashtag } from "../../interfaces/hashtag";
+import Hashtag from "../../interfaces/hashtag";
 
-export interface HashtagState {
+export default interface HashtagState {
     hashtags: Hashtag[];
 }

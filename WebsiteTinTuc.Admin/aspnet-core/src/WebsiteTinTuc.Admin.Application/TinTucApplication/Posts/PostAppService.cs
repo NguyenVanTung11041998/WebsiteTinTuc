@@ -6,6 +6,7 @@ using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -79,7 +80,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             ObjectMapper.Map(input, post);
             var company = await WorkScope.GetAsync<Company>(input.CompanyId);
             int numberPostSameTitle = await WorkScope.GetAll<Post>()
-                    .Where(x => x.Title == input.Title && x.CompanyId == input.CompanyId)
+                    .Where(x => x.Title == input.Title && x.CompanyId == input.CompanyId && x.Id != input.Id)
                     .CountAsync() + 1;
 
             post.PostUrl = $"{input.Title.RemoveSign4VietnameseString().ToIdentifier()}-{company.CompanyUrl}-{numberPostSameTitle}";
@@ -167,6 +168,27 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                 }).FirstOrDefaultAsync(x => x.Id == id);
 
             return post;
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<List<PostTopProminent>> GetTopPostProminent(int? count = null)
+        {
+            var query = WorkScope.GetAll<Post>()
+                        .Include(x => x.Company)
+                        .Where(x => x.Company.IsHot)
+                        .Select(x => new PostTopProminent
+                        {
+                            CompanyName = x.Company.Name,
+                            Id = x.Id,
+                            PostUrl = x.PostUrl,
+                            Title = x.Title
+                        });
+
+            if (count.HasValue)
+                query = query.Take(count.Value);
+
+            var list = await query.ToListAsync();
+            return list;
         }
 
         private async Task SaveSiteMap(PostSitemap input)

@@ -15,5 +15,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         Task<CompanyModel> GetCompanyByIdAsync(Guid id);
         Task<List<CompanySelectModel>> GetAllCompanies();
         Task SettingHotOfCompany(Guid id);
+        Task<List<ProminentCompanyModel>> GetTopCompanyProminent(int? count = null);
     }
 }

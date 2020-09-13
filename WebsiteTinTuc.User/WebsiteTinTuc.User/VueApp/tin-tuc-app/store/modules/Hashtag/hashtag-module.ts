@@ -3,8 +3,8 @@ import HASHTAG_SERVICES from '@/tin-tuc-app/services/hashtag';
 import { RootState } from '@/tin-tuc-app/store/state';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
-import { HashtagState } from './hashtag-state';
-import { Hashtag } from '../../interfaces/hashtag';
+import HashtagState from './hashtag-state';
+import Hashtag from '../../interfaces/hashtag';
 
 
 const state: HashtagState = {

@@ -44,7 +44,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
-import { Hashtag } from "../../store/interfaces/hashtag";
+import Hashtag from "../../store/interfaces/hashtag";
 @Component({
   name: "HeaderSearch",
   components: {},

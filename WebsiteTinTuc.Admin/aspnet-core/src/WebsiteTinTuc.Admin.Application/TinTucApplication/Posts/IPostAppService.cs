@@ -1,7 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Models;
 using WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto;
@@ -15,5 +14,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PageRequest input);
         Task<PostDto> GetPostByIdAsync(Guid id);
         Task DeletePostAsync(Guid id);
+        Task<List<PostTopProminent>> GetTopPostProminent(int? count = null);
     }
 }

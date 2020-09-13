@@ -290,5 +290,39 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
             company.IsHot = !company.IsHot;
             await WorkScope.UpdateAsync(company);
         }
+
+        [AbpAllowAnonymous]
+        public async Task<List<ProminentCompanyModel>> GetTopCompanyProminent(int? count = null)
+        {
+            var queryPost = WorkScope.GetAll<Post>();
+            var queryImage = WorkScope.GetAll<Asset>();
+            var query = WorkScope.GetAll<Company>()
+                            .Where(x => x.IsHot)
+                            .Select(x => new ProminentCompanyModel
+                            {
+                                CompanyUrl = x.CompanyUrl,
+                                Description = x.Description.Length > 200 ? $"{x.Description.Substring(0, 200)}..." : x.Description,
+                                FullNameCompany = x.FullNameCompany,
+                                Id = x.Id,
+                                Location = x.Location,
+                                Name = x.Name,
+                                NumberJobs = queryPost.Where(p => p.CompanyId == x.Id).Count(),
+                                Image = queryImage.Where(p => p.CompanyId == x.Id && p.FileType == FileType.Image).Select(p => new ObjectFile
+                                {
+                                    Id = p.Id,
+                                    Path = p.Path
+                                }).FirstOrDefault(),
+                                Thumbnail = queryImage.Where(p => p.CompanyId == x.Id && p.FileType == FileType.Thumbnail).Select(p => new ObjectFile
+                                {
+                                    Id = p.Id,
+                                    Path = p.Path
+                                }).FirstOrDefault()
+                            });
+            if (count.HasValue)
+                query = query.Take(count.Value);
+
+            var list = await query.ToListAsync();
+            return list;
+        }
     }
 }
