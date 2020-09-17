@@ -35,7 +35,7 @@
     import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
     import Util from '../../../lib/util'
     import AbpBase from '../../../lib/abpbase'
-    import Tenant from '@/store/entities/tenant';
+    import Tenant from '../../../store/entities/tenant';
     @Component
     export default class CreateTenant extends AbpBase{
         @Prop({type:Boolean,default:false}) value:boolean;
