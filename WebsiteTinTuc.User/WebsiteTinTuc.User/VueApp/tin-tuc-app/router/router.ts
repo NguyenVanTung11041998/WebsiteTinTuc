@@ -2,8 +2,7 @@ import VueRouter from 'vue-router'
 
 // Pages
 import Home from '@/tin-tuc-app/views/Home.vue';
-
-const routePrefix = 'trang-chu';
+import RoutePath from '../constants/route-path';
 
 const routes = [
 	{
@@ -12,22 +11,22 @@ const routes = [
 	},
 	{
 		name: 'home',
-		path: `/${routePrefix}`,
+		path: `/${RoutePath.Home}`,
 		component: Home
 	},
 	{
 		name: 'hashtag',
-		path: `/${routePrefix}/hashtag/:id`,
+		path: `/${RoutePath.Hashtag}/:id`,
 		component: Home
 	},
 	{
 		name: 'company',
-		path: `/${routePrefix}/cong-ty/:id`,
+		path: `/${RoutePath.Company}/:id`,
 		component: Home
 	},
 	{
 		name: 'post',
-		path: `/${routePrefix}/viec-lam/:id`,
+		path: `/${RoutePath.Post}/:id`,
 		component: Home
 	}
 ]

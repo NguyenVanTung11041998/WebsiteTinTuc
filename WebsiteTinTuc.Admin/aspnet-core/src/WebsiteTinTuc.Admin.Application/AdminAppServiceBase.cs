@@ -8,6 +8,7 @@ using WebsiteTinTuc.Admin.Authorization.Users;
 using WebsiteTinTuc.Admin.MultiTenancy;
 using WebsiteTinTuc.Admin.IoC;
 using Abp.Dependency;
+using Abp.Timing;
 
 namespace WebsiteTinTuc.Admin
 {
@@ -47,6 +48,11 @@ namespace WebsiteTinTuc.Admin
         protected virtual void CheckErrors(IdentityResult identityResult)
         {
             identityResult.CheckErrors(LocalizationManager);
+        }
+
+        protected virtual DateTime GetLocalTime()
+        {
+            return ClockProviders.Local.Now;
         }
     }
 }

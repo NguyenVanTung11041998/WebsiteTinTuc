@@ -1,5 +1,3 @@
-import COMPANY_SERVICES from '@/tin-tuc-app/services/company';
-
 import { RootState } from '@/tin-tuc-app/store/state';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 

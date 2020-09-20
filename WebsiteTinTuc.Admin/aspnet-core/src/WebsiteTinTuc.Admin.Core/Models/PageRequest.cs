@@ -2,8 +2,8 @@
 {
     public class PageRequest
     {
-        public int PageSize { get; set; }
-        public int CurrentPage { get; set; }
-        public string SearchText { get; set; }
+        public virtual int PageSize { get; set; }
+        public virtual int CurrentPage { get; set; }
+        public virtual string SearchText { get; set; }
     }
 }

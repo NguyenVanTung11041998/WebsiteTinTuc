@@ -10,7 +10,10 @@
                 <div class="col-lg-5">
                   <div class="item">
                     <router-link
-                      :to="{ name: 'company', params: { id: item.companyUrl } }"
+                      :to="{
+                        name: companyRouteName,
+                        params: { id: item.companyUrl },
+                      }"
                     >
                       <img :src="getLinkPath(item.image)" :alt="item.name" />
                       <div class="image-item-thumbnail">
@@ -24,13 +27,24 @@
                   </div>
                 </div>
                 <div class="col-lg-5 name-spotlight">
-                  <h3 class="title-spotlight mb-4">{{ item.name }}</h3>
+                  <router-link
+                    :to="{
+                      name: companyRouteName,
+                      params: { id: item.companyUrl },
+                    }"
+                    :title="item.name"
+                  >
+                    <h3 class="title-spotlight mb-4">{{ item.name }}</h3>
+                  </router-link>
                   <p>{{ item.fullNameCompany }}</p>
                   <p v-html="item.description" />
                   <p>{{ item.location }}</p>
                   <div class="mt-2 link">
                     <router-link
-                      :to="{ name: 'company', params: { id: item.companyUrl } }"
+                      :to="{
+                        name: companyRouteName,
+                        params: { id: item.companyUrl },
+                      }"
                     >
                       {{
                         item.numberJobs > 0
@@ -64,7 +78,10 @@
                   </div>
                   <span class="ml-3 mt-2">
                     <router-link
-                      :to="{ name: 'post', params: { id: item.postUrl } }"
+                      :to="{
+                        name: postRouteName,
+                        params: { id: item.postUrl },
+                      }"
                     >
                       {{ item.title }}
                     </router-link>
@@ -79,14 +96,14 @@
               <div class="col-lg-4 icon-info-prominent">
                 <div class="icon-info-post-prominent ml-1">
                   <router-link
-                    :to="{ name: 'post', params: { id: item.postUrl } }"
+                    :to="{ name: postRouteName, params: { id: item.postUrl } }"
                   >
                     <i class="fas fa-arrow-alt-circle-right" />
                   </router-link>
                 </div>
                 <div class="link-post-prominent">
                   <router-link
-                    :to="{ name: 'post', params: { id: item.postUrl } }"
+                    :to="{ name: postRouteName, params: { id: item.postUrl } }"
                   >
                     Xem thêm
                   </router-link>
@@ -109,6 +126,7 @@ import Util from "../../constants/util";
 import IObjectFile from "../../store/interfaces/IObjectFile";
 import { ProminentCompanyModel } from "../../store/interfaces/company";
 import { PostTopProminent } from "../../store/interfaces/post";
+import RouteName from "../../constants/route-name";
 
 @Component({
   name: "ProminentCompany",
@@ -129,6 +147,8 @@ export default class ProminentCompany extends Vue {
   private prominentPosts!: PostTopProminent[];
 
   private isLoading = true;
+  private companyRouteName = RouteName.Company;
+  private postRouteName = RouteName.Post;
 
   private async created() {
     const count = 3;
@@ -192,7 +212,7 @@ export default class ProminentCompany extends Vue {
       line-height: 140%;
     }
 
-    .link a {
+    a {
       text-decoration: none;
       color: #d34127;
     }
