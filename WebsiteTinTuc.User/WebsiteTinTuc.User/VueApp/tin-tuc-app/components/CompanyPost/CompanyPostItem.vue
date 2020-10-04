@@ -93,6 +93,7 @@ import Util from "../../constants/util";
 import IObjectFile from "../../store/interfaces/IObjectFile";
 import RouteName from "../../constants/route-name";
 import CompanyPostModel from "../../store/interfaces/home";
+import CONSTANT_VARIABLE from "../../constants/constant-variable";
 
 @Component({
   name: "CompanyPostItem",
@@ -102,7 +103,7 @@ import CompanyPostModel from "../../store/interfaces/home";
   },
 })
 export default class CompanyPostItem extends Vue {
-  @Prop({ type: Object, default: null }) companyPost!: CompanyPostModel;
+  @Prop({ type: Object, default: null }) private readonly companyPost!: CompanyPostModel;
   private postRouteName = RouteName.Post;
   private active = false;
   private heightCss = "height-hide-info";
@@ -112,8 +113,8 @@ export default class CompanyPostItem extends Vue {
   }
 
   private getTime(): string {
-    return this.companyPost.timeCreateNewJob > 24
-      ? `${Math.floor(this.companyPost.timeCreateNewJob / 24)} ngày trước`
+    return this.companyPost.timeCreateNewJob > CONSTANT_VARIABLE.TOTAL_HOUR_OF_DAY
+      ? `${Math.floor(this.companyPost.timeCreateNewJob / CONSTANT_VARIABLE.TOTAL_HOUR_OF_DAY)} ngày trước`
       : `${this.companyPost.timeCreateNewJob} giờ trước`;
   }
 
@@ -146,7 +147,7 @@ export default class CompanyPostItem extends Vue {
     overflow: hidden;
     white-space: nowrap;
     transition: 0.15s all ease-out;
-    background: #fff;
+    background: #f5f5f5;
     color: black;
     border: 1px solid #fdc578;
     box-sizing: border-box;

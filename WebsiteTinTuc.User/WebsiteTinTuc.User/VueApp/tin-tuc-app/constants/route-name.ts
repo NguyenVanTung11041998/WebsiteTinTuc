@@ -3,4 +3,5 @@ export default class RouteName {
     static readonly Hashtag = "hashtag";
     static readonly Company = "company";
     static readonly Post = "post";
+    static readonly ListPost = "listPost";
 }

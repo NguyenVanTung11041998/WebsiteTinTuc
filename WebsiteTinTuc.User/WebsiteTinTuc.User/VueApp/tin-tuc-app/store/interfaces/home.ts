@@ -5,7 +5,8 @@ import IObjectFile from "./IObjectFile";
 export default interface CompanyPostModel {
     companyId: Guid;
     postId: Guid;
-    fullCompanyName: string;
+    fullNameCompany: string;
+    companyName: string;
     thumbnail?: IObjectFile;
     location: string;
     timeCreateNewJob: number;
@@ -15,10 +16,24 @@ export default interface CompanyPostModel {
     title: string;
     treatment: string;
     postUrl: string;
+    companyJobs: BranchJobCompanyHome[];
+    postHashtags: HashtagHomeModel[];
 }
 
 export class HomeFilter {
     currentPage: number;
     pageSize: number;
     isHot?: boolean;
+}
+
+export class BranchJobCompanyHome {
+    branchJobId: Guid;
+    name: string;
+    branchJobUrl: string;
+}
+
+export class HashtagHomeModel {
+    hashtagId: Guid;
+    name: string;
+    hashtagUrl: string;
 }

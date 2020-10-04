@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Models;
 
@@ -7,6 +8,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes.Dto
     public class CompanyPostModel
     {
         public Guid CompanyId { get; set; }
+        public string CompanyName { get; set; }
         public Guid PostId { get; set; }
         public string FullCompanyName { get; set; }
         public ObjectFile Thumbnail { get; set; }
@@ -18,5 +20,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes.Dto
         public string Title { get; set; }
         public string Treatment { get; set; }
         public string PostUrl { get; set; }
+        public List<BranchJobCompanyHome> CompanyJobs { get; set; }
+        public List<HashtagHomeModel> PostHashtags { get; set; }
     }
 }

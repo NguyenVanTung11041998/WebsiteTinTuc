@@ -10,7 +10,8 @@ const state: HomeState = {
     companyPostProminents: [],
     companyPosts: [],
     pagePaginate: 1,
-    pagePaginateButtom: 1
+    pagePaginateButtom: 1,
+    posts: []
 };
 
 const getters: GetterTree<HomeState, RootState> = {
@@ -25,6 +26,9 @@ const getters: GetterTree<HomeState, RootState> = {
     },
     pagePaginateButtom(state: HomeState) {
         return state.pagePaginateButtom;
+    },
+    posts(state: HomeState) {
+        return state.posts;
     }
 };
 
@@ -40,6 +44,9 @@ const mutations: MutationTree<HomeState> = {
     },
     SET_PAGE_NUMBER(state: HomeState, page: number) {
         state.pagePaginateButtom = page;
+    },
+    SET_POSTS(state: HomeState, posts: CompanyPostModel[]) {
+        state.posts = posts;
     }
 };
 
@@ -59,6 +66,11 @@ const actions: ActionTree<HomeState, RootState> = {
             commit('SET_COMPANY_POST', data);
             commit('SET_PAGE_NUMBER', page);
         }
+    },
+    async getTopNewPost({ commit }, count: number) {
+        const response = await HOME_SERVICE.getTopNewPost(count);
+        const data = response.result as CompanyPostModel[];
+        commit('SET_POSTS', data);
     }
 };
 

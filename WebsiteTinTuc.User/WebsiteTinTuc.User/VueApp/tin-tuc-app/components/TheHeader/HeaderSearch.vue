@@ -28,7 +28,7 @@
             <ul class="hashtag-hot">
               <li v-for="item in hashtags" :key="item.id">
                 <router-link
-                  :to="{ name: 'post', params: { id: item.hashtagUrl } }"
+                  :to="{ name: hashtagRouteName, params: { id: item.hashtagUrl } }"
                 >
                   {{ item.name }}
                 </router-link>
@@ -44,6 +44,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
+import RouteName from "../../constants/route-name";
 import Hashtag from "../../store/interfaces/hashtag";
 @Component({
   name: "HeaderSearch",
@@ -74,10 +75,10 @@ export default class HeaderSearch extends Vue {
   private isLoading = false;
 
   @Action("getAllHashtagIsHot", { namespace: "HashtagModule" })
-  public getAllHashtagIsHot!: () => void;
+  private getAllHashtagIsHot!: () => void;
   @Getter("hashtags", { namespace: "HashtagModule" })
-  public hashtags!: Hashtag[];
-
+  private hashtags!: Hashtag[];
+  private hashtagRouteName = RouteName.Hashtag;
   private async created() {
     this.isLoading = true;
     await this.getAllHashtagIsHot();

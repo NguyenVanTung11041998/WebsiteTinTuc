@@ -45,8 +45,8 @@ import CompanyPostItem from "./CompanyPostItem.vue";
 })
 export default class CompanyPost extends Vue {
   @Prop() data!: CompanyPostModel[];
-  @Prop({ type: String, default: "" }) title!: string;
-  @Prop({ type: String, default: "" }) classCss!: string;
+  @Prop({ type: String, default: "" }) private readonly title!: string;
+  @Prop({ type: String, default: "" }) private readonly classCss!: string;
   private postRouteName = RouteName.Post;
 }
 </script>

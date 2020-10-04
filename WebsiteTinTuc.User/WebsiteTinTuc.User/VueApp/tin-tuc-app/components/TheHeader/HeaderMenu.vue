@@ -1,7 +1,20 @@
 <template>
   <div class="header__topbar">
     <div class="row">
-      <div class="col-lg-9" />
+      <div class="col-lg-1" />
+      <div class="col-lg-8">
+        <ul class="list-menu">
+          <li class="main-link">
+            <ul>
+              <li>
+                <router-link :to="{ name: listPostRouteName }"
+                  >Danh sách việc làm</router-link
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <div class="header-margin">
         <a target="_blank" :href="postAdminUrl" class="btn bg--primary mr-2">
           <span>
@@ -18,6 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
+import RouteName from "../../constants/route-name";
 //import { UserDetails } from '../../types/userModel'
 import UrlAdminConst from "../../constants/url-constant";
 
@@ -33,9 +47,10 @@ export default class HeaderMenu extends Vue {
 
   // @Action('logout', { namespace: 'AppModule' })
   // public actionLogout!: () => void
-  public postAdminUrl = UrlAdminConst.Post;
-  public isAuthenticated = false;
-  public logout() {
+  private listPostRouteName = RouteName.ListPost;
+  private postAdminUrl = UrlAdminConst.Post;
+  private isAuthenticated = false;
+  private logout() {
     //this.actionLogout();
     this.$router.push("/home/sign-in");
   }
@@ -53,6 +68,27 @@ export default class HeaderMenu extends Vue {
 .header__topbar {
   width: 100%;
   background-color: #000000;
+  .list-menu {
+    float: left;
+    margin-left: auto;
+    .main-link {
+      float: left;
+      position: relative;
+      margin-right: 19px;
+      a {
+        display: inline-block;
+        position: relative;
+        margin-top: 20px;
+        font-size: 15px;
+        line-height: 23px;
+        color: #fff;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #d34127;
+      }
+    }
+  }
   .header-margin {
     margin-left: 20px;
     margin-top: 15px;

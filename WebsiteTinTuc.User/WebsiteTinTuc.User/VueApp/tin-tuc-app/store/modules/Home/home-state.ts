@@ -5,4 +5,5 @@ export default interface PostState {
     companyPosts: CompanyPostModel[];
     pagePaginate: number;
     pagePaginateButtom: number;
+    posts: CompanyPostModel[];
 }
