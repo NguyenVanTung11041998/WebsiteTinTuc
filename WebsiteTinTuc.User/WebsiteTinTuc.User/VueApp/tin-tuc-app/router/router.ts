@@ -18,7 +18,7 @@ const routes = [
 	},
 	{
 		name: RouteName.ListPost,
-		path: `/${RoutePath.ListPost}`,
+		path: `/${RoutePath.ListPost}/:id?`,
 		component: ListPosts
 	},
 	{

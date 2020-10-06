@@ -1,6 +1,7 @@
 import { Guid } from "guid-typescript";
 import { MoneyType } from "../enums/money-type";
 import IObjectFile from "./IObjectFile";
+import PageRequest from "./page-request";
 
 export default interface CompanyPostModel {
     companyId: Guid;
@@ -20,9 +21,7 @@ export default interface CompanyPostModel {
     postHashtags: HashtagHomeModel[];
 }
 
-export class HomeFilter {
-    currentPage: number;
-    pageSize: number;
+export class HomeFilter extends PageRequest {
     isHot?: boolean;
 }
 

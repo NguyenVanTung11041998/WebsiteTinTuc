@@ -1,20 +1,89 @@
 <template>
   <div>
-    
+    <post :title="title" :posts="posts" />
+    <div class="col-lg-12 mt-3">
+      <paginate
+        :page-count="page"
+        :page-range="3"
+        :margin-pages="2"
+        :prev-text="prevPaginate"
+        :next-text="nextPaginate"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :click-handler="getData"
+        v-model="currentPage"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import CompanyPostModel from "../store/interfaces/home";
+import Post from "../components/Home/Post.vue";
+import PageRequest from "../store/interfaces/page-request";
+import Paginate from "vuejs-paginate";
 
 @Component({
   name: "ListPosts",
-  components: {},
+  components: { Post, Paginate },
 })
 export default class ListPosts extends Vue {
+  @Action("getPostPaging", { namespace: "HomeModule" })
+  private getPostPaging!: (filter: PageRequest) => void;
+  @Getter("pagePaginate", { namespace: "HomeModule" })
+  private page!: number;
+  @Getter("posts", { namespace: "HomeModule" })
+  private posts!: CompanyPostModel[];
+
+  private title = "Danh sách công việc";
+  private currentPage = 1;
+  private pageSize = 30;
+  private searchText = "";
+  private nextPaginate = '<i class="fas fa-angle-right"></i>';
+  private prevPaginate = '<i class="fas fa-angle-left"></i>';
+
+  private async created() {
+    await this.getData();
+  }
+
+  private async getData() {
+    this.searchText = this.$route.params.id;
+    let params = {
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+      searchText: this.searchText,
+    } as PageRequest;
+    await this.getPostPaging(params);
+  }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.pagination {
+  justify-content: center;
+  background: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  display: flex;
+  li {
+    margin: 0 1px;
+    a {
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      display: inline-block;
+    }
+    &:hover,
+    &.active {
+      a {
+        background-color: #fa7973;
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+</style>

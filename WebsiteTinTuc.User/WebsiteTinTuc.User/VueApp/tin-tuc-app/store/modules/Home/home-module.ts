@@ -4,6 +4,7 @@ import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 import HomeState from './home-state';
 import CompanyPostModel, { HomeFilter } from '../../interfaces/home';
 import HOME_SERVICE from '@/tin-tuc-app/services/home';
+import PageRequest from '../../interfaces/page-request';
 
 
 const state: HomeState = {
@@ -71,6 +72,17 @@ const actions: ActionTree<HomeState, RootState> = {
         const response = await HOME_SERVICE.getTopNewPost(count);
         const data = response.result as CompanyPostModel[];
         commit('SET_POSTS', data);
+    },
+    async getPostPaging({ commit }, filter: PageRequest) {
+        const response = await HOME_SERVICE.getPostPaging(filter);
+        const data = await response.result.items as CompanyPostModel[];
+        const totalCount = response.result.totalCount as number;
+        const page = totalCount % filter.pageSize == 0
+                            ? totalCount / filter.pageSize
+                            : Math.floor(totalCount / filter.pageSize) + 1;
+
+        commit('SET_POSTS', data);
+        commit('SET_PAGE_NUMBER', page);
     }
 };
 

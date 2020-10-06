@@ -1,5 +1,6 @@
 import request from '@/tin-tuc-app/constants/request';
 import { HomeFilter } from '../store/interfaces/home';
+import PageRequest from '../store/interfaces/page-request';
 
 const getAllCompanyPostPaging = (filter: HomeFilter): Promise<any> => {
     return request({
@@ -16,9 +17,18 @@ const getTopNewPost = (count: number): Promise<any> => {
     });
 }
 
+const getPostPaging = (filter: PageRequest): Promise<any> => {
+    return request({
+        method: 'GET',
+        url: `/api/services/app/Home/GetPostPaging`,
+        params: filter
+    });
+}
+
 const HOME_SERVICES = {
     getAllCompanyPostPaging: getAllCompanyPostPaging,
-    getTopNewPost: getTopNewPost
+    getTopNewPost: getTopNewPost,
+    getPostPaging: getPostPaging
 }
 
 Object.freeze(HOME_SERVICES);

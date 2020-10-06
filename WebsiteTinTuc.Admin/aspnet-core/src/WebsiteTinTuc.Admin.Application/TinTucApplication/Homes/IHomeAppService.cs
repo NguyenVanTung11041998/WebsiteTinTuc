@@ -9,5 +9,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes
     {
         Task<PagedResultDto<CompanyPostModel>> GetAllCompanyPostPaging(HomeFilter input);
         Task<List<CompanyPostModel>> GetTopNewPost(int count);
+        Task<PagedResultDto<CompanyPostModel>> GetPostPaging(PostPagingRequest input);
     }
 }
