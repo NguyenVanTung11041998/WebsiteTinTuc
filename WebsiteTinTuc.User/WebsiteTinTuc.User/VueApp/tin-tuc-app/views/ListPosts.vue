@@ -20,9 +20,8 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
-import CompanyPostModel from "../store/interfaces/home";
+import CompanyPostModel, { PostFilter } from "../store/interfaces/home";
 import Post from "../components/Home/Post.vue";
-import PageRequest from "../store/interfaces/page-request";
 import Paginate from "vuejs-paginate";
 
 @Component({
@@ -31,11 +30,13 @@ import Paginate from "vuejs-paginate";
 })
 export default class ListPosts extends Vue {
   @Action("getPostPaging", { namespace: "HomeModule" })
-  private getPostPaging!: (filter: PageRequest) => void;
+  private getPostPaging!: (filter: PostFilter) => void;
   @Getter("pagePaginate", { namespace: "HomeModule" })
   private page!: number;
   @Getter("posts", { namespace: "HomeModule" })
   private posts!: CompanyPostModel[];
+  @Getter("place", { namespace: "HomeModule" })
+  private place!: number;
 
   private title = "Danh sách công việc";
   private currentPage = 1;
@@ -48,13 +49,43 @@ export default class ListPosts extends Vue {
     await this.getData();
   }
 
+  get newId() {
+    return this.$route.params.id;
+  }
+
+  get newPlace() {
+    return this.place;
+  }
+
+  @Watch("newPlace")
+  private async getDataPost() {
+    await this.getData();
+  }
+
+  @Watch("newId")
   private async getData() {
     this.searchText = this.$route.params.id;
+    let location = "";
+    switch (this.place) {
+      case 1: {
+        location = "Hà Nội"
+        break;
+      }
+      case 2: {
+        location = "Đà Nẵng"
+        break;
+      }
+      case 3: {
+        location = "Hồ Chí Minh"
+        break;
+      }
+    }
     let params = {
       currentPage: this.currentPage,
       pageSize: this.pageSize,
       searchText: this.searchText,
-    } as PageRequest;
+      location: location
+    } as PostFilter;
     await this.getPostPaging(params);
   }
 }

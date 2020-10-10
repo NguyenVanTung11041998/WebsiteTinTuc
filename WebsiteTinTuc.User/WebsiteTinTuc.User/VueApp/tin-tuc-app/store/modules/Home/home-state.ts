@@ -6,4 +6,5 @@ export default interface PostState {
     pagePaginate: number;
     pagePaginateButtom: number;
     posts: CompanyPostModel[];
+    place: number;
 }

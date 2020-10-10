@@ -2,7 +2,7 @@ import { RootState } from '@/tin-tuc-app/store/state';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
 import HomeState from './home-state';
-import CompanyPostModel, { HomeFilter } from '../../interfaces/home';
+import CompanyPostModel, { HomeFilter, PostFilter } from '../../interfaces/home';
 import HOME_SERVICE from '@/tin-tuc-app/services/home';
 import PageRequest from '../../interfaces/page-request';
 
@@ -12,7 +12,8 @@ const state: HomeState = {
     companyPosts: [],
     pagePaginate: 1,
     pagePaginateButtom: 1,
-    posts: []
+    posts: [],
+    place: 0
 };
 
 const getters: GetterTree<HomeState, RootState> = {
@@ -30,6 +31,9 @@ const getters: GetterTree<HomeState, RootState> = {
     },
     posts(state: HomeState) {
         return state.posts;
+    },
+    place(state: HomeState) {
+        return state.place;
     }
 };
 
@@ -48,6 +52,9 @@ const mutations: MutationTree<HomeState> = {
     },
     SET_POSTS(state: HomeState, posts: CompanyPostModel[]) {
         state.posts = posts;
+    },
+    SET_PLACE(state: HomeState, place: number) {
+        state.place = place;
     }
 };
 
@@ -73,7 +80,7 @@ const actions: ActionTree<HomeState, RootState> = {
         const data = response.result as CompanyPostModel[];
         commit('SET_POSTS', data);
     },
-    async getPostPaging({ commit }, filter: PageRequest) {
+    async getPostPaging({ commit }, filter: PostFilter) {
         const response = await HOME_SERVICE.getPostPaging(filter);
         const data = await response.result.items as CompanyPostModel[];
         const totalCount = response.result.totalCount as number;

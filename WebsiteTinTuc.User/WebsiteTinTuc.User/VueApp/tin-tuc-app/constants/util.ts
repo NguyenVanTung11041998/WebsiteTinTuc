@@ -1,7 +1,7 @@
 import URL from '../constants/url'
 
 class Util {
-    getLinkPath(url: string) {
+    getLinkPath(url: string): string {
         if(!url)
             return "";
         if (!url.startsWith('http') && !url.startsWith('https')) {

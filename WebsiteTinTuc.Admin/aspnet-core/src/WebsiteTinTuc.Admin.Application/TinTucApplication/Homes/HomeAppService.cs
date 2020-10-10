@@ -63,7 +63,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes
         {
             var query = WorkScope.GetAll<Post>().Include(x => x.Company)
                                         .OrderByDescending(x => x.CreationTime)
-                                        .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title == input.SearchText || x.Content == input.SearchText);
+                                        .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title == input.SearchText || x.Content == input.SearchText)
+                                        .WhereIf(!input.Location.IsNullOrWhiteSpace(), x => x.Company.Location.Contains(input.Location));
 
             var queryHashtags = WorkScope.GetAll<Hashtag>();
             var queryBranchJobs = WorkScope.GetAll<BranchJob>();

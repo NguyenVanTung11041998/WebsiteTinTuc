@@ -5,6 +5,7 @@ import { HashtagModule } from './modules/Hashtag/hashtag-module';
 import { CompanyModule } from "./modules/Company/company-module";
 import { PostModule } from "./modules/Post/post-module";
 import { HomeModule } from "./modules/Home/home-module";
+import { CompanyHomeModule } from "./modules/CompanyHomeInfo/company-home-module";
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const store: StoreOptions<RootState> = {
         HashtagModule,
         CompanyModule,
         PostModule,
-        HomeModule
+        HomeModule,
+        CompanyHomeModule
     }
 };
 

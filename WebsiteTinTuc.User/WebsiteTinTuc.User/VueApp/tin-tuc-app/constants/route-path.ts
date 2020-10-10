@@ -3,5 +3,6 @@ export default class RoutePath {
     static readonly Hashtag = "hashtag";
     static readonly Company = "cong-ty";
     static readonly Post = "viec-lam";
+    static readonly BranchJob = "nganh-nghe";
     static readonly ListPost = 'danh-sach-viec-lam';
 }

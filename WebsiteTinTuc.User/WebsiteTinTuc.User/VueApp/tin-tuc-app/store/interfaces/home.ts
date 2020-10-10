@@ -25,6 +25,10 @@ export class HomeFilter extends PageRequest {
     isHot?: boolean;
 }
 
+export class PostFilter extends PageRequest {
+    location: string;
+}
+
 export class BranchJobCompanyHome {
     branchJobId: Guid;
     name: string;

@@ -1,5 +1,5 @@
 import request from '@/tin-tuc-app/constants/request';
-import { HomeFilter } from '../store/interfaces/home';
+import { HomeFilter, PostFilter } from '../store/interfaces/home';
 import PageRequest from '../store/interfaces/page-request';
 
 const getAllCompanyPostPaging = (filter: HomeFilter): Promise<any> => {
@@ -17,7 +17,7 @@ const getTopNewPost = (count: number): Promise<any> => {
     });
 }
 
-const getPostPaging = (filter: PageRequest): Promise<any> => {
+const getPostPaging = (filter: PostFilter): Promise<any> => {
     return request({
         method: 'GET',
         url: `/api/services/app/Home/GetPostPaging`,

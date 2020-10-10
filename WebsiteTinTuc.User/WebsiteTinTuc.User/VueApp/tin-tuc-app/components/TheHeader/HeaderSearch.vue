@@ -5,7 +5,7 @@
         <div class="col-lg-8">
           <b-input-group>
             <b-form-input
-              @keyup.enter="searchGame"
+              @keyup.enter="searchPost"
               v-model="searchText"
               class="search"
               placeholder="Nhập từ khóa tìm kiếm"
@@ -16,10 +16,15 @@
         <div class="col-lg-3">
           <b-form-select v-model="place" :options="options" />
         </div>
-        <b-input-group-append class="btn_search">
-          <a href="#">
+        <b-input-group-append @click="searchPost" class="btn_search">
+          <router-link
+            :to="{
+              name: searchText ? listPostRouteName : listPostWithoutIdRouteName,
+              params: { id: searchText },
+            }"
+          >
             <b-button><i class="fas fa-search"/></b-button>
-          </a>
+          </router-link>
         </b-input-group-append>
       </div>
       <div style="margin: 1em;" v-if="!isLoading">
@@ -28,7 +33,10 @@
             <ul class="hashtag-hot">
               <li v-for="item in hashtags" :key="item.id">
                 <router-link
-                  :to="{ name: hashtagRouteName, params: { id: item.hashtagUrl } }"
+                  :to="{
+                    name: hashtagRouteName,
+                    params: { id: item.hashtagUrl },
+                  }"
                 >
                   {{ item.name }}
                 </router-link>
@@ -42,8 +50,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { Action, Getter, Mutation } from "vuex-class";
 import RouteName from "../../constants/route-name";
 import Hashtag from "../../store/interfaces/hashtag";
 @Component({
@@ -51,6 +59,8 @@ import Hashtag from "../../store/interfaces/hashtag";
   components: {},
 })
 export default class HeaderSearch extends Vue {
+  @Mutation("SET_PLACE", { namespace: "HomeModule" })
+  private setPlace!: (place: number) => void;
   private searchText: string = "";
   private place: number = 0;
   private options = [
@@ -79,10 +89,23 @@ export default class HeaderSearch extends Vue {
   @Getter("hashtags", { namespace: "HashtagModule" })
   private hashtags!: Hashtag[];
   private hashtagRouteName = RouteName.Hashtag;
+  private listPostWithoutIdRouteName = RouteName.ListPostWithoutId;
+  private listPostRouteName = RouteName.ListPost;
+
   private async created() {
     this.isLoading = true;
     await this.getAllHashtagIsHot();
     this.isLoading = false;
+  }
+
+  private searchPost() {
+    this.setPlace(this.place);
+    this.$router.push({
+      name: this.searchText
+        ? this.listPostRouteName
+        : this.listPostWithoutIdRouteName,
+      params: { id: this.searchText },
+    });
   }
 }
 </script>
