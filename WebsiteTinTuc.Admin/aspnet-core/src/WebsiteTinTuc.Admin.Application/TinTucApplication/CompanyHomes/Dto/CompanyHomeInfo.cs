@@ -1,10 +1,14 @@
 ﻿using Abp.Application.Services.Dto;
 using System.Collections.Generic;
+using WebsiteTinTuc.Admin.Models;
 
 namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes.Dto
 {
     public class CompanyHomeInfo
     {
+        public string Name { get; set; }
+        public string FullNameCompany { get; set; }
+        public ObjectFile Thumbnail { get; set; }
         public string Website { get; set; }
         public string LocationDescription { get; set; }
         public string Location { get; set; }

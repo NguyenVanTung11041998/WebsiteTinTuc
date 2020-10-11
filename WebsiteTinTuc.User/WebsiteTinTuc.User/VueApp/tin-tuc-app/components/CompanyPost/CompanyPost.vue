@@ -28,9 +28,6 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import TitleHot from "../Home/TitleHot.vue";
 import VueHorizontalList from "vue-horizontal-list";
-import { Action, Getter } from "vuex-class";
-import Util from "../../constants/util";
-import IObjectFile from "../../store/interfaces/IObjectFile";
 import RouteName from "../../constants/route-name";
 import CompanyPostModel from "../../store/interfaces/home";
 import CompanyPostItem from "./CompanyPostItem.vue";

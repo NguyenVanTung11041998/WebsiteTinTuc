@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // Pages
 import Home from '@/tin-tuc-app/views/Home.vue';
 import CompanyInfoHome from "@/tin-tuc-app/views/CompanyInfoHome.vue";
+import PostInfoHome from "@/tin-tuc-app/views/PostInfoHome.vue";
 import ListPosts from '@/tin-tuc-app/views/ListPosts.vue';
 import RoutePath from '../constants/route-path';
 import RouteName from '../constants/route-name';
@@ -45,7 +46,7 @@ const routes = [
 	{
 		name: RouteName.Post,
 		path: `/${RoutePath.Post}/:id`,
-		component: Home
+		component: PostInfoHome
 	}
 ]
 

@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
 import Util from "../../constants/util";
 import IObjectFile from "../../store/interfaces/IObjectFile";
 import RouteName from "../../constants/route-name";

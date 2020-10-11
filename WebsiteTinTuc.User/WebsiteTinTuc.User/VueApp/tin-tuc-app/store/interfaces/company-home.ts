@@ -8,14 +8,14 @@ import PageRequest from "./page-request";
 import PageResultDto from "./page-result";
 
 export default interface CompanyHome extends Entity<Guid>, CompanyPostHomeInfo {
-    name: string;
-    fullNameCompany: string;
-    thumbnail?: IObjectFile;
     images: IObjectFile[];
     description: string;
 }
 
 export interface CompanyPostHomeInfo {
+    name: string;
+    fullNameCompany: string;
+    thumbnail?: IObjectFile;
     companyUrl: string;
     website: string;
     locationDescription: string;
@@ -52,6 +52,7 @@ export interface HashtagCompanyHome extends Entity<Guid> {
 
 export interface CompanyHomeInfoRequest extends PageRequest {
     url: string;
+    postId?: Guid;
 }
 
 export interface NationalityCompany {
@@ -71,5 +72,6 @@ export interface PostHomeInfoDto extends Entity<Guid>, CompanyPostHomeInfo {
     endDate?: Date;
     timeExperience?: number;
     experienceType: ExperienceType;
-    JobType: JobType;
+    jobType: JobType;
+    timeCreateNewJob: number;
 }

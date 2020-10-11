@@ -9,7 +9,7 @@ const getCompanyByUrl = (params: CompanyHomeInfoRequest): Promise<any> => {
 	});
 }
 
-const getPostOfCompanyPaging = (params: CompanyHomeInfoRequest): Promise<any> {
+const getPostOfCompanyPaging = (params: CompanyHomeInfoRequest): Promise<any> => {
     return request({
 		method: 'GET',
         url: `/api/services/app/CompanyHome/GetPostOfCompanyPaging`,

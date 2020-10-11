@@ -21,7 +21,6 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import ListPostCompanyInfo from "./ListPostCompanyInfo.vue";
-import PageRequest from "../../store/interfaces/page-request";
 import Paginate from "vuejs-paginate";
 import { PostCompanyHome } from "../../store/interfaces/company-home";
 

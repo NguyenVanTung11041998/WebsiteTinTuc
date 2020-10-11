@@ -173,9 +173,7 @@ export default class Posts extends AbpBase {
         return h(
           "span",
           params.row.endDate
-            ? `${new Date(params.row.endDate).toLocaleTimeString()} ${new Date(
-                params.row.endDate
-              ).toLocaleDateString()}`
+            ? `${new Date(params.row.endDate).toLocaleDateString()}`
             : ""
         );
       },

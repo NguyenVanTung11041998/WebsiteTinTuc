@@ -18,6 +18,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes.Dto
         public int? TimeExperience { get; set; }
         public DateTime? EndDate { get; set; }
         public string PostUrl { get; set; }
+        public int TimeCreateNewJob { get; set; }
         public List<HashtagCompanyHome> HashtagPosts { get; set; }
     }
 }

@@ -311,11 +311,12 @@ export default class UpdatePost extends AbpBase {
         minMoney: this.post.minMoney,
         maxMoney: this.post.maxMoney,
         id: this.post.id,
-        endDate: this.post.endDate,
+        endDate: this.isEndDate != 0 ? this.post.endDate : null,
         moneyType: this.post.moneyType,
         timeExperience: this.post.timeExperience,
         hashtagIdDeletes: hashtagIdDeletes,
       };
+
       await this.$store.dispatch({
         type: `post/${this.post.id ? "update" : "create"}`,
         data: post,

@@ -14,7 +14,11 @@
             <span>{{ post.location }}</span>
             <span class="ml-3">
               <i class="fas fa-dollar-sign" />
-              <span v-if="post.moneyType == 0">{{ `${displayMoney(post.minMoney)} VND - ${displayMoney(post.maxMoney)} VND` }}</span>
+              <span v-if="post.moneyType == 0">{{
+                `${displayMoney(post.minMoney)} VND - ${displayMoney(
+                  post.maxMoney
+                )} VND`
+              }}</span>
               <span v-else>Có thể thương lượng khi phỏng vấn</span>
             </span>
           </p>

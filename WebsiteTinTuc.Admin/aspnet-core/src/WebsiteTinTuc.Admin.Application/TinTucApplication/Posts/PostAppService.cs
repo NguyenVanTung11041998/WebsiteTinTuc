@@ -81,9 +81,11 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             var company = await WorkScope.GetAsync<Company>(input.CompanyId);
             int numberPostSameTitle = await WorkScope.GetAll<Post>()
                     .Where(x => x.Title == input.Title && x.CompanyId == input.CompanyId && x.Id != input.Id)
-                    .CountAsync() + 1;
+                    .CountAsync();
 
-            post.PostUrl = $"{input.Title.RemoveSign4VietnameseString().ToIdentifier()}-{company.CompanyUrl}-{numberPostSameTitle}";
+            post.PostUrl = numberPostSameTitle > 0 
+                ? $"{input.Title.RemoveSign4VietnameseString().ToIdentifier()}-{company.CompanyUrl}-{numberPostSameTitle + 1}"
+                : $"{input.Title.RemoveSign4VietnameseString().ToIdentifier()}-{company.CompanyUrl}";
             await WorkScope.UpdateAsync(post);
 
             foreach (var item in input.HashtagIds)

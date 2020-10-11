@@ -41,6 +41,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
             if (checkExists)
                 throw new UserFriendlyException("Ngành nghề đã tồn tại");
 
+            string branchJobUrl = input.Name.RemoveSign4VietnameseString().ToIdentifier();
             if (input.Id.HasValue)
             {
                 var branchJob = await WorkScope.GetAll<BranchJob>().FirstOrDefaultAsync(x => x.Id == input.Id);
@@ -48,7 +49,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
                     throw new UserFriendlyException("Ngành nghề không tồn tại");
 
                 branchJob.Name = input.Name;
-                branchJob.BranchJobUrl = input.Name.RemoveSign4VietnameseString().ToIdentifier();
+                branchJob.BranchJobUrl = branchJobUrl;
                 await WorkScope.UpdateAsync(branchJob);
             }
             else
@@ -56,7 +57,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.BranchJobs
                 var hashtag = new BranchJob
                 {
                     Name = input.Name,
-                    BranchJobUrl = input.Name.RemoveSign4VietnameseString().ToIdentifier()
+                    BranchJobUrl = branchJobUrl
                 };
                 await WorkScope.InsertAsync(hashtag);
             }

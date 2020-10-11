@@ -51,6 +51,7 @@ namespace WebsiteTinTuc.Admin.Helpers
         public static DateTime LastDayOfWeek(this DateTime dt) => dt.FirstDayOfWeek().AddDays(6);
         public static string RemoveSign4VietnameseString(this string str)
         {
+            str = str.Replace('#', 's').Replace("++", "pp");
             for (int i = 1; i < VietnameseSigns.Length; i++)
             {
                 for (int j = 0; j < VietnameseSigns[i].Length; j++)

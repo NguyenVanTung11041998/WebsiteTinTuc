@@ -24,11 +24,8 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import TitleHot from "../Home/TitleHot.vue";
-import { Action, Getter } from "vuex-class";
 import Util from "../../constants/util";
 import IObjectFile from "../../store/interfaces/IObjectFile";
-import RouteName from "../../constants/route-name";
 
 @Component({
   name: "CompanyContent",
@@ -38,7 +35,7 @@ export default class CompanyContent extends Vue {
   @Prop() private readonly images!: IObjectFile[];
   @Prop({ type: String, default: "" }) private readonly description!: string;
 
-  private image: IObjectFile = null;
+  private image: IObjectFile;
 
   private getLinkPath(file: IObjectFile) {
     return file ? Util.getLinkPath(file.path) : "#";

@@ -33,11 +33,11 @@
       </button>
     </div>
     <div v-if="hashtags && hashtags.length > 0">
-      <h3 class="website-text mt-2">Kỹ năng</h3>
+      <h3 class="website-text mt-2">Kỹ thuật/Công nghệ</h3>
       <button
         v-for="item in hashtags"
         :key="item.id"
-        class="btn btn-light mt-2 ml-2"
+        class="btn btn-light mt-2 mr-2"
       >
         <router-link
           :to="{ name: routeHashtag, params: { id: item.hashtagUrl } }"
@@ -62,7 +62,6 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
 import RouteName from "../../constants/route-name";
 import Util from "../../constants/util";
 

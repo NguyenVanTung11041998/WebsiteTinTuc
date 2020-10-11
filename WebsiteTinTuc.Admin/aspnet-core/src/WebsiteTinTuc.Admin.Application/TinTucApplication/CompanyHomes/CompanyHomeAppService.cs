@@ -72,6 +72,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes
                                                     x.Location
                                                 }).FirstOrDefaultAsync();
 
+            if (company == default) return default;
+
             var queryHashtags = WorkScope.GetAll<CompanyPostHashtag>().Include(x => x.Hashtag);
 
             DateTime now = GetLocalTime();
@@ -159,10 +161,13 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes
 
         public async Task<PostInfoDto> GetPostByUrl(string url, PageRequest input)
         {
+            DateTime now = GetLocalTime();
+
             var post = await WorkScope.GetAll<Post>()
                             .Where(x => x.PostUrl == url)
                             .Include(x => x.Company)
                             .Include(x => x.Company.Nationality)
+                            .Include(x => x.Company.Assets)
                             .Include(x => x.Level)
                             .Select(x => new PostInfoDto
                             {
@@ -180,6 +185,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes
                                 MaxScale = x.Company.MaxScale,
                                 MinScale = x.Company.MinScale,
                                 MoneyType = x.MoneyType,
+                                TimeCreateNewJob = (int)(now - x.CreationTime).TotalHours,
                                 Nationality = new NationalityCompanyDto
                                 {
                                     Name = x.Company.Nationality.Name,
@@ -189,8 +195,20 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.CompanyHomes
                                 PostUrl = x.PostUrl,
                                 TimeExperience = x.TimeExperience,
                                 Website = x.Company.Website,
-                                Treatment = x.Company.Treatment
+                                Treatment = x.Company.Treatment,
+                                Name = x.Company.Name,
+                                Thumbnail = x.Company.Assets.Where(p => p.FileType == FileType.Thumbnail)
+                                                .Select(p => new ObjectFile
+                                                {
+                                                    Id = p.Id,
+                                                    FileType = p.FileType,
+                                                    Path = p.Path
+                                                }).FirstOrDefault(),
+                                FullNameCompany = x.Company.FullNameCompany
                             }).FirstOrDefaultAsync();
+
+            if (post == null) return null;
+
             post.CompanyJobs = await GetAllBranchJobOfCompany(post.CompanyUrl);
             post.Hashtags = await GetAllHashtagOfCompany(post.CompanyUrl);
             post.Posts = await GetPostOfCompanyPaging(post.CompanyUrl, input, post.Id);
