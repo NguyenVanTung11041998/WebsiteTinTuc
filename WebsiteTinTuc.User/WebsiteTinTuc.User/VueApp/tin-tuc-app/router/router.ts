@@ -5,6 +5,7 @@ import Home from '@/tin-tuc-app/views/Home.vue';
 import CompanyInfoHome from "@/tin-tuc-app/views/CompanyInfoHome.vue";
 import PostInfoHome from "@/tin-tuc-app/views/PostInfoHome.vue";
 import ListPosts from '@/tin-tuc-app/views/ListPosts.vue';
+import Login from "@/tin-tuc-app/views/Login.vue";
 import RoutePath from '../constants/route-path';
 import RouteName from '../constants/route-name';
 
@@ -19,6 +20,11 @@ const routes = [
 		component: Home
 	},
 	{
+		name: RouteName.Login,
+		path: `/${RoutePath.Login}`,
+		component: Login
+	},
+	{
 		name: RouteName.ListPostWithoutId,
 		path: `/${RoutePath.ListPost}`,
 		component: ListPosts
@@ -31,12 +37,12 @@ const routes = [
 	{
 		name: RouteName.Hashtag,
 		path: `/${RoutePath.Hashtag}/:id`,
-		component: Home
+		component: ListPosts
 	},
 	{
 		name: RouteName.BranchJob,
 		path: `/${RoutePath.BranchJob}/:id`,
-		component: Home
+		component: ListPosts
 	},
 	{
 		name: RouteName.Company,

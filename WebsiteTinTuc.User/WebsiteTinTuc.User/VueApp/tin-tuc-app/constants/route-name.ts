@@ -6,4 +6,6 @@ export default class RouteName {
     static readonly ListPost = "listPost";
     static readonly ListPostWithoutId = "listPostWithoutId";
     static readonly BranchJob = "branchJob";
+    static readonly Login = "login";
+    static readonly Register = "register";
 }

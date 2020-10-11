@@ -6,6 +6,7 @@ import { CompanyModule } from "./modules/Company/company-module";
 import { PostModule } from "./modules/Post/post-module";
 import { HomeModule } from "./modules/Home/home-module";
 import { CompanyHomeModule } from "./modules/CompanyHomeInfo/company-home-module";
+import { AccountModule } from "./modules/Account/account-module";
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ const store: StoreOptions<RootState> = {
         CompanyModule,
         PostModule,
         HomeModule,
-        CompanyHomeModule
+        CompanyHomeModule,
+        AccountModule
     }
 };
 

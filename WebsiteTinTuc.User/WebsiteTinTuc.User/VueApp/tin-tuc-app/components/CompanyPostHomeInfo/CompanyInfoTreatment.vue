@@ -23,7 +23,7 @@
       <button
         v-for="item in companyJobs"
         :key="item.id"
-        class="btn btn-light mt-2 ml-2"
+        class="btn btn-light mt-2 mr-2"
       >
         <router-link
           :to="{ name: routeBranchJob, params: { id: item.companyJobUrl } }"

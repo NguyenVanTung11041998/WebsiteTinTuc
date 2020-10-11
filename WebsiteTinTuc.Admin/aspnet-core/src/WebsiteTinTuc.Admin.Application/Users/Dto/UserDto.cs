@@ -31,6 +31,8 @@ namespace WebsiteTinTuc.Admin.Users.Dto
 
         public string FullName { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public DateTime? LastLoginTime { get; set; }
 
         public DateTime CreationTime { get; set; }

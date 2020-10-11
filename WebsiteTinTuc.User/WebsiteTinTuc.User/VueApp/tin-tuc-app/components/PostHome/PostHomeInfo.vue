@@ -2,7 +2,7 @@
   <div class="row mt-2">
     <div class="col-lg-12">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
           <div class="row">
             <header-thumbnail
               :company-name="post.name"
@@ -28,7 +28,7 @@
             />
           </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <company-info-treatment
             :website="post.website"
             :location-description="post.locationDescription"

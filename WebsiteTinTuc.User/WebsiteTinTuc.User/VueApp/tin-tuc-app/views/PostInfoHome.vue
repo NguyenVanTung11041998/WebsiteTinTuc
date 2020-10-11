@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import ProminentCompany from "@/tin-tuc-app/components/Home/ProminentCompany.vue";
 import ListCompanyPostHome from "@/tin-tuc-app/components/Home/ListCompanyPostHome.vue";
 import Post from "@/tin-tuc-app/components/Home/Post.vue";
@@ -28,14 +28,15 @@ export default class PostInfoHome extends Vue {
   private post!: CompanyHome;
   private isLoading = false;
 
-  get newId(): string {
-      return this.$route.params.id;
+  private get newId(): string {
+    return this.$route.params.id;
   }
 
   private async created() {
     await this.getData();
   }
 
+  @Watch("newId")
   private async getData() {
     this.isLoading = true;
     let params = {

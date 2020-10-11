@@ -6,9 +6,14 @@
         <p class="mt-2" v-html="content" />
       </div>
       <div class="col-lg-4 mt-2">
-        <button class="btn-recruitment btn btn-warning">Ứng tuyển ngay</button>
+        <button @click="openDialog(true)" class="btn-recruitment btn btn-warning">
+          Ứng tuyển ngay
+        </button>
         <p class="text-align-recruitment mt-3">Hoặc</p>
-        <button class="btn-recruitment-light btn btn-light mt-3">
+        <button
+          @click="openDialog(false)"
+          class="btn-recruitment-light btn btn-light mt-3"
+        >
           Ứng tuyển không dùng CV
         </button>
         <p class="text-align-recruitment mt-3">{{ getTime() }}</p>
@@ -35,11 +40,18 @@
           </button>
         </div>
         <div v-if="endDate">
-            <p class="text-title mt-4">Hạn nộp hồ sơ</p>
-            <p>{{ `${new Date(endDate).toLocaleDateString()}` }}</p>
+          <p class="text-title mt-4">Hạn nộp hồ sơ</p>
+          <p>{{ `${new Date(endDate).toLocaleDateString()}` }}</p>
         </div>
       </div>
     </div>
+    <recruitment-dialog
+      v-if="active"
+      :hasCV="hasCV"
+      @close-dialog="closeDialog"
+      :active="active"
+      :title="title"
+    />
   </div>
 </template>
 
@@ -51,10 +63,11 @@ import { ExperienceType } from "../../store/enums/experience-type";
 import { JobType } from "../../store/enums/job-type";
 import { MoneyType } from "../../store/enums/money-type";
 import { HashtagCompanyHome } from "../../store/interfaces/company-home";
+import RecruitmentDialog from "../BaseDialog/RecruitmentDialog.vue";
 
 @Component({
   name: "PostContent",
-  components: {},
+  components: { RecruitmentDialog },
 })
 export default class PostContent extends Vue {
   @Prop({ type: String, default: "" }) private readonly content!: string;
@@ -76,6 +89,17 @@ export default class PostContent extends Vue {
   private readonly jobType!: JobType;
   @Prop() private readonly hashtagPosts!: HashtagCompanyHome[];
   private readonly routeHashtag = RouteName.Hashtag;
+  private active = false;
+  private hasCV = false;
+
+  private openDialog(hasCV: boolean): void {
+    this.hasCV = hasCV;
+    this.active = true;
+  }
+
+  private closeDialog(): void {
+    this.active = false;
+  }
 
   private getTime(): string {
     return this.timeCreateNewJob > CONSTANT_VARIABLE.TOTAL_HOUR_OF_DAY

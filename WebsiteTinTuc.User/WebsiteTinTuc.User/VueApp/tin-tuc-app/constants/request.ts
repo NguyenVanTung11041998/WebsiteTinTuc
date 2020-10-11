@@ -1,5 +1,6 @@
 import URL from './url';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import CONSTANT_VARIABLE from './constant-variable';
 // import Cookies from 'js-cookie'
 
 const BASE_URL = URL;
@@ -26,9 +27,9 @@ const transformRequestOptions = (params: any) => {
 const request = axios.create({});
 request.interceptors.request.use((config: AxiosRequestConfig) => {
 	// config.paramsSerializer = params => transformRequestOptions(params);
-	const token = localStorage.getItem('GateGame.AuthToken');
+	const token = localStorage.getItem(CONSTANT_VARIABLE.APP_TOKEN);
 	// TODO Update authorization
-	// config.headers.common.Authorization = `Bearer ${Cookies.get('Abp.AuthToken')}`;
+	//config.headers.common.Authorization = `Bearer ${Cookies.get('Abp.AuthToken')}`;
 	config.headers.common.Authorization = `Bearer ${token}`;
 	
 	config.baseURL = BASE_URL;
@@ -42,12 +43,12 @@ request.interceptors.response.use(
 	},
 	(error: AxiosError) => {
 		const originalRequest: AxiosRequestConfig = error.config;
-
+		
 		if (isAuthError(error)) {
 			// TO DO: refresh token
 			return Promise.reject(error);
 		}
-
+		
 		return Promise.reject(error);
 	}
 );

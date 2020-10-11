@@ -2,7 +2,7 @@
   <div class="header__topbar">
     <div class="row">
       <div class="col-lg-1" />
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <ul class="list-menu">
           <li class="main-link">
             <ul>
@@ -22,7 +22,16 @@
             <i class="fa fa-arrow-right" />
           </span>
         </a>
-        <a class="login-btn">Đăng nhập</a>
+        <router-link v-if="!loginStatus" class="login-btn" :to="{ name: loginRouteName }">
+          Đăng nhập
+        </router-link>
+        <router-link v-if="!loginStatus" class="login-btn ml-3" :to="{ name: registerRouteName }">
+          Đăng ký
+        </router-link>
+        <router-link v-if="loginStatus" class="login-btn" :to="{ name: registerRouteName }">
+          Xem tài khoản
+        </router-link>
+        <button v-if="loginStatus" @click="logout" class="logout-btn ml-3">Đăng xuất</button>
       </div>
     </div>
   </div>
@@ -30,36 +39,43 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { Getter, Action, Mutation } from "vuex-class";
+import CONSTANT_VARIABLE from "../../constants/constant-variable";
 import RouteName from "../../constants/route-name";
 //import { UserDetails } from '../../types/userModel'
 import UrlAdminConst from "../../constants/url-constant";
+import Authenticate from "../../store/interfaces/authenticate";
 
 @Component({
   name: "HeaderMenu",
   components: {},
 })
 export default class HeaderMenu extends Vue {
-  // @Getter('userDetails', { namespace: 'AppModule' })
-  // public userDetails!: UserDetails
-  // @Getter('isAuthenticated', { namespace: 'AppModule' })
-  // public isAuthenticated!: boolean
+  @Action("getCurrentLoginInformations", { namespace: "AccountModule" })
+  private getCurrentLoginInformations!: () => Promise<void>;
+  @Getter("userLoginInfo", { namespace: "AccountModule" })
+  private userLoginInfo!: Authenticate;
+  @Getter("loginStatus", { namespace: "AccountModule" })
+  private loginStatus!: boolean;
+  @Mutation("SET_USER_LOGIN_INFO",{ namespace: "AccountModule" })
+  private setUserLoginInfo!: (data: Authenticate | null) => void;
+  @Mutation("SET_LOGIN_STATUS",{ namespace: "AccountModule" })
+  private setUserLoginStatus!: (status: boolean) => void;
 
-  // @Action('logout', { namespace: 'AppModule' })
-  // public actionLogout!: () => void
   private listPostRouteName = RouteName.ListPost;
   private postAdminUrl = UrlAdminConst.Post;
-  private isAuthenticated = false;
   private logout() {
-    //this.actionLogout();
-    this.$router.push("/home/sign-in");
+    localStorage.setItem(CONSTANT_VARIABLE.APP_TOKEN, "");
+    localStorage.setItem(CONSTANT_VARIABLE.APP_USERID, "");
+    this.setUserLoginInfo(null);
+    this.setUserLoginStatus(false);
   }
 
-  private redirect() {
-    window.open(
-      "https://www.facebook.com/C%E1%BB%95ng-Game-H5-Metap-105893557565069/",
-      "_blank"
-    );
+  private readonly loginRouteName = RouteName.Login;
+  private readonly registerRouteName = RouteName.Register;
+
+  private async created(): Promise<void> {
+    await this.getCurrentLoginInformations();
   }
 }
 </script>
@@ -90,6 +106,7 @@ export default class HeaderMenu extends Vue {
     }
   }
   .header-margin {
+    text-align: right;
     margin-left: 20px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -108,6 +125,18 @@ export default class HeaderMenu extends Vue {
       color: #fff;
     }
     .login-btn:hover {
+      color: #d34127;
+    }
+
+    .logout-btn {
+      border: 1px solid #fff;
+      padding: 6px 10px;
+      border-radius: 2px;
+      color: #fff;
+      background: black;
+    }
+
+    .logout-btn:hover {
       color: #d34127;
     }
   }

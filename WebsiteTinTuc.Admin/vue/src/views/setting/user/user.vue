@@ -5,24 +5,27 @@
         <Form ref="queryForm" :label-width="80" label-position="left" inline>
           <Row :gutter="16">
             <Col span="6">
-              <FormItem :label="L('Keyword')+':'" style="width:100%">
-                <Input v-model="pagerequest.keyword" :placeholder="L('UserName')+'/'+L('Name')"></Input>
+              <FormItem :label="L('Keyword') + ':'" style="width:100%">
+                <Input
+                  v-model="pagerequest.keyword"
+                  :placeholder="L('UserName') + '/' + L('Name')"
+                ></Input>
               </FormItem>
             </Col>
             <Col span="6">
-              <FormItem :label="L('IsActive')+':'" style="width:100%">
+              <FormItem :label="L('IsActive') + ':'" style="width:100%">
                 <!--Select should not set :value="'All'" it may not trigger on-change when first select 'NoActive'(or 'Actived') then select 'All'-->
                 <Select :placeholder="L('Select')" @on-change="isActiveChange">
-                  <Option value="All">{{L('All')}}</Option>
-                  <Option value="Actived">{{L('Actived')}}</Option>
-                  <Option value="NoActive">{{L('NoActive')}}</Option>
+                  <Option value="All">{{ L("All") }}</Option>
+                  <Option value="Actived">{{ L("Actived") }}</Option>
+                  <Option value="NoActive">{{ L("NoActive") }}</Option>
                 </Select>
               </FormItem>
             </Col>
           </Row>
           <Row>
             <Col span="10">
-              <FormItem :label="L('CreationTime')+':'" style="width:100%">
+              <FormItem :label="L('CreationTime') + ':'" style="width:100%">
                 <DatePicker
                   v-model="creationTime"
                   type="datetimerange"
@@ -35,14 +38,21 @@
             </Col>
           </Row>
           <Row>
-            <Button @click="create" icon="android-add" type="primary" size="large">{{L('Add')}}</Button>
+            <Button
+              @click="create"
+              icon="android-add"
+              type="primary"
+              size="large"
+              >{{ L("Add") }}</Button
+            >
             <Button
               icon="ios-search"
               type="primary"
               size="large"
               @click="getpage"
               class="toolbar-btn"
-            >{{L('Find')}}</Button>
+              >{{ L("Find") }}</Button
+            >
           </Row>
         </Form>
         <div class="margin-top-10">
@@ -66,7 +76,10 @@
         </div>
       </div>
     </Card>
-    <create-user v-model="createModalShow" @save-success="getpage"></create-user>
+    <create-user
+      v-model="createModalShow"
+      @save-success="getpage"
+    ></create-user>
     <edit-user v-model="editModalShow" @save-success="getpage"></edit-user>
   </div>
 </template>
@@ -163,7 +176,7 @@ export default class Users extends AbpBase {
       title: this.L("IsActive"),
       render: (h: any, params: any) => {
         return h("span", params.row.isActive ? this.L("Yes") : this.L("No"));
-      }
+      },
     },
     {
       title: this.L("CreationTime"),
@@ -173,7 +186,7 @@ export default class Users extends AbpBase {
           "span",
           new Date(params.row.creationTime).toLocaleDateString()
         );
-      }
+      },
     },
     {
       title: this.L("Actions"),
