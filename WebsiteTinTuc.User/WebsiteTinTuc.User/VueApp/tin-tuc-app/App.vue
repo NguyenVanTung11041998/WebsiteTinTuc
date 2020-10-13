@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <div>
       <the-header />
       <div class="container-content mt-3">
@@ -18,17 +18,32 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import TheHeader from "@/tin-tuc-app/views/TheHeader.vue";
+import { Action } from "vuex-class";
 
 @Component({
   name: "App",
   components: { TheHeader }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Action("getCurrentLoginInformations", { namespace: "AccountModule" })
+  private getCurrentLoginInformations!: () => Promise<void>;
+
+  private isLoading = false;
+  
+  private async created(): Promise<void> {
+    this.isLoading = true;
+    await this.getCurrentLoginInformations();
+    this.isLoading = false;
+  }
+}
 </script>
 
 <style scoped lang="scss">
   .container-content {
     width: 90%;
     margin: auto;
+  }
+  .container {
+    text-align: center;
   }
 </style>

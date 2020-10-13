@@ -8,4 +8,5 @@ export default class RouteName {
     static readonly BranchJob = "branchJob";
     static readonly Login = "login";
     static readonly Register = "register";
+    static readonly EditAccount = "editAccount";
 }

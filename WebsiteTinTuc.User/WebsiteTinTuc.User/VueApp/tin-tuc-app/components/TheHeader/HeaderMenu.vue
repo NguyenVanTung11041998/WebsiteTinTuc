@@ -7,9 +7,9 @@
           <li class="main-link">
             <ul>
               <li>
-                <router-link :to="{ name: listPostRouteName }"
-                  >Danh sách việc làm</router-link
-                >
+                <router-link :to="{ name: listPostRouteName }">
+                  Danh sách việc làm
+                </router-link>
               </li>
             </ul>
           </li>
@@ -22,16 +22,30 @@
             <i class="fa fa-arrow-right" />
           </span>
         </a>
-        <router-link v-if="!loginStatus" class="login-btn" :to="{ name: loginRouteName }">
+        <router-link
+          v-if="!loginStatus"
+          class="login-btn"
+          :to="{ name: loginRouteName }"
+        >
           Đăng nhập
         </router-link>
-        <router-link v-if="!loginStatus" class="login-btn ml-3" :to="{ name: registerRouteName }">
+        <router-link
+          v-if="!loginStatus"
+          class="login-btn ml-3"
+          :to="{ name: registerRouteName }"
+        >
           Đăng ký
         </router-link>
-        <router-link v-if="loginStatus" class="login-btn" :to="{ name: registerRouteName }">
-          Xem tài khoản
+        <router-link
+          v-if="loginStatus"
+          class="login-btn"
+          :to="{ name: editAccountRouteName }"
+        >
+          {{ currentUser.name }}
         </router-link>
-        <button v-if="loginStatus" @click="logout" class="logout-btn ml-3">Đăng xuất</button>
+        <button v-if="loginStatus" @click="logout" class="logout-btn ml-3">
+          Đăng xuất
+        </button>
       </div>
     </div>
   </div>
@@ -44,22 +58,22 @@ import CONSTANT_VARIABLE from "../../constants/constant-variable";
 import RouteName from "../../constants/route-name";
 //import { UserDetails } from '../../types/userModel'
 import UrlAdminConst from "../../constants/url-constant";
-import Authenticate from "../../store/interfaces/authenticate";
+import Authenticate, { User } from "../../store/interfaces/authenticate";
 
 @Component({
   name: "HeaderMenu",
   components: {},
 })
 export default class HeaderMenu extends Vue {
-  @Action("getCurrentLoginInformations", { namespace: "AccountModule" })
-  private getCurrentLoginInformations!: () => Promise<void>;
   @Getter("userLoginInfo", { namespace: "AccountModule" })
   private userLoginInfo!: Authenticate;
   @Getter("loginStatus", { namespace: "AccountModule" })
   private loginStatus!: boolean;
-  @Mutation("SET_USER_LOGIN_INFO",{ namespace: "AccountModule" })
+  @Getter("currentUser", { namespace: "AccountModule" })
+  private currentUser!: User;
+  @Mutation("SET_USER_LOGIN_INFO", { namespace: "AccountModule" })
   private setUserLoginInfo!: (data: Authenticate | null) => void;
-  @Mutation("SET_LOGIN_STATUS",{ namespace: "AccountModule" })
+  @Mutation("SET_LOGIN_STATUS", { namespace: "AccountModule" })
   private setUserLoginStatus!: (status: boolean) => void;
 
   private listPostRouteName = RouteName.ListPost;
@@ -73,10 +87,7 @@ export default class HeaderMenu extends Vue {
 
   private readonly loginRouteName = RouteName.Login;
   private readonly registerRouteName = RouteName.Register;
-
-  private async created(): Promise<void> {
-    await this.getCurrentLoginInformations();
-  }
+  private readonly editAccountRouteName = RouteName.EditAccount;
 }
 </script>
 
@@ -123,6 +134,7 @@ export default class HeaderMenu extends Vue {
       padding: 8px 10px;
       border-radius: 2px;
       color: #fff;
+      text-decoration: none;
     }
     .login-btn:hover {
       color: #d34127;

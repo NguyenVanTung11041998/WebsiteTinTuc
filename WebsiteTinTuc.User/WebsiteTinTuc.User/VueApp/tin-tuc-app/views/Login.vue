@@ -10,6 +10,7 @@
             class="col-10 form-control"
             placeholder="Nhập tên tài khoản"
             v-model="userInfoRequest.userNameOrEmailAddress"
+            @keypress.enter="loginApp"
           />
         </div>
         <div class="form-label-group row mt-3">
@@ -19,6 +20,7 @@
             class="col-10 form-control"
             placeholder="Nhập mật khẩu"
             v-model="userInfoRequest.password"
+            @keypress.enter="loginApp"
           />
         </div>
         <p v-if="isLoginFail" class="message-login mt-3">
@@ -28,16 +30,23 @@
       <div class="form-label-group row mt-3">
         <div class="col-1" />
         <div class="col-4">
-          <button :disabled="buttonLoginStatus()" @click="loginApp" class="button-login btn btn-primary">
+          <button
+            :disabled="buttonLoginStatus()"
+            @click="loginApp"
+            class="button-login btn btn-primary"
+          >
             Đăng nhập
           </button>
         </div>
         <div class="col-4 ml-5">
-          <button class="button-register btn btn-success">
-            <router-link :to="{ name: registerRouteName }">
+          <router-link
+            class="button-register"
+            :to="{ name: registerRouteName }"
+          >
+            <button class="btn btn-success">
               Đăng ký
-            </router-link>
-          </button>
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -71,19 +80,23 @@ export default class Login extends Vue {
   private readonly registerRouteName = RouteName.Register;
 
   private buttonLoginStatus(): boolean {
-      return !(this.userInfoRequest.userNameOrEmailAddress
-            && this.userInfoRequest.password
-            && this.userInfoRequest.userNameOrEmailAddress.length > 0
-            && this.userInfoRequest.password.length > 5);
+    return !(
+      this.userInfoRequest.userNameOrEmailAddress &&
+      this.userInfoRequest.password &&
+      this.userInfoRequest.userNameOrEmailAddress.length > 0 &&
+      this.userInfoRequest.password.length > 5
+    );
   }
 
   private async loginApp(): Promise<void> {
-    try {
-        await this.login(this.userInfoRequest);
-        this.$router.push({ name: RouteName.Home });
+    if (this.buttonLoginStatus()) {
+      return;
     }
-    catch {
-        this.isLoginFail = true;
+    try {
+      await this.login(this.userInfoRequest);
+      this.$router.push({ name: RouteName.Home });
+    } catch {
+      this.isLoginFail = true;
     }
   }
 }
@@ -105,6 +118,7 @@ export default class Login extends Vue {
         padding-top: 8px;
         font-size: 16px;
         font-weight: 700;
+        text-align: left;
       }
     }
 
@@ -118,10 +132,11 @@ export default class Login extends Vue {
     }
 
     .button-register {
-      width: 100%;
-      a {
-        color: white;
+      button {
+        width: 100%;
       }
+      color: white;
+      text-decoration: none;
     }
   }
 }

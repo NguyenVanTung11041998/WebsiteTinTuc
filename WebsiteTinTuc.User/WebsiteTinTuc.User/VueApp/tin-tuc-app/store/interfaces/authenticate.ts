@@ -23,7 +23,7 @@ interface Application {
     features: object;
 }
 
-interface User {
+export interface User {
     name: string;
     surname: string;
     userName: string;

@@ -222,6 +222,53 @@ namespace WebsiteTinTuc.Admin.Users
 
             return true;
         }
+
+        [AbpAllowAnonymous]
+        public async Task<UserDto> UpdateCurrentUserAsync(UserDto input)
+        {
+            if (AbpSession.UserId != input.Id) throw new UserFriendlyException("Bạn không thể sửa tài khoản của người khác");
+
+            CheckUpdatePermission();
+
+            var user = await _userManager.GetUserByIdAsync(input.Id);
+
+            MapToEntity(input, user);
+
+            CheckErrors(await _userManager.UpdateAsync(user));
+
+            if (input.RoleNames != null)
+            {
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
+            }
+
+            return await GetAsync(input);
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<UserDto> CreateUserAsync(CreateUserDto input)
+        {
+            input.RoleNames = (await GetRoles()).Items.Where(x => x.Name != StaticRoleNames.Host.Admin).Select(x => x.Name).ToArray();
+            CheckCreatePermission();
+
+            var user = ObjectMapper.Map<User>(input);
+
+            user.TenantId = AbpSession.TenantId;
+            user.Surname = input.Name;
+            user.IsEmailConfirmed = true;
+
+            await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
+
+            CheckErrors(await _userManager.CreateAsync(user, input.Password));
+
+            if (input.RoleNames != null)
+            {
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
+            }
+
+            CurrentUnitOfWork.SaveChanges();
+
+            return MapToEntityDto(user);
+        }
     }
 }
 

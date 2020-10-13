@@ -7,4 +7,5 @@ export default class RoutePath {
     static readonly ListPost = 'danh-sach-viec-lam';
     static readonly Login = "dang-nhap";
     static readonly Register = "dang-ky";
+    static readonly EditAccount = "chinh-sua-tai-khoan";
 }

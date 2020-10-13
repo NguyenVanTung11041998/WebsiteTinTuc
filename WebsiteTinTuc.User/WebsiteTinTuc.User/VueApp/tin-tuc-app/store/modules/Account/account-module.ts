@@ -4,8 +4,8 @@ import AUTHENTICATE_SERVICES from '@/tin-tuc-app/services/authenticate';
 
 import { RootState } from '@/tin-tuc-app/store/state';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
-import AccountDto from '../../interfaces/account';
-import Authenticate, { AppUserLoginInfomation, AuthenticateRequest } from '../../interfaces/authenticate';
+import AccountDto, { CreateAccount } from '../../interfaces/account';
+import Authenticate, { AppUserLoginInfomation, AuthenticateRequest, User } from '../../interfaces/authenticate';
 import AccountState from './account-state';
 
 
@@ -13,7 +13,8 @@ import AccountState from './account-state';
 const state: AccountState = {
     userLoginInfo: null,
     loginStatus: false,
-    user: null
+    user: null,
+    currentUser: null
 };
 
 const getters: GetterTree<AccountState, RootState> = {
@@ -25,6 +26,9 @@ const getters: GetterTree<AccountState, RootState> = {
     },
     user(state: AccountState) {
         return state.user;
+    },
+    currentUser(state: AccountState) {
+        return state.currentUser;
     }
 };
 
@@ -37,6 +41,9 @@ const mutations: MutationTree<AccountState> = {
     },
     SET_USER(state: AccountState, user: AccountDto) {
         state.user = user;
+    },
+    SET_CURRENT_USER(state: AccountState, user: User) {
+        state.currentUser = user;
     }
 };
 
@@ -54,6 +61,7 @@ const actions: ActionTree<AccountState, RootState> = {
         const data = response.result as AppUserLoginInfomation;
         if (data.user) {
             commit('SET_LOGIN_STATUS', true);
+            commit('SET_CURRENT_USER', data.user);
         }
         else {
             localStorage.setItem(CONSTANT_VARIABLE.APP_TOKEN, "");
@@ -66,6 +74,12 @@ const actions: ActionTree<AccountState, RootState> = {
         const response = await ACCOUNT_SERVICES.getUserById(id);
         const data = response.result as AccountDto;
         commit('SET_USER', data);
+    },
+    async createUser({}, params: CreateAccount) {
+        await ACCOUNT_SERVICES.createUser(params);
+    },
+    async updateUser({}, params: AccountDto) {
+        await ACCOUNT_SERVICES.updateUser(params);
     }
 };
 

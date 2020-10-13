@@ -8,7 +8,6 @@ export default interface AccountDto extends AccountInfo {
 interface AccountInfo {
     userName: string;
     name: string;
-    surname: string;
     emailAddress: string;
     isActive: boolean;
     phoneNumber: string;
