@@ -7,7 +7,7 @@
         :class-css="'col-lg-3'"
         :title="'Các công ty nổi bật'"
       />
-      <div class="col-lg-12 mt-3">
+      <div class="col-lg-12 mt-3" v-if="pagePaginate > 1">
         <paginate
           :page-count="pagePaginate"
           :page-range="3"
@@ -28,7 +28,7 @@
         :class-css="'col-lg-4'"
         :title="'Các công ty khác'"
       />
-      <div class="col-lg-12 mt-3">
+      <div class="col-lg-12 mt-3" v-if="pagePaginateButtom > 1">
         <paginate
           :page-count="pagePaginateButtom"
           :page-range="3"

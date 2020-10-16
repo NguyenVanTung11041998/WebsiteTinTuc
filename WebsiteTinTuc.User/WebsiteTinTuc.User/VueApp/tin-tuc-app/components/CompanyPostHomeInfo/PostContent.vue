@@ -6,7 +6,10 @@
         <p class="mt-2" v-html="content" />
       </div>
       <div class="col-lg-4 mt-2">
-        <button @click="openDialog(true)" class="btn-recruitment btn btn-warning">
+        <button
+          @click="openDialog(true)"
+          class="btn-recruitment btn btn-warning"
+        >
           Ứng tuyển ngay
         </button>
         <p class="text-align-recruitment mt-3">Hoặc</p>
@@ -46,16 +49,17 @@
       </div>
     </div>
     <recruitment-dialog
-      v-if="active"
       :hasCV="hasCV"
-      @close-dialog="closeDialog"
       :active="active"
       :title="title"
+      :post-id="postId"
+      ref="dialogForm"
     />
   </div>
 </template>
 
 <script lang="ts">
+import { Guid } from "guid-typescript";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import CONSTANT_VARIABLE from "../../constants/constant-variable";
 import RouteName from "../../constants/route-name";
@@ -70,6 +74,7 @@ import RecruitmentDialog from "../BaseDialog/RecruitmentDialog.vue";
   components: { RecruitmentDialog },
 })
 export default class PostContent extends Vue {
+  @Prop() private readonly postId!: Guid;
   @Prop({ type: String, default: "" }) private readonly content!: string;
   @Prop({ type: String, default: "" }) private readonly title!: string;
   @Prop({ type: String, default: "" }) private readonly location!: string;
@@ -88,17 +93,15 @@ export default class PostContent extends Vue {
   @Prop({ type: Number, default: JobType.PartTime })
   private readonly jobType!: JobType;
   @Prop() private readonly hashtagPosts!: HashtagCompanyHome[];
+
   private readonly routeHashtag = RouteName.Hashtag;
   private active = false;
   private hasCV = false;
 
   private openDialog(hasCV: boolean): void {
     this.hasCV = hasCV;
-    this.active = true;
-  }
-
-  private closeDialog(): void {
-    this.active = false;
+    const dialog = this.$refs.dialogForm as RecruitmentDialog;
+    dialog.openDialog();
   }
 
   private getTime(): string {

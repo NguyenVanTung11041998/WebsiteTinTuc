@@ -25,6 +25,7 @@
               :job-type="post.jobType"
               :time-create-new-job="post.timeCreateNewJob"
               :hashtag-posts="post.hashtagPosts"
+              :post-id="post.id"
             />
           </div>
         </div>

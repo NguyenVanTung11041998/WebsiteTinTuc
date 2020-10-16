@@ -28,6 +28,7 @@ export interface User {
     surname: string;
     userName: string;
     emailAddress: string;
+    phoneNumber: string;
     id: number;
 }
 

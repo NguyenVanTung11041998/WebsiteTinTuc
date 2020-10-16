@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shouldly;
-using Xunit;
-using Abp.Application.Services.Dto;
+using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Users;
 using WebsiteTinTuc.Admin.Users.Dto;
+using Xunit;
 
 namespace WebsiteTinTuc.Admin.Tests.Users
 {
@@ -37,7 +36,6 @@ namespace WebsiteTinTuc.Admin.Tests.Users
                     EmailAddress = "john@volosoft.com",
                     IsActive = true,
                     Name = "John",
-                    Surname = "Nash",
                     Password = "123qwe",
                     UserName = "john.nash"
                 });

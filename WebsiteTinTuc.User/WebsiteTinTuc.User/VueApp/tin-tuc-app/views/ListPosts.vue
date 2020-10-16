@@ -1,7 +1,7 @@
 <template>
   <div>
     <post :title="title" :posts="posts" />
-    <div class="col-lg-12 mt-3">
+    <div class="col-lg-12 mt-3" v-if="page > 1">
       <paginate
         :page-count="page"
         :page-range="3"

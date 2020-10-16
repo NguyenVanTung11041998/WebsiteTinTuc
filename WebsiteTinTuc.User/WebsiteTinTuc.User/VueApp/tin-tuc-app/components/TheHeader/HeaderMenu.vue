@@ -7,6 +7,11 @@
           <li class="main-link">
             <ul>
               <li>
+                <router-link :to="{ name: homeRouteName }">
+                  Trang chủ
+                </router-link>
+              </li>
+              <li>
                 <router-link :to="{ name: listPostRouteName }">
                   Danh sách việc làm
                 </router-link>
@@ -37,7 +42,7 @@
           Đăng ký
         </router-link>
         <router-link
-          v-if="loginStatus"
+          v-if="loginStatus && currentUser"
           class="login-btn"
           :to="{ name: editAccountRouteName }"
         >
@@ -75,14 +80,18 @@ export default class HeaderMenu extends Vue {
   private setUserLoginInfo!: (data: Authenticate | null) => void;
   @Mutation("SET_LOGIN_STATUS", { namespace: "AccountModule" })
   private setUserLoginStatus!: (status: boolean) => void;
+  @Mutation("SET_CURRENT_USER", { namespace: "AccountModule" })
+  private setCurrentUser!: (user: User | null) => void;
 
   private listPostRouteName = RouteName.ListPost;
+  private homeRouteName = RouteName.Home;
   private postAdminUrl = UrlAdminConst.Post;
   private logout() {
     localStorage.setItem(CONSTANT_VARIABLE.APP_TOKEN, "");
     localStorage.setItem(CONSTANT_VARIABLE.APP_USERID, "");
     this.setUserLoginInfo(null);
     this.setUserLoginStatus(false);
+    this.setCurrentUser(null);
   }
 
   private readonly loginRouteName = RouteName.Login;
@@ -96,23 +105,28 @@ export default class HeaderMenu extends Vue {
   width: 100%;
   background-color: #000000;
   .list-menu {
-    float: left;
+    display: flex;
     margin-left: auto;
     .main-link {
-      float: left;
-      position: relative;
+      width: 100%;
       margin-right: 19px;
-      a {
-        display: inline-block;
-        position: relative;
-        margin-top: 20px;
-        font-size: 15px;
-        line-height: 23px;
-        color: #fff;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #d34127;
+      ul {
+        display: flex;
+        li {
+          margin-right: 10px;
+          width: fit-content;
+          a {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 15px;
+            line-height: 23px;
+            color: #fff;
+            text-decoration: none;
+          }
+          a:hover {
+            color: #d34127;
+          }
+        }
       }
     }
   }

@@ -68,6 +68,8 @@ export default class Login extends Vue {
   private login!: (params: AuthenticateRequest) => Promise<void>;
   @Getter("loginStatus", { namespace: "AccountModule" })
   private loginStatus!: boolean;
+  @Action("getCurrentLoginInformations", { namespace: "AccountModule" })
+  private getCurrentLoginInformations!: () => Promise<void>;
 
   private isLoginFail = false;
 
@@ -94,6 +96,7 @@ export default class Login extends Vue {
     }
     try {
       await this.login(this.userInfoRequest);
+      await this.getCurrentLoginInformations();
       this.$router.push({ name: RouteName.Home });
     } catch {
       this.isLoginFail = true;

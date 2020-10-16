@@ -1,5 +1,5 @@
 <template>
-  <transition name="dialog">
+  <transition name="dialog" v-if="active">
     <div class="dialog-backdrop">
       <div class="dialog-container">
         <div class="recruitment-post">
@@ -13,7 +13,7 @@
             </div>
             <div class="col-10 div-input">
               <small class="form-text text-muted messages" />
-              <input type="text" class="form-control" />
+              <input type="text" class="form-control" v-model="cv.name" />
             </div>
           </div>
           <div class="input-form row">
@@ -22,7 +22,11 @@
             </div>
             <div class="col-10 div-input">
               <small class="form-text text-muted messages" />
-              <input type="text" class="form-control" />
+              <input
+                type="text"
+                class="form-control"
+                v-model="cv.phoneNumber"
+              />
             </div>
           </div>
           <div class="input-form row">
@@ -31,7 +35,7 @@
             </div>
             <div class="col-10 div-input">
               <small class="form-text text-muted messages" />
-              <input type="email" class="form-control" />
+              <input type="email" class="form-control" v-model="cv.email" />
             </div>
           </div>
           <div v-if="hasCV" class="input-form row">
@@ -58,7 +62,7 @@
           </div>
         </div>
         <div class="recuitment-footer mt-3">
-          <button @click="handleBackdropClick" class="btn btn-light">
+          <button @click="closeDialog" class="btn btn-light">
             Đóng
           </button>
           <button type="submit" class="btn-recuitment btn btn-warning">
@@ -71,8 +75,12 @@
 </template>
 
 <script lang="ts">
+import { Guid } from "guid-typescript";
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { Getter } from "vuex-class";
 import Util from "../../constants/util";
+import { User } from "../../store/interfaces/authenticate";
+import CV from "../../store/interfaces/cv";
 import IObjectFile from "../../store/interfaces/IObjectFile";
 
 @Component({
@@ -80,12 +88,52 @@ import IObjectFile from "../../store/interfaces/IObjectFile";
   components: {},
 })
 export default class RecruitmentDialog extends Vue {
-  @Prop({ type: Boolean, default: false }) private readonly active!: boolean;
   @Prop({ type: Boolean, default: false }) private readonly hasCV!: boolean;
   @Prop({ type: String, default: "" }) private readonly title!: string;
+  @Prop() private readonly postId!: Guid;
+  @Getter("currentUser", { namespace: "AccountModule" })
+  private currentUser!: User;
 
-  private handleBackdropClick() {
-    this.$emit("close-dialog", false);
+  private active = false;
+  private defaultCV = {
+    id: Guid.createEmpty(),
+    userId: null,
+    postId: Guid.createEmpty(),
+    link: "",
+    userName: "",
+    email: "",
+    portfolio: "",
+    phoneNumber: "",
+    name: "",
+  } as CV;
+
+  private cv = {
+    id: Guid.createEmpty(),
+    userId: null,
+    postId: Guid.createEmpty(),
+    link: "",
+    userName: "",
+    email: "",
+    portfolio: "",
+    phoneNumber: "",
+    name: "",
+  } as CV;
+
+  private closeDialog() {
+    this.active = false;
+    this.cv = { ...this.defaultCV };
+  }
+
+  public openDialog() {
+    this.cv.postId = this.postId;
+    if (this.currentUser != null) {
+      this.cv.userId = this.currentUser.id;
+      this.cv.email = this.currentUser.emailAddress;
+      this.cv.phoneNumber = this.currentUser.phoneNumber;
+      this.cv.name = this.currentUser.name;
+      this.cv.userName = this.currentUser.userName;
+    }
+    this.active = true;
   }
 }
 </script>
