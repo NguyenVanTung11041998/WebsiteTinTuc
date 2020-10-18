@@ -9,7 +9,7 @@
     <div class="container">
       <footer>
         <hr />
-        <p>&copy; 2020 - Created by Nguyễn Văn Tùng</p>
+        <p>&copy; 2020 - Trang tuyển dụng IT hàng đầu Việt Nam</p>
       </footer>
     </div>
     <notifications position="top center" />
