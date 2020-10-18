@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="VueApp\tin-tuc-app\services\recruitment.ts" />
+    <None Remove="VueApp\tin-tuc-app\store\modules\Recruitment\recruitment-module.ts" />
+    <None Remove="VueApp\tin-tuc-app\store\modules\Recruitment\recruitment-state.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
   </ItemGroup>
@@ -55,6 +61,12 @@
     <Folder Include="VueApp\common\services\" />
     <Folder Include="VueApp\common\types\" />
     <Folder Include="VueApp\common\utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="VueApp\tin-tuc-app\services\recruitment.ts" />
+    <TypeScriptCompile Include="VueApp\tin-tuc-app\store\modules\Recruitment\recruitment-module.ts" />
+    <TypeScriptCompile Include="VueApp\tin-tuc-app\store\modules\Recruitment\recruitment-state.ts" />
   </ItemGroup>
 
   <ItemGroup>

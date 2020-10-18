@@ -54,6 +54,7 @@
       :title="title"
       :post-id="postId"
       ref="dialogForm"
+      @create-success="createCVSuccess"
     />
   </div>
 </template>
@@ -123,6 +124,16 @@ export default class PostContent extends Vue {
 
   private getJobType(): string {
     return this.jobType == JobType.PartTime ? "Part time" : "Full time";
+  }
+
+  private createCVSuccess() {
+    this.$notify({
+      type: "success",
+      title: "",
+      text: "Bạn đã ứng tuyển thành công!",
+      duration: 100,
+      speed: 2000
+    });
   }
 }
 </script>

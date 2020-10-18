@@ -97,6 +97,13 @@ export default class Login extends Vue {
     try {
       await this.login(this.userInfoRequest);
       await this.getCurrentLoginInformations();
+      this.$notify({
+        type: "success",
+        title: "",
+        text: "Đăng nhập thành công!",
+        duration: 100,
+        speed: 2000,
+      });
       this.$router.push({ name: RouteName.Home });
     } catch {
       this.isLoginFail = true;

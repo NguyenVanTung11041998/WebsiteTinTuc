@@ -48,7 +48,13 @@
                   Tải lên CV của bạn ( Hỗ trợ *.doc, *.docx, *.pdf)
                 </span>
               </small>
-              <input type="file" accept=".doc,.docx,.pdf" />
+              <!-- <input type="file" accept=".doc,.docx,.pdf" v-model="file" /> -->
+              <b-form-file
+                v-model="file"
+                size="sm"
+                plain
+                accept=".doc,.docx,.pdf"
+              />
             </div>
           </div>
           <div class="text-area-portfolio" v-if="hasCV">
@@ -58,6 +64,7 @@
               rows="5"
               class="form-control mt-2"
               placeholder="Văn bản hoặc liên kết"
+              v-model="cv.portfolio"
             />
           </div>
         </div>
@@ -65,7 +72,11 @@
           <button @click="closeDialog" class="btn btn-light">
             Đóng
           </button>
-          <button type="submit" class="btn-recuitment btn btn-warning">
+          <button
+            @click="createRecruitment"
+            type="button"
+            class="btn-recuitment btn btn-warning"
+          >
             {{ hasCV ? "Gửi CV" : "Ứng tuyển" }}
           </button>
         </div>
@@ -77,11 +88,10 @@
 <script lang="ts">
 import { Guid } from "guid-typescript";
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { Getter } from "vuex-class";
+import { Getter, Action } from "vuex-class";
 import Util from "../../constants/util";
 import { User } from "../../store/interfaces/authenticate";
 import CV from "../../store/interfaces/cv";
-import IObjectFile from "../../store/interfaces/IObjectFile";
 
 @Component({
   name: "RecruitmentDialog",
@@ -93,6 +103,10 @@ export default class RecruitmentDialog extends Vue {
   @Prop() private readonly postId!: Guid;
   @Getter("currentUser", { namespace: "AccountModule" })
   private currentUser!: User;
+  @Action("createCV", { namespace: "RecruitmentModule" })
+  private createCV!: (params: FormData) => Promise<void>;
+
+  private message = "";
 
   private active = false;
   private defaultCV = {
@@ -124,6 +138,8 @@ export default class RecruitmentDialog extends Vue {
     this.cv = { ...this.defaultCV };
   }
 
+  private file?: File | null = null;
+
   public openDialog() {
     this.cv.postId = this.postId;
     if (this.currentUser != null) {
@@ -134,6 +150,26 @@ export default class RecruitmentDialog extends Vue {
       this.cv.userName = this.currentUser.userName;
     }
     this.active = true;
+    this.message = "";
+  }
+
+  private async createRecruitment() {
+    const request = new FormData();
+    if (this.cv.userId) {
+      request.append("userId", `${this.cv.userId}`);
+    }
+    request.append("email", this.cv.email);
+    request.append("phoneNumber", this.cv.phoneNumber);
+    request.append("name", this.cv.name);
+    request.append("userName", this.cv.userName);
+    request.append("portfolio", this.cv.portfolio);
+    request.append("postId", `${this.postId}`);
+    if (this.file) {
+      request.append("fileCV", this.file);
+    }
+    await this.createCV(request);
+    this.$emit("create-success");
+    this.active = false;
   }
 }
 </script>
@@ -164,6 +200,7 @@ export default class RecruitmentDialog extends Vue {
 .dialog-leave-active {
   transition: opacity 0.2s;
 }
+
 .dialog-enter,
 .dialog-leave-to {
   opacity: 0;
@@ -173,6 +210,7 @@ export default class RecruitmentDialog extends Vue {
 .dialog-leave-active .dialog-container {
   transition: transform 0.4s;
 }
+
 .dialog-enter .dialog-container,
 .dialog-leave-to .dialog-container {
   transform: scale(0.9);
@@ -197,12 +235,14 @@ export default class RecruitmentDialog extends Vue {
         font-weight: 700;
       }
     }
+
     .div-input {
       .form-text {
         display: block;
         margin-top: 0.25rem;
       }
     }
+
     .text-area-portfolio {
       border: 1px solid #ccc;
     }

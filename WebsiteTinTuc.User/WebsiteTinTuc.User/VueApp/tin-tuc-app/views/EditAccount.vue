@@ -122,6 +122,13 @@ export default class EditAccount extends Vue {
     }
     try {
       await this.updateUser(this.userInfoRequest);
+      this.$notify({
+        type: "success",
+        title: "",
+        text: "Cập nhật tài khoản thành công!",
+        duration: 100,
+        speed: 2000,
+      });
       this.$router.push({ name: RouteName.Login });
     } catch (e) {
       this.errorMessage = e.response.data.error.message;

@@ -9,7 +9,7 @@ namespace WebsiteTinTuc.Admin.Helpers
 {
     public class UploadFiles
     {
-        private static string[] supportedTypes = new[] { "jpg", "jpeg", "png", "gif", "mp4" };
+        private static string[] supportedTypes = new[] { "jpg", "jpeg", "png", "gif", "mp4", "doc", "docx", "pdf" };
         public static async Task<string> UploadAsync(string fileLocation, IFormFile file, bool renameFile = true)
         {
             var fileExt = Path.GetExtension(file.FileName).Substring(1).ToLower();

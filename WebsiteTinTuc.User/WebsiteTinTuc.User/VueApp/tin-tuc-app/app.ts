@@ -13,8 +13,10 @@ import '@fortawesome/fontawesome-free/js/all.js';
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Notifications from 'vue-notification';
 
 Vue.use(BootstrapVue);
+Vue.use(Notifications);
 
 import App from './App.vue';
 

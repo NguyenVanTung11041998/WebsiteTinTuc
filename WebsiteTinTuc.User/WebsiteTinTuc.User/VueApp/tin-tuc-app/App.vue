@@ -12,6 +12,7 @@
         <p>&copy; 2020 - Created by Nguyễn Văn Tùng</p>
       </footer>
     </div>
+    <notifications position="top center" />
   </div>
 </template>
 
@@ -22,14 +23,14 @@ import { Action } from "vuex-class";
 
 @Component({
   name: "App",
-  components: { TheHeader }
+  components: { TheHeader },
 })
 export default class App extends Vue {
   @Action("getCurrentLoginInformations", { namespace: "AccountModule" })
   private getCurrentLoginInformations!: () => Promise<void>;
 
   private isLoading = false;
-  
+
   private async created(): Promise<void> {
     this.isLoading = true;
     await this.getCurrentLoginInformations();
@@ -39,11 +40,11 @@ export default class App extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .container-content {
-    width: 90%;
-    margin: auto;
-  }
-  .container {
-    text-align: center;
-  }
+.container-content {
+  width: 90%;
+  margin: auto;
+}
+.container {
+  text-align: center;
+}
 </style>

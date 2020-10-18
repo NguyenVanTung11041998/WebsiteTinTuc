@@ -1,5 +1,6 @@
 import URL from './url';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Vue } from "vue-property-decorator";
 import CONSTANT_VARIABLE from './constant-variable';
 // import Cookies from 'js-cookie'
 
@@ -31,7 +32,7 @@ request.interceptors.request.use((config: AxiosRequestConfig) => {
 	// TODO Update authorization
 	//config.headers.common.Authorization = `Bearer ${Cookies.get('Abp.AuthToken')}`;
 	config.headers.common.Authorization = `Bearer ${token}`;
-	
+
 	config.baseURL = BASE_URL;
 	config.timeout = TIMEOUT;
 	return config;
@@ -44,11 +45,21 @@ request.interceptors.response.use(
 	(error: AxiosError) => {
 		const originalRequest: AxiosRequestConfig = error.config;
 		
+		if (error.response) {
+			Vue.notify({
+				type: "error",
+				title: "",
+				text: error.response.data.error.message,
+				duration: 100,
+				speed: 2000
+			});
+		}
+
 		if (isAuthError(error)) {
 			// TO DO: refresh token
 			return Promise.reject(error);
 		}
-		
+
 		return Promise.reject(error);
 	}
 );

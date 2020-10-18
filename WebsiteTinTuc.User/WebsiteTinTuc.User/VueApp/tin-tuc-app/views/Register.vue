@@ -142,6 +142,13 @@ export default class Register extends Vue {
     }
     try {
       await this.createUser(this.userInfoRequest);
+      this.$notify({
+        type: "success",
+        title: "",
+        text: "Đăng ký tài khoản thành công!",
+        duration: 100,
+        speed: 2000
+      });
       this.$router.push({ name: RouteName.Login });
     } catch(e: any) {
       this.errorMessage = e.response.data.error.message;
