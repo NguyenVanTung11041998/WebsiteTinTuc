@@ -58,6 +58,7 @@ namespace WebsiteTinTuc.Admin.Users
 
             var user = ObjectMapper.Map<User>(input);
 
+            user.Surname = user.Name;
             user.TenantId = AbpSession.TenantId;
             user.IsEmailConfirmed = true;
 
