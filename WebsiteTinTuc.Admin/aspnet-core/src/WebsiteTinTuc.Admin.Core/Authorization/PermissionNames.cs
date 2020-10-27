@@ -38,5 +38,7 @@
         public const string Pages_Create_Level = "Pages.Create.Level";
         public const string Pages_Update_Level = "Pages.Update.Level";
         public const string Pages_Delete_Level = "Pages.Delete.Level";
+
+        public const string Pages_View_CV = "Pages.View.CV";
     }
 }

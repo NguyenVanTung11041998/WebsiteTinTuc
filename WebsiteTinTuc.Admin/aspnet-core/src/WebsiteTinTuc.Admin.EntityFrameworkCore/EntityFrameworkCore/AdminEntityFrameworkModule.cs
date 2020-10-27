@@ -7,8 +7,9 @@ using WebsiteTinTuc.Admin.EntityFrameworkCore.Seed;
 namespace WebsiteTinTuc.Admin.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(AdminCoreModule), 
-        typeof(AbpZeroCoreEntityFrameworkCoreModule))]
+        typeof(AdminCoreModule),
+        typeof(AbpZeroCoreEntityFrameworkCoreModule)
+    )]
     public class AdminEntityFrameworkModule : AbpModule
     {
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */

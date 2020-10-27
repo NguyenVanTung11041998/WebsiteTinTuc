@@ -1,7 +1,14 @@
-﻿using Abp.UI;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
+using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
+using WebsiteTinTuc.Admin.Authorization;
+using WebsiteTinTuc.Admin.Authorization.Users;
 using WebsiteTinTuc.Admin.Constans;
 using WebsiteTinTuc.Admin.Entities;
 using WebsiteTinTuc.Admin.Helpers;
@@ -32,6 +39,38 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Recruitments
             }
 
             await WorkScope.InsertAsync(cv);
+        }
+
+        [AbpAuthorize(PermissionNames.Pages_View_CV)]
+        public async Task<PagedResultDto<RecruitmentDto>> GetAllRecruitmentPagingAsync(RecruitmentPagingRequest input)
+        {
+            var user = await GetCurrentUserAsync();
+
+            var query = WorkScope.GetAll<CV>()
+                .Where(x => x.PostId == input.PostId)
+                .Include(x => x.Post)
+                .WhereIf(user.UserType == UserType.Hr, x => x.Post.CreatorUserId == user.Id)
+                .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Name.Contains(input.SearchText))
+                .WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
+                .WhereIf(input.EndDate.HasValue, x => x.CreationTime < input.EndDate)
+                .Select(x => new RecruitmentDto
+                {
+                    CreationTime = x.CreationTime,
+                    Email = x.Email,
+                    Link = x.Link,
+                    Name = x.Name,
+                    PhoneNumber = x.PhoneNumber,
+                    Portfolio = x.Portfolio,
+                    UserName = x.UserName,
+                    UserId = x.UserId,
+                    PostId = x.PostId
+                });
+
+            int totalCount = await query.CountAsync();
+
+            var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize).ToListAsync();
+
+            return new PagedResultDto<RecruitmentDto>(totalCount, list);
         }
     }
 }

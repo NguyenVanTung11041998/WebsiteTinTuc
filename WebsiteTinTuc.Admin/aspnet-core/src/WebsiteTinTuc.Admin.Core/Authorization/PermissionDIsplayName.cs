@@ -38,5 +38,7 @@
         public const string Pages_Create_Level = "Thêm level";
         public const string Pages_Update_Level = "Sửa level";
         public const string Pages_Delete_Level = "Xóa Level";
+
+        public const string Pages_View_CV = "Xem thông tin ứng tuyển";
     }
 }

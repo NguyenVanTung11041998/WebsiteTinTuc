@@ -38,7 +38,8 @@ namespace WebsiteTinTuc.Admin.Authorization
             new SystemPermission { Permission = PermissionNames.Pages_View_Level, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_View_Level },
             new SystemPermission { Permission = PermissionNames.Pages_Create_Level, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_Create_Level },
             new SystemPermission { Permission = PermissionNames.Pages_Update_Level, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_Update_Level },
-            new SystemPermission { Permission = PermissionNames.Pages_Delete_Level, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_Delete_Level }
+            new SystemPermission { Permission = PermissionNames.Pages_Delete_Level, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_Delete_Level },
+            new SystemPermission { Permission = PermissionNames.Pages_View_CV, MultiTenancySides = MultiTenancySides.Host, DisplayName = PermissionDisplayName.Pages_View_CV },
         };
     }
 }
