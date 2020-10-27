@@ -100,6 +100,8 @@ export default class Register extends Vue {
   private createUser!: (params: CreateAccount) => Promise<void>;
 
   private errorMessage = "";
+  private regexPasswordPattern =
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})";
 
   private userInfoRequest = {
     password: "",
@@ -108,7 +110,7 @@ export default class Register extends Vue {
     emailAddress: "",
     isActive: true,
     phoneNumber: "",
-    roleNames: ["Hr", "User"]
+    roleNames: ["Hr", "User"],
   } as CreateAccount;
 
   private confirmPassword = "";
@@ -122,24 +124,38 @@ export default class Register extends Vue {
       this.userInfoRequest.name &&
       this.userInfoRequest.emailAddress &&
       this.userInfoRequest.phoneNumber &&
-      this.userInfoRequest.password.length > 5 &&
+      this.userInfoRequest.password.length > 9 &&
       this.checkConfirmPassword()
     );
   }
 
   private checkConfirmPassword() {
     if (this.userInfoRequest.password == this.confirmPassword) {
-        this.errorMessage = "";
-        return true;
+      this.errorMessage = "";
+      return true;
     }
-    this.errorMessage = "Mật khẩu không khớp"
+    this.errorMessage = "Mật khẩu không khớp";
     return false;
   }
 
   private async register(): Promise<void> {
     if (this.buttonRegisterStatus()) {
-        return;
+      return;
     }
+
+    let regex = new RegExp(this.regexPasswordPattern);
+
+    if (!regex.test(this.confirmPassword)) {
+      this.$notify({
+        type: "error",
+        title: "",
+        text: "Mật khẩu phải từ 10 ký tự, chứa chữ hoa, thường và ký tự đặc biệt",
+        duration: 100,
+        speed: 2000,
+      });
+      return;
+    }
+
     try {
       await this.createUser(this.userInfoRequest);
       this.$notify({
@@ -147,10 +163,10 @@ export default class Register extends Vue {
         title: "",
         text: "Đăng ký tài khoản thành công!",
         duration: 100,
-        speed: 2000
+        speed: 2000,
       });
       this.$router.push({ name: RouteName.Login });
-    } catch(e: any) {
+    } catch (e) {
       this.errorMessage = e.response.data.error.message;
     }
   }

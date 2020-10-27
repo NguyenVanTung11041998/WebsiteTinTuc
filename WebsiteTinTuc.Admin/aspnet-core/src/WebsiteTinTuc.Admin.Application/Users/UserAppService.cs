@@ -33,6 +33,7 @@ namespace WebsiteTinTuc.Admin.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private const string PasswordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})";
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -52,8 +53,16 @@ namespace WebsiteTinTuc.Admin.Users
             _logInManager = logInManager;
         }
 
+        private bool IsStrongPassword(string password)
+        {
+            return Regex.IsMatch(password, PasswordRegex);
+        }
+
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
         {
+            if (!IsStrongPassword(input.Password))
+                throw new UserFriendlyException("Mật khẩu phải từ 10 ký tự, chứa chữ hoa, thường và ký tự đặc biệt");
+
             CheckCreatePermission();
 
             var user = ObjectMapper.Map<User>(input);
@@ -248,6 +257,10 @@ namespace WebsiteTinTuc.Admin.Users
         [AbpAllowAnonymous]
         public async Task<UserDto> CreateUserAsync(CreateUserDto input)
         {
+
+            if (!IsStrongPassword(input.Password))
+                throw new UserFriendlyException("Mật khẩu phải từ 10 ký tự, chứa chữ hoa, thường và ký tự đặc biệt");
+
             input.RoleNames = (await GetRoles()).Items.Where(x => x.Name != StaticRoleNames.Host.Admin).Select(x => x.Name).ToArray();
             CheckCreatePermission();
 
