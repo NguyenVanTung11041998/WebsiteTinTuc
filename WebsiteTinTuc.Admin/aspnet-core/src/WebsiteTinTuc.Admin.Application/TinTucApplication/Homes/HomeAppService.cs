@@ -62,8 +62,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes
         public async Task<PagedResultDto<CompanyPostModel>> GetPostPaging(PostPagingRequest input)
         {
 
-            var queryHashtags = WorkScope.GetAll<Hashtag>().WhereIf(input.PostType == PostType.Hashtag, x => x.Name == input.SearchText);
-            var queryBranchJobs = WorkScope.GetAll<BranchJob>().WhereIf(input.PostType == PostType.BranchJob, x => x.Name == input.SearchText);
+            var queryHashtags = WorkScope.GetAll<Hashtag>().WhereIf(input.PostType == PostType.Hashtag, x => x.HashtagUrl == input.SearchText);
+            var queryBranchJobs = WorkScope.GetAll<BranchJob>().WhereIf(input.PostType == PostType.BranchJob, x => x.BranchJobUrl == input.SearchText);
             DateTime localTime = GetLocalTime();
 
             var query = WorkScope.GetAll<Post>().Include(x => x.Company)
