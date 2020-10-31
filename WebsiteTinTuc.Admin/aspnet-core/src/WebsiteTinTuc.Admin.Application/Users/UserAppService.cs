@@ -249,6 +249,7 @@ namespace WebsiteTinTuc.Admin.Users
             if (input.RoleNames != null)
             {
                 CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
+                user.UserType = input.RoleNames.Any(x => x == StaticRoleNames.Host.Hr) ? UserType.Hr : UserType.User;
             }
 
             return await GetAsync(input);
@@ -269,6 +270,8 @@ namespace WebsiteTinTuc.Admin.Users
             user.TenantId = AbpSession.TenantId;
             user.Surname = input.Name;
             user.IsEmailConfirmed = true;
+
+            user.UserType = input.RoleNames.Any(x => x == StaticRoleNames.Host.Hr) ? UserType.Hr : UserType.User;
 
             await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
 
