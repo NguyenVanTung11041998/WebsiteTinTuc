@@ -1,5 +1,6 @@
 import { Guid } from "guid-typescript";
 import { MoneyType } from "../enums/money-type";
+import { PostType } from "../enums/post-type";
 import IObjectFile from "./IObjectFile";
 import PageRequest from "./page-request";
 
@@ -23,6 +24,7 @@ export default interface CompanyPostModel {
 
 export class HomeFilter extends PageRequest {
     isHot?: boolean;
+    postType: PostType;
 }
 
 export class PostFilter extends PageRequest {

@@ -23,6 +23,8 @@ import { Action, Getter } from "vuex-class";
 import CompanyPostModel, { PostFilter } from "../store/interfaces/home";
 import Post from "../components/Home/Post.vue";
 import Paginate from "vuejs-paginate";
+import RouteName from "../constants/route-name";
+import { PostType } from "../store/enums/post-type";
 
 @Component({
   name: "ListPosts",
@@ -68,23 +70,36 @@ export default class ListPosts extends Vue {
     let location = "";
     switch (this.place) {
       case 1: {
-        location = "Hà Nội"
+        location = "Hà Nội";
         break;
       }
       case 2: {
-        location = "Đà Nẵng"
+        location = "Đà Nẵng";
         break;
       }
       case 3: {
-        location = "Hồ Chí Minh"
+        location = "Hồ Chí Minh";
         break;
       }
     }
+
+    let postType = PostType.All;
+
+    switch (this.$route.name) {
+      case RouteName.Hashtag:
+        postType = PostType.Hashtag;
+        break;
+      case RouteName.BranchJob:
+        postType = PostType.BranchJob;
+        break;
+    }
+
     let params = {
       currentPage: this.currentPage,
       pageSize: this.pageSize,
       searchText: this.searchText,
-      location: location
+      location: location,
+      postType: postType
     } as PostFilter;
     await this.getPostPaging(params);
   }

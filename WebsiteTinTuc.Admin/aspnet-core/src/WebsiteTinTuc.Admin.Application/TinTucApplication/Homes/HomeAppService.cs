@@ -61,30 +61,28 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes
 
         public async Task<PagedResultDto<CompanyPostModel>> GetPostPaging(PostPagingRequest input)
         {
-            var query = WorkScope.GetAll<Post>().Include(x => x.Company)
-                                        .OrderByDescending(x => x.CreationTime)
-                                        .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title == input.SearchText || x.Content == input.SearchText)
-                                        .WhereIf(!input.Location.IsNullOrWhiteSpace(), x => x.Company.Location.Contains(input.Location));
 
-            var queryHashtags = WorkScope.GetAll<Hashtag>();
-            var queryBranchJobs = WorkScope.GetAll<BranchJob>();
+            var queryHashtags = WorkScope.GetAll<Hashtag>().WhereIf(input.PostType == PostType.Hashtag, x => x.Name == input.SearchText);
+            var queryBranchJobs = WorkScope.GetAll<BranchJob>().WhereIf(input.PostType == PostType.BranchJob, x => x.Name == input.SearchText);
             DateTime localTime = GetLocalTime();
 
-            int totalCount = await query.CountAsync();
-            var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize)
-                                        .Select(x => new CompanyPostModel
+            var query = WorkScope.GetAll<Post>().Include(x => x.Company)
+                                        .OrderByDescending(x => x.CreationTime)
+                                        .WhereIf(!input.SearchText.IsNullOrWhiteSpace() && input.PostType == PostType.All, x => x.Title == input.SearchText || x.Content == input.SearchText)
+                                        .WhereIf(!input.Location.IsNullOrWhiteSpace(), x => x.Company.Location.Contains(input.Location))
+                                        .Select(x => new
                                         {
                                             FullCompanyName = x.Company.FullNameCompany,
                                             CompanyName = x.Company.Name,
-                                            Location = x.Company.Location,
+                                            x.Company.Location,
                                             CompanyId = x.Company.Id,
                                             MaxSalary = x.MaxMoney,
                                             MinSalary = x.MinMoney,
-                                            MoneyType = x.MoneyType,
+                                            x.MoneyType,
                                             PostId = x.Id,
-                                            PostUrl = x.PostUrl,
-                                            Title = x.Title,
-                                            Treatment = x.Company.Treatment,
+                                            x.PostUrl,
+                                            x.Title,
+                                            x.Company.Treatment,
                                             Thumbnail = x.Company.Assets.Where(p => p.FileType == FileType.Thumbnail)
                                                 .Select(p => new ObjectFile
                                                 {
@@ -99,15 +97,40 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Homes
                                                             HashtagId = p.Id,
                                                             Name = p.Name,
                                                             HashtagUrl = p.HashtagUrl
-                                                        }).ToList(),
+                                                        }),
                                             CompanyJobs = queryBranchJobs.Where(p => x.Company.BranchJobCompanies.Any(k => k.BranchJobId == p.Id))
                                                         .Select(p => new BranchJobCompanyHome
                                                         {
                                                             BranchJobId = p.Id,
                                                             Name = p.Name,
                                                             BranchJobUrl = p.BranchJobUrl
-                                                        }).ToList()
-                                        }).ToListAsync();
+                                                        })
+                                        })
+                                        .WhereIf(input.PostType == PostType.BranchJob, x => x.CompanyJobs.Any())
+                                        .WhereIf(input.PostType == PostType.Hashtag, x => x.PostHashtags.Any())
+                                        .Select(x => new CompanyPostModel
+                                        {
+                                            FullCompanyName = x.FullCompanyName,
+                                            CompanyName = x.CompanyName,
+                                            Location = x.Location,
+                                            CompanyId = x.CompanyId,
+                                            MaxSalary = x.MaxSalary,
+                                            MinSalary = x.MinSalary,
+                                            MoneyType = x.MoneyType,
+                                            PostId = x.PostId,
+                                            PostUrl = x.PostUrl,
+                                            Title = x.Title,
+                                            Treatment = x.Treatment,
+                                            Thumbnail = x.Thumbnail,
+                                            TimeCreateNewJob = x.TimeCreateNewJob,
+                                            PostHashtags = x.PostHashtags.ToList(),
+                                            CompanyJobs = x.CompanyJobs.ToList()
+                                        });
+
+
+            int totalCount = await query.CountAsync();
+            var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize)
+                                        .ToListAsync();
  
             return new PagedResultDto<CompanyPostModel>(totalCount, list);
         }
