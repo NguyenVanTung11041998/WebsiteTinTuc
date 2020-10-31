@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Tin Tức";
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
 }
 
 @section styles{
@@ -15,7 +16,6 @@
     <environment names="Development,Production,Staging">
         <script src="~/dist/js/tin-tuc-app/bundle.js" asp-append-version="true"></script>
     </environment>
-
 }
 
 <div id="app">

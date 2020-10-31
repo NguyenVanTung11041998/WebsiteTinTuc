@@ -60,6 +60,15 @@
         <p v-if="errorMessage" class="message-login mt-3">
           {{ errorMessage }}
         </p>
+        <div class="row mt-3 g-recaptcha">
+          <vue-recaptcha
+            ref="recaptcha"
+            :sitekey="siteKey"
+            :loadRecaptchaScript="true"
+            @verify="verifyCapcha"
+            @expired="expiredCapcha"
+          />
+        </div>
       </div>
       <div class="form-label-group row mt-3">
         <div class="col-1" />
@@ -87,19 +96,23 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
+import axios from "axios";
 import RouteName from "../constants/route-name";
 import { CreateAccount } from "../store/interfaces/account";
 import { AuthenticateRequest } from "../store/interfaces/authenticate";
+import VueRecaptcha from "vue-recaptcha";
 
 @Component({
   name: "Register",
-  components: {},
+  components: { VueRecaptcha },
 })
 export default class Register extends Vue {
   @Action("createUser", { namespace: "AccountModule" })
   private createUser!: (params: CreateAccount) => Promise<void>;
+  private siteKey = "6LfAeN0ZAAAAAM0oPAu4lmm5vXTZoEn4wboWYVQ8";
 
   private errorMessage = "";
+  private checkVerifyCapcha = false;
   private regexPasswordPattern =
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{10,})";
 
@@ -112,6 +125,26 @@ export default class Register extends Vue {
     phoneNumber: "",
     roleNames: ["Hr", "User"],
   } as CreateAccount;
+
+  private verifyCapcha(response: string): void {
+    this.checkVerifyCapcha = response != "" && response != null;
+  }
+
+  private expiredCapcha(): void {
+    this.$notify({
+      type: "error",
+      title: "",
+      text: "Mã xác minh đã hết hạn",
+      duration: 100,
+      speed: 2000,
+    });
+    this.checkVerifyCapcha = false;
+    this.resetRecaptcha();
+  }
+
+  resetRecaptcha(): void {
+    (this.$refs.recaptcha as any).reset();
+  }
 
   private confirmPassword = "";
 
@@ -149,7 +182,19 @@ export default class Register extends Vue {
       this.$notify({
         type: "error",
         title: "",
-        text: "Mật khẩu phải từ 10 ký tự, chứa chữ hoa, thường và ký tự đặc biệt",
+        text:
+          "Mật khẩu phải từ 10 ký tự, chứa chữ hoa, thường và ký tự đặc biệt",
+        duration: 100,
+        speed: 2000,
+      });
+      return;
+    }
+
+    if (!this.checkVerifyCapcha) {
+      this.$notify({
+        type: "error",
+        title: "",
+        text: "Bạn chưa xác minh captcha",
         duration: 100,
         speed: 2000,
       });
@@ -165,6 +210,7 @@ export default class Register extends Vue {
         duration: 100,
         speed: 2000,
       });
+      this.resetRecaptcha();
       this.$router.push({ name: RouteName.Login });
     } catch (e) {
       this.errorMessage = e.response.data.error.message;
@@ -208,6 +254,10 @@ export default class Register extends Vue {
       button {
         width: 100%;
       }
+    }
+
+    .g-recaptcha {
+      justify-content: center;
     }
   }
 }
