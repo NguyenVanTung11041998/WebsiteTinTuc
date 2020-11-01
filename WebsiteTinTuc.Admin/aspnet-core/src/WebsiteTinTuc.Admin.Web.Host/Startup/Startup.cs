@@ -17,7 +17,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using WebsiteTinTuc.Admin.Configuration;
-using WebsiteTinTuc.Admin.Constans;
+using WebsiteTinTuc.Admin.Constants;
 using WebsiteTinTuc.Admin.Identity;
 
 namespace WebsiteTinTuc.Admin.Web.Host.Startup
@@ -77,6 +77,34 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
             );
 
             ConstantVariable.WebUserUrl = _appConfiguration.GetValue<string>("WebUserUrl");
+            ConstantVariable.ConectionString = _appConfiguration.GetValue<string>("ConnectionStrings:Default");
+
+            string connectionString = ConstantVariable.ConectionString;
+
+            int start = ConstantVariable.ConectionString.IndexOf('=') + 1;
+            int end = ConstantVariable.ConectionString.IndexOf(';');
+            ConstantVariable.ServerName = connectionString.Substring(start, end - start);
+
+            connectionString = connectionString.Substring(end + 1);
+            start = connectionString.IndexOf('=') + 1;
+            end = connectionString.IndexOf(';');
+            ConstantVariable.DatabaseName = connectionString.Substring(start, end - start);
+            connectionString = connectionString.Substring(end + 1);
+
+            if (ConstantVariable.ConectionString.Contains("User"))
+            {
+                start = connectionString.IndexOf('=') + 1;
+                end = connectionString.IndexOf(';');
+                ConstantVariable.UserName = connectionString.Substring(start, end - start);
+                connectionString = connectionString.Substring(end + 1);
+            }
+
+            if (ConstantVariable.ConectionString.Contains("Password"))
+            {
+                start = connectionString.IndexOf('=') + 1;
+                end = connectionString.IndexOf(';');
+                ConstantVariable.Password = connectionString.Substring(start, end - start);
+            }
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>

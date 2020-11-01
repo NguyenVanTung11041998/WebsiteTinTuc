@@ -6,5 +6,7 @@ namespace WebsiteTinTuc.Admin.Configuration
     public interface IConfigurationAppService
     {
         Task ChangeUiTheme(ChangeUiThemeInput input);
+        void ChangeConnectionString(ConnectionStringModel input);
+        ConnectionStringModel GetConnectionString();
     }
 }

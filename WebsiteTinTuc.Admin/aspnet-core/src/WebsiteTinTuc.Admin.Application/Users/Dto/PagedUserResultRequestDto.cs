@@ -8,5 +8,7 @@ namespace WebsiteTinTuc.Admin.Users.Dto
     {
         public string Keyword { get; set; }
         public bool? IsActive { get; set; }
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
     }
 }

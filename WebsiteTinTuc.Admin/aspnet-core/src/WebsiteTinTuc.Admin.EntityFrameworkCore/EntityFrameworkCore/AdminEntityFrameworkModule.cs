@@ -1,7 +1,10 @@
-﻿using Abp.EntityFrameworkCore.Configuration;
+﻿using Abp.EntityFrameworkCore;
+using Abp.EntityFrameworkCore.Configuration;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using WebsiteTinTuc.Admin.Constants;
 using WebsiteTinTuc.Admin.EntityFrameworkCore.Seed;
 
 namespace WebsiteTinTuc.Admin.EntityFrameworkCore
@@ -29,7 +32,7 @@ namespace WebsiteTinTuc.Admin.EntityFrameworkCore
                     }
                     else
                     {
-                        AdminDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
+                        AdminDbContextConfigurer.Configure(options.DbContextOptions, ConstantVariable.ConectionString);
                     }
                 });
             }

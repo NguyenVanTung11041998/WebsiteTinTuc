@@ -19,9 +19,6 @@
             <FormItem :label="L('Name')" prop="name">
               <Input v-model="user.name" :maxlength="32"></Input>
             </FormItem>
-            <FormItem :label="L('Surname')" prop="surname">
-              <Input v-model="user.surname" :maxlength="1024"></Input>
-            </FormItem>
             <FormItem :label="L('EmailAddress')" prop="emailAddress">
               <Input
                 v-model="user.emailAddress"
@@ -93,28 +90,21 @@ export default class EditUser extends AbpBase {
     userName: [
       {
         required: true,
-        message: this.L("FieldIsRequired", undefined, this.L("UserName")),
+        message: this.L("Không được để trống", undefined, this.L("UserName")),
         trigger: "blur",
       },
     ],
     name: [
       {
         required: true,
-        message: this.L("FieldIsRequired", undefined, this.L("Name")),
-        trigger: "blur",
-      },
-    ],
-    surname: [
-      {
-        required: true,
-        message: this.L("FieldIsRequired", undefined, this.L("Surname")),
+        message: this.L("Không được để trống", undefined, this.L("Name")),
         trigger: "blur",
       },
     ],
     emailAddress: [
       {
         required: true,
-        message: this.L("FieldIsRequired", undefined, this.L("Email")),
+        message: this.L("Không được để trống", undefined, this.L("Email")),
         trigger: "blur",
       },
       { type: "email" },
