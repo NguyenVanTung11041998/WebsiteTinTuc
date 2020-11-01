@@ -39,7 +39,8 @@ namespace WebsiteTinTuc.Admin.Authorization
                     PermissionNames.Pages_Create_Level,
                     PermissionNames.Pages_Update_Level,
                     PermissionNames.Pages_Delete_Level,
-                    PermissionNames.Pages_View_CV
+                    PermissionNames.Pages_View_CV,
+                    PermissionNames.Pages_Change_Config
                 }
             },
             {

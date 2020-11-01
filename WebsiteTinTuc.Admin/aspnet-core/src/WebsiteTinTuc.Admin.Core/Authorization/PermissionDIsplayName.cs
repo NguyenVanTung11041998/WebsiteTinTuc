@@ -40,5 +40,7 @@
         public const string Pages_Delete_Level = "Xóa Level";
 
         public const string Pages_View_CV = "Xem thông tin ứng tuyển";
+
+        public const string Pages_Change_Config = "Thay đổi cấu hình hệ thống";
     }
 }

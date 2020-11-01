@@ -12,4 +12,5 @@ export default class PathNames {
     static readonly Nationality = "nationality";
     static readonly BranchJob = "branchJob";
     static readonly Level = "level";
+    static readonly Config = "config";
 }

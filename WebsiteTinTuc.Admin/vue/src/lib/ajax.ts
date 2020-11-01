@@ -22,7 +22,7 @@ ajax.interceptors.response.use((respon) => {
 }, (error) => {
     if (!!error.response && !!error.response.data.error && !!error.response.data.error.message && error.response.data.error.details) {
         vm.$Modal.error({ title: error.response.data.error.message, content: error.response.data.error.details })
-    } else if (!!error.response && !!error.response.data.error && !!error.response.data.error.message) {
+    } else if (!!error.response && !!error.response.data.error && !!error.response.data.error.message && error.response.data.error.message != "Kết nối database thất bại, hãy kiểm tra lại kết nối") {
         vm.$Modal.error({ title: window.abp.localization.localize("Thông báo"), content: error.response.data.error.message })
     } else if (!error.response) {
         vm.$Modal.error(window.abp.localization.localize('UnknownError'));
@@ -30,7 +30,7 @@ ajax.interceptors.response.use((respon) => {
     setTimeout(() => {
         vm.$Message.destroy();
     }, 1000);
-    
+
     return Promise.reject(error);
 })
 export default ajax;

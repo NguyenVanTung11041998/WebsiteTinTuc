@@ -8,5 +8,6 @@ namespace WebsiteTinTuc.Admin.Configuration
         Task ChangeUiTheme(ChangeUiThemeInput input);
         void ChangeConnectionString(ConnectionStringModel input);
         ConnectionStringModel GetConnectionString();
+        ConnectionStringModel ResetConnectionStringDefault();
     }
 }

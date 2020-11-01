@@ -40,5 +40,7 @@
         public const string Pages_Delete_Level = "Pages.Delete.Level";
 
         public const string Pages_View_CV = "Pages.View.CV";
+
+        public const string Pages_Change_Config = "Pages.Change.Config";
     }
 }

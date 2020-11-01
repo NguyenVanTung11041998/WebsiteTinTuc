@@ -13,6 +13,7 @@ import company from './modules/company';
 import nationality from './modules/nationality';
 import branchJob from './modules/branch-job';
 import level from './modules/level';
+import config from "./modules/config";
 
 const store = new Vuex.Store({
     state: {
@@ -39,7 +40,8 @@ const store = new Vuex.Store({
         company,
         nationality,
         branchJob,
-        level
+        level,
+        config
     }
 });
 export default store;

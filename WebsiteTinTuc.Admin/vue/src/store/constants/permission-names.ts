@@ -35,4 +35,6 @@ export default class PermissionNames {
     static readonly Pages_Create_Level = "Pages.Create.Level";
     static readonly Pages_Update_Level = "Pages.Update.Level";
     static readonly Pages_Delete_Level = "Pages.Delete.Level";
+    
+    static readonly Pages_Change_Config = "Pages.Change.Config";
 }

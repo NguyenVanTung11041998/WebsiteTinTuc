@@ -4,12 +4,13 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using WebsiteTinTuc.Admin.Authorization;
 using WebsiteTinTuc.Admin.Configuration.Dto;
 using WebsiteTinTuc.Admin.Constants;
 
 namespace WebsiteTinTuc.Admin.Configuration
 {
-    [AbpAuthorize]
+    [AbpAuthorize(PermissionNames.Pages_Change_Config)]
     public class ConfigurationAppService : AdminAppServiceBase, IConfigurationAppService
     {
         public async Task ChangeUiTheme(ChangeUiThemeInput input)
@@ -49,6 +50,17 @@ namespace WebsiteTinTuc.Admin.Configuration
                 UserName = ConstantVariable.UserName,
                 ServerName = ConstantVariable.ServerName
             };
+        }
+
+        [AbpAllowAnonymous]
+        public ConnectionStringModel ResetConnectionStringDefault()
+        {
+            ConstantVariable.ConectionString = ConstantVariable.ConectionStringDefault;
+            ConstantVariable.UserName = ConstantVariable.UserNameDefault;
+            ConstantVariable.DatabaseName = ConstantVariable.DatabaseNameDefault;
+            ConstantVariable.Password = ConstantVariable.PasswordDefault;
+            ConstantVariable.ServerName = ConstantVariable.ServerNameDefault;
+            return GetConnectionString();
         }
     }
 }

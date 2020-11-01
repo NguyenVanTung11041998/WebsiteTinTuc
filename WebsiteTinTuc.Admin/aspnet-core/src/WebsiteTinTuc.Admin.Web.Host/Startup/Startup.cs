@@ -106,6 +106,12 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
                 ConstantVariable.Password = connectionString.Substring(start, end - start);
             }
 
+            ConstantVariable.ConectionStringDefault = ConstantVariable.ConectionString;
+            ConstantVariable.UserNameDefault = ConstantVariable.UserName;
+            ConstantVariable.DatabaseNameDefault = ConstantVariable.DatabaseName;
+            ConstantVariable.PasswordDefault = ConstantVariable.Password;
+            ConstantVariable.ServerNameDefault = ConstantVariable.ServerName;
+
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {

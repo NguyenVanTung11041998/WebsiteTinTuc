@@ -85,9 +85,9 @@
               :editable="true"
               v-model="post.minMoney"
               :formatter="
-                value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               "
-              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+              :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
             />
           </FormItem>
         </Col>
@@ -101,9 +101,9 @@
               :editable="true"
               v-model="post.maxMoney"
               :formatter="
-                value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               "
-              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+              :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
             />
           </FormItem>
         </Col>
