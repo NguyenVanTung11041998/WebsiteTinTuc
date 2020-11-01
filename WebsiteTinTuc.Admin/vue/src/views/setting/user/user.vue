@@ -9,16 +9,16 @@
                 <Input
                   v-model="pagerequest.keyword"
                   :placeholder="L('UserName') + '/' + L('Name')"
-                ></Input>
+                />
               </FormItem>
             </Col>
             <Col span="6">
               <FormItem :label="L('IsActive') + ':'" style="width:100%">
                 <!--Select should not set :value="'All'" it may not trigger on-change when first select 'NoActive'(or 'Actived') then select 'All'-->
                 <Select :placeholder="L('Select')" @on-change="isActiveChange">
-                  <Option value="All">{{ L("All") }}</Option>
-                  <Option value="Actived">{{ L("Actived") }}</Option>
-                  <Option value="NoActive">{{ L("NoActive") }}</Option>
+                  <Option value="All">{{ L("Tất cả") }}</Option>
+                  <Option value="Actived">{{ L("Hoạt động") }}</Option>
+                  <Option value="NoActive">{{ L("Không hoạt động") }}</Option>
                 </Select>
               </FormItem>
             </Col>
@@ -32,8 +32,8 @@
                   format="yyyy-MM-dd"
                   style="width: 100%; margin-left: 20px"
                   placement="bottom-end"
-                  :placeholder="L('SelectDate')"
-                ></DatePicker>
+                  :placeholder="L('Chọn ngày')"
+                />
               </FormItem>
             </Col>
           </Row>
@@ -59,10 +59,10 @@
           <Table
             :loading="loading"
             :columns="columns"
-            :no-data-text="L('NoDatas')"
+            :no-data-text="L('Không có dữ liệu')"
             border
             :data="list"
-          ></Table>
+          />
           <Page
             show-sizer
             class-name="fengpage"
@@ -72,15 +72,12 @@
             @on-page-size-change="pagesizeChange"
             :page-size="pageSize"
             :current="currentPage"
-          ></Page>
+          />
         </div>
       </div>
     </Card>
-    <create-user
-      v-model="createModalShow"
-      @save-success="getpage"
-    ></create-user>
-    <edit-user v-model="editModalShow" @save-success="getpage"></edit-user>
+    <create-user v-model="createModalShow" @save-success="getpage" />
+    <edit-user v-model="editModalShow" @save-success="getpage" />
   </div>
 </template>
 <script lang="ts">
@@ -223,8 +220,8 @@ export default class Users extends AbpBase {
               on: {
                 click: async () => {
                   this.$Modal.confirm({
-                    title: this.L("Tips"),
-                    content: this.L("DeleteUserConfirm"),
+                    title: this.L("Thông báo"),
+                    content: this.L("Xóa người dùng"),
                     okText: this.L("Yes"),
                     cancelText: this.L("No"),
                     onOk: async () => {

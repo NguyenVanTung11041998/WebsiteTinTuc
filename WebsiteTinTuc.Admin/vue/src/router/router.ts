@@ -33,6 +33,7 @@ import nationalities from '@/views/setting/nationality/nationality.vue';
 import branchJobs from '@/views/setting/branchJob/branch-job.vue';
 import levels from '@/views/setting/level/level.vue';
 import config from '@/views/setting/config/config.vue';
+import recruitments from "@/views/setting/recruitment/recruitment.vue";
 
 export const locking = {
     path: '/locking',
@@ -78,7 +79,8 @@ export const appRouters: Array<Router> = [{
         { path: Path.Nationality, permission: PermissionNames.Pages_View_Nationality, meta: { title: 'Quốc tịch' }, name: PathNames.Nationality, component: nationalities },
         { path: Path.BranchJob, permission: PermissionNames.Pages_View_BranchJob, meta: { title: 'Ngành nghề' }, name: PathNames.BranchJob, component: branchJobs },
         { path: Path.Level, permission: PermissionNames.Pages_View_Level, meta: { title: 'Cấp độ' }, name: PathNames.Level, component: levels },
-        { path: Path.Config, permission: PermissionNames.Pages_Change_Config, meta: { title: 'Cấu hình' }, name: PathNames.Config, component: config }
+        { path: Path.Config, permission: PermissionNames.Pages_Change_Config, meta: { title: 'Cấu hình' }, name: PathNames.Config, component: config },
+        { path: `${Path.Recruitment}/:id`, permission: PermissionNames.Pages_View_CV, hidden: true, meta: { title: 'Cấu hình' }, name: PathNames.Recruitment, component: recruitments }
     ]
 }]
 export const routers = [

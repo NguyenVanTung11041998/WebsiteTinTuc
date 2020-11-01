@@ -1,59 +1,54 @@
 <template>
   <div>
-    <div v-if="!updateModalShow">
-      <Card dis-hover>
-        <div class="page-body">
-          <Form ref="queryForm" :label-width="100" label-position="left" inline>
-            <Row :gutter="16">
-              <Col span="8">
-                <FormItem :label="L('Từ khóa') + ':'" style="width:100%">
-                  <Input
-                    v-model="pageRequest.keyword"
-                    :placeholder="L('Tên bài viết')"
-                    @on-enter="getPage"
-                  />
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Button @click="create" type="primary" size="large">
-                {{ L("Thêm mới") }}
-              </Button>
-              <Button
-                icon="ios-search"
-                type="primary"
-                size="large"
-                @click="getPage"
-                class="toolbar-btn"
-                >{{ L("Tìm kiếm") }}</Button
-              >
-            </Row>
-          </Form>
-          <div class="margin-top-10">
-            <Table
-              :loading="loading"
-              :columns="columns"
-              :no-data-text="L('Không có dữ liệu')"
-              border
-              :data="list"
-            ></Table>
-            <Page
-              show-sizer
-              class-name="fengpage"
-              :total="totalCount"
-              class="margin-top-10"
-              @on-change="pageChange"
-              @on-page-size-change="pagesizeChange"
-              :page-size="pageSize"
-              :current="currentPage"
-            ></Page>
-          </div>
+    <Card dis-hover>
+      <div class="page-body">
+        <Form ref="queryForm" :label-width="100" label-position="left" inline>
+          <Row :gutter="16">
+            <Col span="8">
+              <FormItem :label="L('Từ khóa') + ':'" style="width:100%">
+                <Input
+                  v-model="pageRequest.keyword"
+                  :placeholder="L('Tên bài viết')"
+                  @on-enter="getPage"
+                />
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Button @click="create" type="primary" size="large">
+              {{ L("Thêm mới") }}
+            </Button>
+            <Button
+              icon="ios-search"
+              type="primary"
+              size="large"
+              @click="getPage"
+              class="toolbar-btn"
+              >{{ L("Tìm kiếm") }}</Button
+            >
+          </Row>
+        </Form>
+        <div class="margin-top-10">
+          <Table
+            :loading="loading"
+            :columns="columns"
+            :no-data-text="L('Không có dữ liệu')"
+            border
+            :data="list"
+          ></Table>
+          <Page
+            show-sizer
+            class-name="fengpage"
+            :total="totalCount"
+            class="margin-top-10"
+            @on-change="pageChange"
+            @on-page-size-change="pagesizeChange"
+            :page-size="pageSize"
+            :current="currentPage"
+          ></Page>
         </div>
-      </Card>
-    </div>
-    <div v-if="updateModalShow">
-      <update-post v-model="updateModalShow" @save-success="getPage" />
-    </div>
+      </div>
+    </Card>
   </div>
 </template>
 <script lang="ts">
@@ -61,21 +56,20 @@ import { Component, Vue, Inject, Prop, Watch } from "vue-property-decorator";
 import Util from "../../../lib/util";
 import AbpBase from "../../../lib/abpbase";
 import PageRequest from "../../../store/entities/page-request";
-import UpdatePost from "./update-post.vue";
 import Post from "../../../store/entities/post";
 import PathNames from "../../../store/constants/path-names";
 import { JobType } from "../../../store/enums/job-type";
+import { Guid } from "guid-typescript";
 
 class PagePostRequest extends PageRequest {
   keyword: string = "";
 }
 
 @Component({
-  components: { UpdatePost },
+  components: {},
 })
 export default class Posts extends AbpBase {
   pageRequest: PagePostRequest = new PagePostRequest();
-  updateModalShow: boolean = false;
 
   edit(id: string) {
     this.$router.push({ name: PathNames.UpdatePost, params: { id } });
@@ -181,7 +175,7 @@ export default class Posts extends AbpBase {
     {
       title: this.L("Thao tác"),
       key: "Actions",
-      width: 150,
+      width: 250,
       render: (h: any, params: any) => {
         return h("div", [
           h(
@@ -212,8 +206,8 @@ export default class Posts extends AbpBase {
               on: {
                 click: async () => {
                   this.$Modal.confirm({
-                    title: this.L("Tips"),
-                    content: this.L("DeletePostConfirm"),
+                    title: this.L("Thông báo"),
+                    content: this.L("Xóa bài đăng"),
                     okText: this.L("Yes"),
                     cancelText: this.L("No"),
                     onOk: async () => {
@@ -229,10 +223,35 @@ export default class Posts extends AbpBase {
             },
             this.L("Xóa")
           ),
+          h(
+            "Button",
+            {
+              props: {
+                type: "success",
+                size: "small",
+              },
+              style: {
+                marginLeft: "5px",
+              },
+              on: {
+                click: () => {
+                  this.viewCv(params.row.id)
+                },
+              },
+            },
+            this.L("Xem ứng tuyển")
+          ),
         ]);
       },
     },
   ];
+
+  viewCv(postId: string) {
+    this.$router.push({
+      name: PathNames.Recruitment,
+      params: { id: postId },
+    });
+  }
 
   async created() {
     await this.getPage();

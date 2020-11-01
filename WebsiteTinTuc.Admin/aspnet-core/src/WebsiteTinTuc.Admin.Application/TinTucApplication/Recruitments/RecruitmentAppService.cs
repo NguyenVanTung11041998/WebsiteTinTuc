@@ -5,6 +5,7 @@ using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteTinTuc.Admin.Authorization;
@@ -53,8 +54,10 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Recruitments
                 .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Name.Contains(input.SearchText))
                 .WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
                 .WhereIf(input.EndDate.HasValue, x => x.CreationTime < input.EndDate)
+                .OrderByDescending(x => x.CreationTime)
                 .Select(x => new RecruitmentDto
                 {
+                    Id = x.Id,
                     CreationTime = x.CreationTime,
                     Email = x.Email,
                     Link = x.Link,
@@ -63,6 +66,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Recruitments
                     Portfolio = x.Portfolio,
                     UserName = x.UserName,
                     UserId = x.UserId,
+                    IsRead = x.IsRead,
                     PostId = x.PostId
                 });
 
@@ -71,6 +75,14 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Recruitments
             var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize).ToListAsync();
 
             return new PagedResultDto<RecruitmentDto>(totalCount, list);
+        }
+
+        [AbpAuthorize(PermissionNames.Pages_View_CV)]
+        public async Task ReadCVAsync(Guid id)
+        {
+            var cv = await WorkScope.GetAsync<CV>(id);
+            cv.IsRead = true;
+            await WorkScope.UpdateAsync(cv);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace WebsiteTinTuc.Admin.Entities
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Portfolio { get; set; }
+        public bool IsRead { get; set; }
         [ForeignKey(nameof(Post))]
         public Guid PostId { get; set; }
         public virtual Post Post { get; set; }

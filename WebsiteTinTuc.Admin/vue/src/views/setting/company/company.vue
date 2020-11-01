@@ -165,7 +165,7 @@ export default class Companies extends AbpBase {
               on: {
                 click: async () => {
                   this.$Modal.confirm({
-                    title: this.L("Tips"),
+                    title: this.L("Thông báo"),
                     content: this.L("Bạn có muốn thay đổi không?"),
                     okText: this.L("Yes"),
                     cancelText: this.L("No"),

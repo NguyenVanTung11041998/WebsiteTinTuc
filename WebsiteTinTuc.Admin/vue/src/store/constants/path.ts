@@ -11,4 +11,5 @@ export default class Path {
     static readonly BranchJob = "branchJob";
     static readonly Level = "level";
     static readonly Config = "config";
+    static readonly Recruitment = "recruiment";
 }
