@@ -12,6 +12,8 @@ namespace WebsiteTinTuc.Admin.Users
 
         Task ChangeLanguage(ChangeUserLanguageDto input);
 
+        Task<string> GetLanguageAsync();
+
         Task<bool> ChangePassword(ChangePasswordDto input);
 
         Task<UserDto> CreateUserAsync(CreateUserDto input);
