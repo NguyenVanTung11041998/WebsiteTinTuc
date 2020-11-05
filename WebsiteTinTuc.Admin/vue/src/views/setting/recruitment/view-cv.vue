@@ -14,7 +14,9 @@
         </p>
         <p class="text-info">Số điện thoại: {{ cv.phoneNumber }}</p>
         <p class="text-info">Email: {{ cv.email }}</p>
-        <p v-if="cv.link" class="text-info">Link CV: <a :href="getLinkPath()">Tải về</a></p>
+        <p v-if="cv.link" class="text-info">
+          Link CV: <a :href="getLinkPath()">Tải về</a>
+        </p>
         <div v-if="cv.portfolio" class="text-info">
           <p class="text-info">Portfolio</p>
           <textarea
@@ -52,7 +54,7 @@ export default class ViewCV extends AbpBase {
   }
 
   getLinkPath() {
-      return Util.getLinkPath(this.cv.link);
+    return Util.getLinkPath(this.cv.link);
   }
 }
 </script>

@@ -16,7 +16,7 @@ namespace WebsiteTinTuc.Admin.Users
 
         Task<bool> ChangePassword(ChangePasswordDto input);
 
-        Task<UserDto> CreateUserAsync(CreateUserDto input);
+        Task CreateUserAsync(CreateUserDto input);
 
         Task<UserDto> UpdateCurrentUserAsync(UserDto input);
     }

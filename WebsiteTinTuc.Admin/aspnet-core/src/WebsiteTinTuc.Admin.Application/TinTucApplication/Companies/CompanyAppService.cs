@@ -38,7 +38,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
         private async Task DeleteHashtags(Guid companyId, List<Guid> hashtagIds)
         {
             var hashtags = await WorkScope.GetAll<CompanyPostHashtag>()
-                                          .Where(x => hashtagIds.Contains(x.Id))
+                                          .Where(x => hashtagIds.Contains(x.Id) && x.CompanyId == companyId)
                                           .ToListAsync();
 
             foreach (var item in hashtags)
