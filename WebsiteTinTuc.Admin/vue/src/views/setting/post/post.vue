@@ -5,12 +5,52 @@
         <Form ref="queryForm" :label-width="100" label-position="left" inline>
           <Row :gutter="16">
             <Col span="8">
-              <FormItem :label="L('Từ khóa') + ':'" style="width:100%">
+              <FormItem :label="L('Tiêu đề') + ':'" style="width:100%">
                 <Input
                   v-model="pageRequest.keyword"
                   :placeholder="L('Tên bài viết')"
                   @on-enter="getPage"
                 />
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem :label="L('Tên công ty') + ':'" style="width:100%">
+                <Input
+                  v-model="pageRequest.companyName"
+                  :placeholder="L('Tên công ty')"
+                  @on-enter="getPage"
+                />
+              </FormItem>
+            </Col>
+          </Row>
+          <Row :gutter="24">
+            <Col span="8">
+              <FormItem :label="L('Ngày bắt đầu')" style="width:100%">
+                <DatePicker
+                  v-model="pageRequest.startDate"
+                  format="dd-MM-yyyy"
+                  :placeholder="L('Ngày bắt đầu')"
+                  @on-enter="getPage"
+                />
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem :label="L('Ngày kết thúc')" style="width:100%">
+                <DatePicker
+                  v-model="pageRequest.endDate"
+                  format="dd-MM-yyyy"
+                  :placeholder="L('Ngày kết thúc')"
+                  @on-enter="getPage"
+                />
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem :label="L('Loại')" style="width:100%">
+                <Select v-model="pageRequest.jobType">
+                  <Option :value="-1">Tất cả</Option>
+                  <Option :value="0">Part time</Option>
+                  <Option :value="1">Full time</Option>
+                </Select>
               </FormItem>
             </Col>
           </Row>
@@ -27,6 +67,9 @@
               >{{ L("Tìm kiếm") }}</Button
             >
           </Row>
+          <div style="margin-top: 10px;">
+            <span>Có {{ totalCount }} bản ghi</span>
+          </div>
         </Form>
         <div class="margin-top-10">
           <Table
@@ -63,6 +106,10 @@ import { Guid } from "guid-typescript";
 
 class PagePostRequest extends PageRequest {
   keyword: string = "";
+  companyName: string = "";
+  startDate?: Date = null;
+  endDate?: Date = null;
+  jobType?: JobType = -1;
 }
 
 @Component({
@@ -102,10 +149,23 @@ export default class Posts extends AbpBase {
   }
 
   async getPage() {
+    if (
+      this.pageRequest.startDate &&
+      this.pageRequest.endDate &&
+      this.pageRequest.startDate > this.pageRequest.endDate
+    ) {
+      this.$Message.error("Ngày bắt đầu phải nhỏ hơn ngày kết thúc");
+      return;
+    }
+
     let param = {
       currentPage: this.currentPage,
       pageSize: this.pageSize,
       searchText: this.pageRequest.keyword,
+      companyName: this.pageRequest.companyName,
+      startDate: this.pageRequest.startDate,
+      endDate: this.pageRequest.endDate,
+      jobType: this.pageRequest.jobType != -1 ? this.pageRequest.jobType : null
     };
 
     await this.$store.dispatch({
@@ -149,16 +209,6 @@ export default class Posts extends AbpBase {
     {
       title: this.L("Tên công ty"),
       key: "companyName",
-    },
-    {
-      title: this.L("Kiểu công việc"),
-      key: "jobType",
-      render: (h: any, params: any) => {
-        return h(
-          "span",
-          params.row.jobType == JobType.PartTime ? "Part Time" : "Full Time"
-        );
-      },
     },
     {
       title: this.L("Ngày hết hạn"),
@@ -235,7 +285,7 @@ export default class Posts extends AbpBase {
               },
               on: {
                 click: () => {
-                  this.viewCv(params.row.id)
+                  this.viewCv(params.row.id);
                 },
               },
             },

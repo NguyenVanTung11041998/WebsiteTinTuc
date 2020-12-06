@@ -26,7 +26,7 @@
         :label="L('Password:')"
         prop="password"
       >
-        <Input v-model="config.password" />
+        <Input v-model="config.password" type="password" />
       </FormItem>
       <Checkbox v-model="config.isAuthenticate"
         >Đăng nhập bằng tài khoản</Checkbox

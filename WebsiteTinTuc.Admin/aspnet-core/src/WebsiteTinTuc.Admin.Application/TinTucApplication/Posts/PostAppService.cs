@@ -114,18 +114,24 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
         }
 
         [AbpAuthorize(PermissionNames.Pages_View_Post)]
-        public async Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PageRequest input)
+        public async Task<PagedResultDto<PostDto>> GetAllPostPagingAsync(PostPagingRequest input)
         {
             var user = await GetCurrentUserAsync();
 
             var query = WorkScope.GetAll<Post>()
                                  .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title.Contains(input.SearchText))
                                  .WhereIf(user.UserType == UserType.Hr, x => x.CreatorUserId == user.Id)
+                                 .WhereIf(input.JobType.HasValue, x => x.JobType == input.JobType)
+                                 .Include(x => x.Company)
+                                 .WhereIf(!input.CompanyName.IsNullOrWhiteSpace(), x => x.Company.FullNameCompany.Contains(input.CompanyName))
+                                 .Include(x => x.CompanyPostHashtags)
+                                 .WhereIf(input.HashtagId.HasValue, x => x.CompanyPostHashtags.Any(p => p.HashtagId == input.HashtagId))
+                                 .WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
+                                 .WhereIf(input.EndDate.HasValue, x => x.EndDate < input.EndDate)
                                  .OrderByDescending(x => x.CreationTime);
 
             int totalCount = await query.CountAsync();
             var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize)
-                .Include(x => x.Company)
                 .Select(x => new PostDto
                 {
                     Id = x.Id,

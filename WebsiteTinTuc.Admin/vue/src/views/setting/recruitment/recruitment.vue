@@ -36,6 +36,9 @@
               >{{ L("Tìm kiếm") }}</Button
             >
           </Row>
+          <Row>
+            <span>Số lượng cv ứng tuyển: {{ totalCount }}</span>
+          </Row>
         </Form>
         <div class="margin-top-10">
           <Table
