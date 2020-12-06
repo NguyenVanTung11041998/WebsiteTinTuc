@@ -3,7 +3,7 @@
     <Card dis-hover>
       <div class="page-body">
         <Form ref="queryForm" :label-width="100" label-position="left" inline>
-          <Row :gutter="16">
+          <Row :gutter="24">
             <Col span="8">
               <FormItem :label="L('Tiêu đề') + ':'" style="width:100%">
                 <Input
@@ -20,6 +20,19 @@
                   :placeholder="L('Tên công ty')"
                   @on-enter="getPage"
                 />
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem :label="L('Hashtag') + ':'" style="width:100%">
+                <Select v-model="pageRequest.hashtagId">
+                  <Option :value="defaultHashtagValue">Tất cả</Option>
+                  <Option
+                    :value="item.id"
+                    v-for="item in hashtags"
+                    :key="item.id"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
               </FormItem>
             </Col>
           </Row>
@@ -110,6 +123,7 @@ class PagePostRequest extends PageRequest {
   startDate?: Date = null;
   endDate?: Date = null;
   jobType?: JobType = -1;
+  hashtagId: string = Guid.EMPTY;
 }
 
 @Component({
@@ -117,6 +131,8 @@ class PagePostRequest extends PageRequest {
 })
 export default class Posts extends AbpBase {
   pageRequest: PagePostRequest = new PagePostRequest();
+
+  private defaultHashtagValue = Guid.EMPTY;
 
   edit(id: string) {
     this.$router.push({ name: PathNames.UpdatePost, params: { id } });
@@ -165,7 +181,11 @@ export default class Posts extends AbpBase {
       companyName: this.pageRequest.companyName,
       startDate: this.pageRequest.startDate,
       endDate: this.pageRequest.endDate,
-      jobType: this.pageRequest.jobType != -1 ? this.pageRequest.jobType : null
+      jobType: this.pageRequest.jobType != -1 ? this.pageRequest.jobType : null,
+      hashtagId:
+        this.pageRequest.hashtagId != this.defaultHashtagValue
+          ? this.pageRequest.hashtagId
+          : null,
     };
 
     await this.$store.dispatch({
@@ -192,6 +212,10 @@ export default class Posts extends AbpBase {
   get postById() {
     return this.$store.state.post.postById;
   }
+  get hashtags() {
+    return this.$store.state.hashtag.hashtags;
+  }
+
   columns = [
     {
       title: this.L("Tiêu đề bài viết"),
@@ -303,7 +327,14 @@ export default class Posts extends AbpBase {
     });
   }
 
+  async getHashtag() {
+    await this.$store.dispatch({
+      type: "hashtag/getAllHashtags",
+    });
+  }
+
   async created() {
+    await this.getHashtag();
     await this.getPage();
   }
 }
