@@ -247,6 +247,15 @@ export default class Posts extends AbpBase {
       },
     },
     {
+      title: this.L("Hashtag"),
+      render: (h: any, params: any) => {
+        return h(
+          "span",
+          params.row.hashtags.map(x => x.hashtagName).join(" - ")
+        );
+      },
+    },
+    {
       title: this.L("Thao tác"),
       key: "Actions",
       width: 250,

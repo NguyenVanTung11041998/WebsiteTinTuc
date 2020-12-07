@@ -140,7 +140,12 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                     NumberOfViews = x.NumberOfViews,
                     CompanyName = x.Company.Name,
                     JobType = x.JobType,
-                    EndDate = x.EndDate
+                    EndDate = x.EndDate,
+                    Hashtags = x.CompanyPostHashtags.Select(p => new HashtagCompanyPostModel
+                    {
+                        HashtagName = p.Hashtag.Name,
+                        HashtagId = p.HashtagId
+                    }).ToList()
                 }).ToListAsync();
             return new PagedResultDto<PostDto>(totalCount, list);
         }
