@@ -119,6 +119,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             var user = await GetCurrentUserAsync();
 
             var query = WorkScope.GetAll<Post>()
+                                 .WhereIf(input.LevelId.HasValue, x => x.LevelId == input.LevelId)
                                  .WhereIf(!input.SearchText.IsNullOrWhiteSpace(), x => x.Title.Contains(input.SearchText))
                                  .WhereIf(user.UserType == UserType.Hr, x => x.CreatorUserId == user.Id)
                                  .WhereIf(input.JobType.HasValue, x => x.JobType == input.JobType)
@@ -132,6 +133,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
 
             int totalCount = await query.CountAsync();
             var list = await query.PageBy((input.CurrentPage - 1) * input.PageSize, input.PageSize)
+                .Include(x => x.Level)
                 .Select(x => new PostDto
                 {
                     Id = x.Id,
@@ -141,6 +143,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
                     CompanyName = x.Company.Name,
                     JobType = x.JobType,
                     EndDate = x.EndDate,
+                    LevelId = x.LevelId,
+                    LevelName = x.Level.Name,
                     Hashtags = x.CompanyPostHashtags.Select(p => new HashtagCompanyPostModel
                     {
                         HashtagName = p.Hashtag.Name,
@@ -189,6 +193,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts
             var query = WorkScope.GetAll<Post>()
                         .Include(x => x.Company)
                         .Where(x => x.Company.IsHot)
+                        .OrderByDescending(x => x.CreationTime)
                         .Select(x => new PostTopProminent
                         {
                             CompanyName = x.Company.Name,

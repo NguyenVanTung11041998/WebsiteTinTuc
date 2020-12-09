@@ -11,5 +11,6 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Posts.Dto
         public DateTime? EndDate { get; set; }
         public Guid? HashtagId { get; set; }
         public JobType? JobType { get; set; }
+        public Guid? LevelId { get; set; }
     }
 }

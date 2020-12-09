@@ -25,7 +25,7 @@
             <Col span="8">
               <FormItem :label="L('Hashtag') + ':'" style="width:100%">
                 <Select v-model="pageRequest.hashtagId">
-                  <Option :value="defaultHashtagValue">Tất cả</Option>
+                  <Option :value="defaultGuidValue">Tất cả</Option>
                   <Option
                     :value="item.id"
                     v-for="item in hashtags"
@@ -67,6 +67,21 @@
               </FormItem>
             </Col>
           </Row>
+          <Row :gutter="24">
+            <Col span="8">
+              <FormItem :label="L('Cấp độ')" style="width:100%">
+                <Select v-model="pageRequest.levelId">
+                  <Option :value="defaultGuidValue">Tất cả</Option>
+                  <Option
+                    :value="item.id"
+                    v-for="item in levels"
+                    :key="item.id"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </Col>
+          </Row>
           <Row>
             <Button @click="create" type="primary" size="large">
               {{ L("Thêm mới") }}
@@ -91,7 +106,7 @@
             :no-data-text="L('Không có dữ liệu')"
             border
             :data="list"
-          ></Table>
+          />
           <Page
             show-sizer
             class-name="fengpage"
@@ -101,7 +116,7 @@
             @on-page-size-change="pagesizeChange"
             :page-size="pageSize"
             :current="currentPage"
-          ></Page>
+          />
         </div>
       </div>
     </Card>
@@ -124,6 +139,7 @@ class PagePostRequest extends PageRequest {
   endDate?: Date = null;
   jobType?: JobType = -1;
   hashtagId: string = Guid.EMPTY;
+  levelId: string = Guid.EMPTY;
 }
 
 @Component({
@@ -132,7 +148,7 @@ class PagePostRequest extends PageRequest {
 export default class Posts extends AbpBase {
   pageRequest: PagePostRequest = new PagePostRequest();
 
-  private defaultHashtagValue = Guid.EMPTY;
+  private defaultGuidValue = Guid.EMPTY;
 
   edit(id: string) {
     this.$router.push({ name: PathNames.UpdatePost, params: { id } });
@@ -183,9 +199,12 @@ export default class Posts extends AbpBase {
       endDate: this.pageRequest.endDate,
       jobType: this.pageRequest.jobType != -1 ? this.pageRequest.jobType : null,
       hashtagId:
-        this.pageRequest.hashtagId != this.defaultHashtagValue
+        this.pageRequest.hashtagId != this.defaultGuidValue
           ? this.pageRequest.hashtagId
           : null,
+      levelId: this.pageRequest.levelId != this.defaultGuidValue
+          ? this.pageRequest.levelId
+          : null
     };
 
     await this.$store.dispatch({
@@ -197,23 +216,33 @@ export default class Posts extends AbpBase {
   get list() {
     return this.$store.state.post.list;
   }
+
   get loading() {
     return this.$store.state.post.loading;
   }
+
   get pageSize() {
     return this.$store.state.post.pageSize;
   }
+
   get totalCount() {
     return this.$store.state.post.totalCount;
   }
+
   get currentPage() {
     return this.$store.state.post.currentPage;
   }
+
   get postById() {
     return this.$store.state.post.postById;
   }
+
   get hashtags() {
     return this.$store.state.hashtag.hashtags;
+  }
+
+  get levels() {
+    return this.$store.state.level.levels;
   }
 
   columns = [
@@ -221,6 +250,7 @@ export default class Posts extends AbpBase {
       title: this.L("Tiêu đề bài viết"),
       key: "title",
       width: 200,
+      fixed: 'left'
     },
     {
       title: this.L("Ngày đăng"),
@@ -233,6 +263,7 @@ export default class Posts extends AbpBase {
     {
       title: this.L("Tên công ty"),
       key: "companyName",
+      width: 200
     },
     {
       title: this.L("Ngày hết hạn"),
@@ -245,13 +276,29 @@ export default class Posts extends AbpBase {
             : ""
         );
       },
+      width: 150
+    },
+    {
+      title: this.L("Cấp độ"),
+      key: "levelName",
+      width: 150
+    },
+    {
+      title: this.L("Loại"),
+      render: (h: any, params: any) => {
+        return h(
+          "span",
+          params.row.jobType == JobType.PartTime ? "Part time" : "Full time"
+        );
+      },
+      width: 150
     },
     {
       title: this.L("Hashtag"),
       render: (h: any, params: any) => {
         return h(
           "span",
-          params.row.hashtags.map(x => x.hashtagName).join(" - ")
+          params.row.hashtags.map((x) => x.hashtagName).join(" - ")
         );
       },
     },
@@ -259,6 +306,7 @@ export default class Posts extends AbpBase {
       title: this.L("Thao tác"),
       key: "Actions",
       width: 250,
+      fixed: 'right',
       render: (h: any, params: any) => {
         return h("div", [
           h(
@@ -342,8 +390,15 @@ export default class Posts extends AbpBase {
     });
   }
 
+  async getLevel() {
+    await this.$store.dispatch({
+      type: "level/getAllLevels",
+    });
+  }
+
   async created() {
     await this.getHashtag();
+    await this.getLevel();
     await this.getPage();
   }
 }

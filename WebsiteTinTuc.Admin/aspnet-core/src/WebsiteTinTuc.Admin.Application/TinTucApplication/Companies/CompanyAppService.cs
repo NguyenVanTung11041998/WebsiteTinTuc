@@ -288,6 +288,10 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
                 throw new UserFriendlyException("Công ty không tồn tại");
 
             company.IsHot = !company.IsHot;
+
+            if (company.IsHot)
+                company.LastUpdateIsHotTime = GetLocalTime();
+
             await WorkScope.UpdateAsync(company);
         }
 
@@ -298,6 +302,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
             var queryImage = WorkScope.GetAll<Asset>();
             var query = WorkScope.GetAll<Company>()
                             .Where(x => x.IsHot)
+                            .OrderByDescending(x => x.LastUpdateIsHotTime)
                             .Select(x => new ProminentCompanyModel
                             {
                                 CompanyUrl = x.CompanyUrl,
