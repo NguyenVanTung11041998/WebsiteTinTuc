@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +20,6 @@ using WebsiteTinTuc.Admin.Authorization;
 using WebsiteTinTuc.Admin.Authorization.Accounts;
 using WebsiteTinTuc.Admin.Authorization.Roles;
 using WebsiteTinTuc.Admin.Authorization.Users;
-using WebsiteTinTuc.Admin.Constants;
 using WebsiteTinTuc.Admin.Roles.Dto;
 using WebsiteTinTuc.Admin.Users.Dto;
 
@@ -284,43 +282,11 @@ namespace WebsiteTinTuc.Admin.Users
 
             await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
 
-            //CheckErrors(await _userManager.CreateAsync(user, input.Password));
+            CheckErrors(await _userManager.CreateAsync(user, input.Password));
 
-            //if (input.RoleNames != null)
-            //{
-            //    CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
-            //}
-
-            user.Password = _passwordHasher.HashPassword(user, input.Password);
-            using var connection = new SqlConnection(ConstantVariable.ConectionString);
-            connection.Open();
-            string query = "EXEC dbo.CreateUser @UserName, @EmailAddress, @Name, @Password, @PhoneNumber, @SecurityStamp, @UserType";
-            var command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@UserName", user.UserName);
-            command.Parameters.AddWithValue("@EmailAddress", user.EmailAddress);
-            command.Parameters.AddWithValue("@Name", user.Name);
-            command.Parameters.AddWithValue("@Password", user.Password);
-            command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-            command.Parameters.AddWithValue("@SecurityStamp", Guid.NewGuid().ToString().Replace("-", ""));
-            command.Parameters.AddWithValue("@UserType", (int)user.UserType);
-
-            long id = (long)await command.ExecuteScalarAsync();
-
-            if (id == (long)CreateUserStatus.UserNameExists)
-                throw new UserFriendlyException("User name đã tồn tại");
-            else if (id == (long)CreateUserStatus.EmailAddressExists)
-                throw new UserFriendlyException("Email đã tồn tại");
-            
-            if (input.RoleNames?.Count() > 0)
+            if (input.RoleNames != null)
             {
-                command.CommandText = "EXEC dbo.CreateUserRole @Role, @UserId";
-                foreach (var item in input.RoleNames)
-                {
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@Role", item);
-                    command.Parameters.AddWithValue("@UserId", id);
-                    await command.ExecuteNonQueryAsync();
-                }
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
 
             CurrentUnitOfWork.SaveChanges();

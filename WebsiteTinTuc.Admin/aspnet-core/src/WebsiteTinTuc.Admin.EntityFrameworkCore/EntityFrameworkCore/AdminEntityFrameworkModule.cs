@@ -1,9 +1,7 @@
-﻿using Abp.EntityFrameworkCore;
-using Abp.EntityFrameworkCore.Configuration;
+﻿using Abp.EntityFrameworkCore.Configuration;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using WebsiteTinTuc.Admin.Constants;
 using WebsiteTinTuc.Admin.EntityFrameworkCore.Seed;
 
