@@ -8,6 +8,7 @@ using Abp.Json;
 using Castle.Facilities.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using WebsiteTinTuc.Admin.Configuration;
 using WebsiteTinTuc.Admin.Constants;
+using WebsiteTinTuc.Admin.EntityFrameworkCore;
 using WebsiteTinTuc.Admin.Identity;
 
 namespace WebsiteTinTuc.Admin.Web.Host.Startup
@@ -105,6 +107,14 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
                 end = connectionString.IndexOf(';');
                 ConstantVariable.Password = connectionString.Substring(start, end - start);
             }
+
+            var builderOption = new DbContextOptionsBuilder<AdminDbContext>();
+
+            builderOption.UseSqlServer(ConstantVariable.ConectionString);
+
+            var context = new AdminDbContext(builderOption.Options);
+
+            context.Database.Migrate();
 
             ConstantVariable.ConectionStringDefault = ConstantVariable.ConectionString;
             ConstantVariable.UserNameDefault = ConstantVariable.UserName;

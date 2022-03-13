@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1q2w3E*#"
+  netcoreapp:
+    build: .
+    container_name: netcoreapp
+    ports:
+      - "5000:80"
+    depends_on:
+      - ms-sql-server
