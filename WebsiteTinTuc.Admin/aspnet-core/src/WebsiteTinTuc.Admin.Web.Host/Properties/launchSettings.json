@@ -18,11 +18,11 @@
     "WebsiteTinTuc.Admin.Web.Host": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:21021",
+      "launchUrl": "http://0.0.0.0:21021",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:21021/"
+      "applicationUrl": "http://0.0.0.0:21021/"
     }
   }
 }

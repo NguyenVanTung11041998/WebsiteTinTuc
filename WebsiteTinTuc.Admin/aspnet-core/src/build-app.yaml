@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-service
+  namespace: netcore-api
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-service
+    spec:
+      containers:
+        - name: api-service
+          image: "netcore-api:lastest"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development
+          - name: ASPNETCORE_URLS
+            value: http://0.0.0.0:80
+          - name: ConnectionStrings__Default
+            value: Server=.; Database=TuyenDungDB; Trusted_Connection=True;
+          - name: App__ServerRootAddress
+            value: http://api-service/
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-service
+  namespace: netcore-api
+spec:
+  selector:
+    app: api-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http

@@ -83,31 +83,6 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
 
             string connectionString = ConstantVariable.ConectionString;
 
-            int start = ConstantVariable.ConectionString.IndexOf('=') + 1;
-            int end = ConstantVariable.ConectionString.IndexOf(';');
-            ConstantVariable.ServerName = connectionString.Substring(start, end - start);
-
-            connectionString = connectionString.Substring(end + 1);
-            start = connectionString.IndexOf('=') + 1;
-            end = connectionString.IndexOf(';');
-            ConstantVariable.DatabaseName = connectionString.Substring(start, end - start);
-            connectionString = connectionString.Substring(end + 1);
-
-            if (ConstantVariable.ConectionString.Contains("User"))
-            {
-                start = connectionString.IndexOf('=') + 1;
-                end = connectionString.IndexOf(';');
-                ConstantVariable.UserName = connectionString.Substring(start, end - start);
-                connectionString = connectionString.Substring(end + 1);
-            }
-
-            if (ConstantVariable.ConectionString.Contains("Password"))
-            {
-                start = connectionString.IndexOf('=') + 1;
-                end = connectionString.IndexOf(';');
-                ConstantVariable.Password = connectionString.Substring(start, end - start);
-            }
-
             var builderOption = new DbContextOptionsBuilder<AdminDbContext>();
 
             builderOption.UseSqlServer(ConstantVariable.ConectionString);
@@ -115,12 +90,6 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
             var context = new AdminDbContext(builderOption.Options);
 
             context.Database.Migrate();
-
-            ConstantVariable.ConectionStringDefault = ConstantVariable.ConectionString;
-            ConstantVariable.UserNameDefault = ConstantVariable.UserName;
-            ConstantVariable.DatabaseNameDefault = ConstantVariable.DatabaseName;
-            ConstantVariable.PasswordDefault = ConstantVariable.Password;
-            ConstantVariable.ServerNameDefault = ConstantVariable.ServerName;
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>

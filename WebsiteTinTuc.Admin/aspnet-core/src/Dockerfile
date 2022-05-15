@@ -5,7 +5,7 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 ENV ASPNETCORE_URLS=http://+:80
 
 WORKDIR /app
-EXPOSE 80
+EXPOSE 21021
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster AS build
 WORKDIR /src

@@ -2,16 +2,35 @@ version: '3.4'
 
 services:
   ms-sql-server:
+    container_name: ms-sql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
       - "1433:1433"
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "1q2w3E*#"
+    networks:
+      - network_app
+    volumes:
+      - my-volume:/var/opt/mssql
   netcoreapp:
-    build: .
     container_name: netcoreapp
+    build: .
     ports:
-      - "5000:80"
+      - "5000:21021"
     depends_on:
       - ms-sql-server
+    networks:
+      - network_app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Default=Server=ms-sql-server; Database=TuyenDungDB; User Id=sa;Password=1q2w3E*#;
+      - App__ServerRootAddress=http://netcoreapp:21021
+      - Kestrel__Endpoints__Http__Url=http://netcoreapp:21021
+      
+networks:
+  network_app:
+    driver: bridge
+
+volumes:
+  my-volume: {}
