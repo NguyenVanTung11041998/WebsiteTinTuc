@@ -73,7 +73,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Companies
 
         private async Task SaveImageHashtagAndCompanyJob(Guid companyId, List<IFormFile> images, IFormFile thumbnail, List<Guid> hashtagIds, List<Guid> branchJobCompanyIds)
         {
-            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.Company}");
+            string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}");
 
             if (images?.Count > 0)
             {

@@ -34,7 +34,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Recruitments
 
             if (input.FileCV?.Length > 0)
             {
-                string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}\{ConstantVariable.CV}\{post.PostUrl}");
+                string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}/{ConstantVariable.CV}\{post.PostUrl}");
                 string fileName = await UploadFiles.UploadAsync(fileLocation, input.FileCV);
                 cv.Link = $"{ConstantVariable.UploadFolder}/{ConstantVariable.CV}/{post.PostUrl}/{fileName}";
             }
