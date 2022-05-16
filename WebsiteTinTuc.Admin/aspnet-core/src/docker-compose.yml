@@ -14,7 +14,7 @@ services:
     volumes:
       - my-volume:/var/opt/mssql
   netcoreapp:
-    #container_name: netcoreapp
+    container_name: netcoreapp
     build:
       dockerfile: ./WebsiteTinTuc.Admin.Web.Host/Dockerfile
       context: .
