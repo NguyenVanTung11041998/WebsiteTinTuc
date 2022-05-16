@@ -14,8 +14,14 @@ services:
     volumes:
       - my-volume:/var/opt/mssql
   netcoreapp:
-    container_name: netcoreapp
-    build: .
+    #container_name: netcoreapp
+    build:
+      dockerfile: ./WebsiteTinTuc.Admin.Web.Host/Dockerfile
+      context: .
+    #deploy:
+    #  mode: replicated
+    #  replicas: 3
+    restart: always
     ports:
       - "5000:21021"
     depends_on:
@@ -27,10 +33,13 @@ services:
       - ConnectionStrings__Default=Server=ms-sql-server; Database=TuyenDungDB; User Id=sa;Password=1q2w3E*#;
       - App__ServerRootAddress=http://netcoreapp:21021
       - Kestrel__Endpoints__Http__Url=http://netcoreapp:21021
-      
+    volumes:
+      - netcore-volume:/app/wwwroot
 networks:
   network_app:
     driver: bridge
 
 volumes:
   my-volume: {}
+  netcore-volume: {}
+  nginx-volume: {}
