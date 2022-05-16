@@ -98,7 +98,7 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Nationalities
 
             if (input.Image?.Length > 0)
             {
-                string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}");
+                string fileLocation = UploadFiles.CreateFolderIfNotExists(ConstantVariable.RootFolder, $@"{ConstantVariable.UploadFolder}/{ConstantVariable.Nationality}");
                 string fileName = await UploadFiles.UploadAsync(fileLocation, input.Image);
                 nationality.Path = $"{ConstantVariable.UploadFolder}/{ConstantVariable.Company}/{fileName}";
             }
