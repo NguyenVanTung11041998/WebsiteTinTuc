@@ -1,9 +1,15 @@
-version: '3.4'
+version: '3.7'
 
 services:
   ms-sql-server:
-    container_name: ms-sql-server
+    #container_name: ms-sql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
+    deploy:
+    #  mode: replicated
+      replicas: 1
+    # restart: always
+      restart_policy:
+        condition: on-failure
     ports:
       - "1433:1433"
     environment:
@@ -14,14 +20,17 @@ services:
     volumes:
       - my-volume:/var/opt/mssql
   netcoreapp:
-    container_name: netcoreapp
-    build:
-      dockerfile: ./WebsiteTinTuc.Admin.Web.Host/Dockerfile
-      context: .
-    #deploy:
-    #  mode: replicated
-    #  replicas: 3
-    restart: always
+    #container_name: netcoreapp
+    #build:
+    #  dockerfile: ./WebsiteTinTuc.Admin.Web.Host/Dockerfile
+    #  context: .
+    image: netcoreapp:latest
+    deploy:
+      mode: replicated
+      replicas: 5
+    # restart: always
+      restart_policy:
+        condition: on-failure
     ports:
       - "5000:21021"
     depends_on:
@@ -37,9 +46,10 @@ services:
       - netcore-volume:/app/wwwroot
 networks:
   network_app:
-    driver: bridge
+    # driver: bridge
+    driver: overlay
+    name: net1
 
 volumes:
   my-volume: {}
   netcore-volume: {}
-  nginx-volume: {}
