@@ -74,7 +74,7 @@ namespace WebsiteTinTuc.Admin.Web.Host.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
+                        .AllowAnyOrigin()
                 )
             );
 
