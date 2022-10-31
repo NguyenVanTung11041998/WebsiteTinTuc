@@ -3,10 +3,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{ 'Hashtag' | localize }}</h1>
+                    <h1>{{'Hashtag'}}</h1>
                 </div>
                 <div class="col-6 text-right">
-                    <button class="btn bg-blue">
+                    <button class="btn bg-blue" (click)="createHashtag()">
                         <i class="fa fa-plus-square"></i>
                         {{ 'Create' }}
                     </button>

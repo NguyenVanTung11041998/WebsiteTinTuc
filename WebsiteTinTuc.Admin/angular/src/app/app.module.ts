@@ -20,6 +20,7 @@ import { CreateTenantDialogComponent } from './tenants/create-tenant/create-tena
 import { EditTenantDialogComponent } from './tenants/edit-tenant/edit-tenant-dialog.component';
 // hashtag
 import { EditHashtagDialogComponent } from './hashtag/edit-hashtag/edit-hashtag-dialog.component';
+import { CreateHashtagDialogComponent } from './hashtag/create-hashtag/create-hashtag-dialog.component';
 // roles
 import { RolesComponent } from '@app/roles/roles.component';
 import { CreateRoleDialogComponent } from './roles/create-role/create-role-dialog.component';
@@ -57,6 +58,7 @@ import { HashtagComponent } from './hashtag/hashtag.component';
 		// hashtag
 		HashtagComponent,
 		EditHashtagDialogComponent,
+        CreateHashtagDialogComponent,
 		// roles
 		RolesComponent,
 		CreateRoleDialogComponent,
@@ -78,8 +80,6 @@ import { HashtagComponent } from './hashtag/hashtag.component';
 		SidebarLogoComponent,
 		SidebarUserPanelComponent,
 		SidebarMenuComponent,
-		// hashtag
-		HashtagComponent,
 	],
 	imports: [
 		CommonModule,
@@ -103,6 +103,7 @@ import { HashtagComponent } from './hashtag/hashtag.component';
 		EditTenantDialogComponent,
         // hashtag
         EditHashtagDialogComponent,
+        CreateHashtagDialogComponent,
 		// roles
 		CreateRoleDialogComponent,
 		EditRoleDialogComponent,
