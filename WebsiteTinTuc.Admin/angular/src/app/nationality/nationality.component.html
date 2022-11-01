@@ -3,10 +3,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{'Hashtag'}}</h1>
+                    <h1>{{'Nationality'}}</h1>
                 </div>
                 <div class="col-6 text-right">
-                    <button class="btn bg-blue" (click)="createHashtag()">
+                    <button class="btn bg-blue" >
                         <i class="fa fa-plus-square"></i>
                         {{ 'Create' }}
                     </button>
@@ -15,26 +15,6 @@
         </div>
     </section>
     <section class="content px-2">
-        <div class="input-group col-6">
-            <div class="input-group-prepend">
-                <button
-                        type="button"
-                        class="btn bg-blue"
-                        (click)="getDataPage(1)"
-                >
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            <input
-                    type="text"
-                    class="form-control"
-                    name="keyword"
-                    [placeholder]="'SearchWithThreeDot'"
-                    [(ngModel)]="searchText"
-                    (keyup.enter)="getDataPage(1)"
-            />
-
-        </div>
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body table-responsive p-0">
@@ -44,16 +24,15 @@
                     >
                         <thead class="bg-light">
                         <tr>
-                            <th>Tên hashtag</th>
+                            <th>Tên Quốc Tịch</th>
                             <th>Thời gian tạo</th>
-                            <th>Nổi bật</th>
                             <th style="width: 200px">
                                 Hành động
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let hashtag of hastags
+                        <tr *ngFor="let nationality of nationalitys
                                 | paginate
                                 : {
                                         id: 'server',
@@ -61,18 +40,15 @@
                                         currentPage: currentPage,
                                         totalItems: totalCount
                                   }">
-                            <td>{{ hashtag.name }}</td>
+                            <td>{{ nationality.name }}</td>
                             <td>
-                                {{hashtag.creationTime | date: 'dd/MM/yyyy hh:ss:mm'}}
-                            </td>
-                            <td>
-                                {{hashtag.isHot ? 'Yes' : 'No'}}
+                                {{nationality.creationTime | date: 'dd/MM/yyyy hh:ss:mm'}}
                             </td>
                             <td>
                                 <button
                                         type="button"
                                         class="btn btn-sm bg-secondary"
-                                        (click)="editHashtag(hashtag)"
+
                                 >
                                     <i class="fas fa-pencil-alt"></i>
                                     {{ 'Edit' | localize }}
@@ -80,7 +56,7 @@
                                 <button
                                         type="button"
                                         class="btn btn-sm bg-danger mx-2"
-                                        (click)="deleteHastag(hashtag)"
+
                                 >
                                     <i class="fas fa-trash"></i>
                                     {{ 'Delete' | localize }}
@@ -95,7 +71,7 @@
                         <div class="col-sm-4 col-12 text-sm-left text-center">
                             <button
                                     class="btn btn-secondary"
-                                    (click)="refresh()"
+
                             >
                                 <i class="fas fa-redo-alt"></i>
                             </button>
@@ -109,7 +85,6 @@
                             <div class="float-sm-right m-auto">
                                 <abp-pagination-controls
                                         id="server"
-                                        (pageChange)="getDataPage($event)"
                                 >
                                 </abp-pagination-controls>
                             </div>

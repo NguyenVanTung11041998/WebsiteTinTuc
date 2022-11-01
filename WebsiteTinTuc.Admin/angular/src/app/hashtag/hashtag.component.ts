@@ -5,6 +5,7 @@ import {HashtagService} from '../../shared/services/hashtag-service';
 import {finalize} from 'rxjs/operators';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {EditHashtagDialogComponent} from './edit-hashtag/edit-hashtag-dialog.component';
+import {CreateHashtagDialogComponent} from './create-hashtag/create-hashtag-dialog.component';
 
 @Component({
 	selector: 'app-hashtag',
@@ -49,7 +50,7 @@ export class HashtagComponent extends AppComponentBase implements OnInit {
         let diaLog: BsModalRef;
         if (!id) {
             diaLog = this._modalService.show(
-                EditHashtagDialogComponent,
+                CreateHashtagDialogComponent,
                 {
                     class: 'modal-lg',
                 }
@@ -73,6 +74,11 @@ export class HashtagComponent extends AppComponentBase implements OnInit {
     editHashtag(hashtag: HashtagDto):void{
         this.showDialog(hashtag.id);
     }
+
+    createHashtag():void{
+        this.showDialog();
+    }
+
     deleteHastag(hashtag: HashtagDto): void {
         abp.message.confirm(
             this.l(`Bạn có muốn xoá ${hashtag.name} không ?`),

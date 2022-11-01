@@ -13,7 +13,7 @@ export class EditHashtagDialogComponent extends AppComponentBase
     implements OnInit {
     saving = false;
     hashtag: HashtagDto = new HashtagDto();
-    id: number;
+    id: string;
 
     @Output() onSave = new EventEmitter<any>();
 

@@ -39,6 +39,11 @@ export class HashtagService extends BaseApiService {
             this.baseUrl + '/api/services/app/Hashtag/UpdateHashtag', hashtag
         );
     }
+    create(hashtag: CreateUpdateHashtag) :Observable<ResponseApi<HashtagDto>>{
+        return this.http.post<ResponseApi<HashtagDto>>(
+            this.baseUrl + '/api/services/app/Hashtag/CreateHashtag', hashtag
+        );
+    }
     deleteHashtag(id: string) :Observable<any> {
         return this.http.delete(
             this.baseUrl + '/api/services/app/Hashtag/Delete?id=' + id
