@@ -8,44 +8,47 @@ import {EditHashtagDialogComponent} from './edit-hashtag/edit-hashtag-dialog.com
 import {CreateHashtagDialogComponent} from './create-hashtag/create-hashtag-dialog.component';
 
 @Component({
-	selector: 'app-hashtag',
-	templateUrl: './hashtag.component.html',
-	styleUrls: ['./hashtag.component.css'],
+    selector: 'app-hashtag',
+    templateUrl: './hashtag.component.html',
+    styleUrls: ['./hashtag.component.css'],
 })
 export class HashtagComponent extends AppComponentBase implements OnInit {
-	public currentPage = 1;
-	public pageSize = 2;
-	public searchText = '';
+    public currentPage = 1;
+    public pageSize = 2;
+    public searchText = '';
     public isTableLoading = false;
 
-    public  hastags: HashtagDto[];
-    public  advancedFiltersVisible = false;
+    public hastags: HashtagDto[];
+    public advancedFiltersVisible = false;
     public totalCount = 0;
 
-	constructor(injector: Injector, private hastagService: HashtagService,private _modalService: BsModalService) {
-		super(injector);
-	}
+    constructor(injector: Injector, private hastagService: HashtagService, private _modalService: BsModalService) {
+        super(injector);
+    }
 
-	ngOnInit(): void {
+    ngOnInit(): void {
         this.getDataPaging();
     }
 
-	getDataPaging() {
-		this.hastagService
-			.getPagingHashtag(this.pageSize, this.currentPage, this.searchText)
-			.subscribe((res) => {
+    getDataPaging() {
+        this.hastagService
+            .getPagingHashtag(this.pageSize, this.currentPage, this.searchText)
+            .subscribe((res) => {
                 this.hastags = res.result.items;
                 this.totalCount = res.result.totalCount;
             });
-	}
+    }
+
     getDataPage(page: number) {
         this.currentPage = page;
         this.getDataPaging();
     }
-    refresh(){
+
+    refresh() {
         this.currentPage = 1;
         this.getDataPaging();
     }
+
     showDialog(id?: string): void {
         let diaLog: BsModalRef;
         if (!id) {
@@ -71,11 +74,12 @@ export class HashtagComponent extends AppComponentBase implements OnInit {
             this.refresh();
         });
     }
-    editHashtag(hashtag: HashtagDto):void{
+
+    editHashtag(hashtag: HashtagDto): void {
         this.showDialog(hashtag.id);
     }
 
-    createHashtag():void{
+    createHashtag(): void {
         this.showDialog();
     }
 
