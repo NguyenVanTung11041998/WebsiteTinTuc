@@ -1,14 +1,9 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { AppComponentBase } from '@shared/app-component-base';
-import {
-	Router,
-	RouterEvent,
-	NavigationEnd,
-	PRIMARY_OUTLET,
-} from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { MenuItem } from '@shared/layout/menu-item';
+import {Component, Injector, OnInit} from '@angular/core';
+import {AppComponentBase} from '@shared/app-component-base';
+import {NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent,} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {MenuItem} from '@shared/layout/menu-item';
 
 @Component({
 	selector: 'sidebar-menu',
@@ -63,9 +58,15 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 			new MenuItem(
 				'Hashtag',
 				'/app/hashtag',
-				'fas fa-building',
+				'fas fa-hashtag',
 				'Pages.View.Hashtag'
 			),
+            new MenuItem(
+                'Nationality',
+                '/app/nationality',
+                'fas fa-globe',
+                'Pages.View.Nationality'
+            ),
 			new MenuItem(
 				this.l('Users'),
 				'/app/users',
