@@ -15,6 +15,12 @@ export class NationalityService extends BaseApiService {
         super(http);
     }
 
+    create(fileToUpload: FormData): Observable<ResponseApi<NationalityDto>> {
+        return this.http.post<ResponseApi<NationalityDto>>(
+            this.baseUrl + '/api/services/app/Nationality/CreateNationality', fileToUpload
+        );
+    }
+
     getPagingNationality(
         pageSize: number,
         currentPage: number,
@@ -29,6 +35,7 @@ export class NationalityService extends BaseApiService {
             (searchText ? '&SearchText=' + searchText : '')
         );
     }
+
     deleteNationality(id: string): Observable<any> {
         return this.http.delete(
             this.baseUrl + '/api/services/app/Nationality/DeleteNationality?id=' + id
