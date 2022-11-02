@@ -1,10 +1,11 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {AppComponentBase} from '../../shared/app-component-base';
 import {NationalityDto} from '../../shared/models/nationality';
-import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {NationalityService} from '../../shared/services/nationality-service';
-import {HashtagDto} from '../../shared/models/hashtag';
 import {finalize} from 'rxjs/operators';
+import {EditHashtagDialogComponent} from "../hashtag/edit-hashtag/edit-hashtag-dialog.component";
+import {CreatNationalityComponent} from "./creat-nationality/creat-nationality.component";
 
 @Component({
     selector: 'app-nationality',
@@ -28,13 +29,43 @@ export class NationalityComponent extends AppComponentBase implements OnInit {
     ngOnInit(): void {
         this.getDataPagingNationality();
     }
+
     getDataPage(page: number) {
         this.currentPage = page;
         this.getDataPagingNationality();
     }
+
     refresh() {
         this.currentPage = 1;
         this.getDataPagingNationality();
+    }
+    showDialog(id?: string): void {
+        let diaLog: BsModalRef;
+        if (!id) {
+            diaLog = this._modalService.show(
+                CreatNationalityComponent,
+                {
+                    class: 'modal-lg',
+                }
+            );
+        } else {
+            diaLog = this._modalService.show(
+                EditHashtagDialogComponent,
+                {
+                    class: 'modal-lg',
+                    initialState: {
+                        id: id,
+                    },
+                }
+            );
+        }
+
+        diaLog.content.onSave.subscribe(() => {
+            this.refresh();
+        });
+    }
+    createNationality(): void {
+        this.showDialog();
     }
     getDataPagingNationality() {
         this.isTableLoading = true;
@@ -46,6 +77,7 @@ export class NationalityComponent extends AppComponentBase implements OnInit {
                 this.isTableLoading = false;
             });
     }
+
     deleteNationality(nationality: NationalityDto): void {
         abp.message.confirm(
             this.l(`Bạn có muốn xoá ${nationality.name} không ?`),

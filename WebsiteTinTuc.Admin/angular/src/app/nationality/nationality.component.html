@@ -6,7 +6,10 @@
                     <h1>{{'Nationality'}}</h1>
                 </div>
                 <div class="col-6 text-right">
-                    <button class="btn bg-blue" >
+                    <button
+                            class="btn bg-blue"
+                            (click)="createNationality()"
+                    >
                         <i class="fa fa-plus-square"></i>
                         {{ 'Create' }}
                     </button>

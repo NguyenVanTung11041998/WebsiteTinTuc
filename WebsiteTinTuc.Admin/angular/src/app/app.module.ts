@@ -42,75 +42,83 @@ import {SidebarUserPanelComponent} from './layout/sidebar-user-panel.component';
 import {SidebarMenuComponent} from './layout/sidebar-menu.component';
 import {HashtagComponent} from './hashtag/hashtag.component';
 import {NationalityComponent} from './nationality/nationality.component';
+import {CreatNationalityComponent} from './nationality/creat-nationality/creat-nationality.component';
+import {EditNationalityComponent} from './nationality/edit-nationality/edit-nationality.component';
 
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		HomeComponent,
-		AboutComponent,
-		// tenants
-		TenantsComponent,
-		CreateTenantDialogComponent,
-		EditTenantDialogComponent,
-		// hashtag
-		HashtagComponent,
-		EditHashtagDialogComponent,
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        AboutComponent,
+        // tenants
+        TenantsComponent,
+        CreateTenantDialogComponent,
+        EditTenantDialogComponent,
+        // hashtag
+        HashtagComponent,
+        EditHashtagDialogComponent,
         CreateHashtagDialogComponent,
-		// roles
-		RolesComponent,
-		CreateRoleDialogComponent,
-		EditRoleDialogComponent,
-		// users
-		UsersComponent,
-		CreateUserDialogComponent,
-		EditUserDialogComponent,
-		ChangePasswordComponent,
-		ResetPasswordDialogComponent,
+        // roles
+        RolesComponent,
+        CreateRoleDialogComponent,
+        EditRoleDialogComponent,
+        // users
+        UsersComponent,
+        CreateUserDialogComponent,
+        EditUserDialogComponent,
+        ChangePasswordComponent,
+        ResetPasswordDialogComponent,
 
-		// layout
-		HeaderComponent,
-		HeaderLeftNavbarComponent,
-		HeaderLanguageMenuComponent,
-		HeaderUserMenuComponent,
-		FooterComponent,
-		SidebarComponent,
-		SidebarLogoComponent,
-		SidebarUserPanelComponent,
-		SidebarMenuComponent,
-        //nationaltity
-		NationalityComponent,
-	],
-	imports: [
-		CommonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
-		HttpClientJsonpModule,
-		ModalModule.forChild(),
-		BsDropdownModule,
-		CollapseModule,
-		TabsModule,
-		AppRoutingModule,
-		ServiceProxyModule,
-		SharedModule,
-		NgxPaginationModule,
-	],
-	providers: [],
-	entryComponents: [
-		// tenants
-		CreateTenantDialogComponent,
-		EditTenantDialogComponent,
+        // layout
+        HeaderComponent,
+        HeaderLeftNavbarComponent,
+        HeaderLanguageMenuComponent,
+        HeaderUserMenuComponent,
+        FooterComponent,
+        SidebarComponent,
+        SidebarLogoComponent,
+        SidebarUserPanelComponent,
+        SidebarMenuComponent,
+        // Nationality
+        NationalityComponent,
+        CreatNationalityComponent,
+        EditNationalityComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        HttpClientJsonpModule,
+        ModalModule.forChild(),
+        BsDropdownModule,
+        CollapseModule,
+        TabsModule,
+        AppRoutingModule,
+        ServiceProxyModule,
+        SharedModule,
+        NgxPaginationModule,
+    ],
+    providers: [],
+    entryComponents: [
+        // tenants
+        CreateTenantDialogComponent,
+        EditTenantDialogComponent,
         // hashtag
         EditHashtagDialogComponent,
         CreateHashtagDialogComponent,
-		// roles
-		CreateRoleDialogComponent,
-		EditRoleDialogComponent,
-		// users
-		CreateUserDialogComponent,
-		EditUserDialogComponent,
-		ResetPasswordDialogComponent,
-	],
+        // Nationality
+        CreatNationalityComponent,
+        EditNationalityComponent,
+        // roles
+        CreateRoleDialogComponent,
+        EditRoleDialogComponent,
+        // users
+        CreateUserDialogComponent,
+        EditUserDialogComponent,
+        ResetPasswordDialogComponent,
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}

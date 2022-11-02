@@ -1,4 +1,4 @@
-export  class CreateUpdateHashtag{
+export  class CreateUpdateHashtag {
     id: string;
     name: string;
     isHot: boolean;
