@@ -19,22 +19,21 @@ export class EditHashtagDialogComponent extends AppComponentBase
 
     constructor(
         injector: Injector,
-        private hastagService: HashtagService,
+        private hashtagService: HashtagService,
         public bsModalRef: BsModalRef
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        this.hastagService.get(this.id).subscribe((result: ResponseApi<HashtagDto>) => {
+        this.hashtagService.get(this.id).subscribe((result: ResponseApi<HashtagDto>) => {
             this.hashtag = result.result;
         });
     }
 
     save(): void {
         this.saving = true;
-
-        this.hastagService
+        this.hashtagService
             .put(this.hashtag)
             .pipe(
                 finalize(() => {

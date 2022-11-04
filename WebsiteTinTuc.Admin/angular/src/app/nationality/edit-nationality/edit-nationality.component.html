@@ -1,1 +1,58 @@
-<p>edit-nationality works!</p>
+<form
+        class="form-horizontal"
+        autocomplete="off"
+        #createNationalityForm="ngForm"
+        (ngSubmit)="save()"
+>
+    <abp-modal-header
+            [title]="'Sửa Nationality'"
+            (onCloseClick)="bsModalRef.hide()"
+    ></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="NationalityName">
+                Nationality Name
+            </label>
+            <div class="col-md-9">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="NationalityName"
+                        id="NationalityName"
+                        minlength="2"
+                        maxlength="64"
+                        required
+                        [(ngModel)]="name"
+                        #nationalityNameModel="ngModel"
+                        #nationalityNameEl
+                />
+                <abp-validation-summary
+                        [control]="nationalityNameModel"
+                        [controlEl]="nationalityNameEl"
+                ></abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row mb-0">
+            <label class="col-md-3 col-form-label">
+                {{ "Ảnh" }}
+            </label>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label class="lable-input" for="file">Choose File</label>
+                    <input [hidden]="true" type="file"
+                           id="file"
+                           (change)="handleFileInput($event)">
+                    <div class="chooseFile" *ngIf="imgSrc">
+                        <img src="{{imgSrc}}">
+                        <button (click)="removeImage()">X</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer
+            [cancelDisabled]="saving"
+            [saveDisabled]="!createNationalityForm.form.valid || saving"
+            (onCancelClick)="bsModalRef.hide()"
+    ></abp-modal-footer>
+</form>

@@ -1,13 +1,7 @@
-import {
-    Component,
-    Injector,
-    OnInit,
-    Output,
-    EventEmitter
-} from '@angular/core';
-import { finalize } from 'rxjs/operators';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { AppComponentBase } from '@shared/app-component-base';
+import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
+import {finalize} from 'rxjs/operators';
+import {BsModalRef} from 'ngx-bootstrap/modal';
+import {AppComponentBase} from '@shared/app-component-base';
 import {HashtagDto} from '../../../shared/models/hashtag';
 import {HashtagService} from '../../../shared/services/hashtag-service';
 
@@ -23,7 +17,7 @@ export class CreateHashtagDialogComponent extends AppComponentBase
 
     constructor(
         injector: Injector,
-        private hastagService: HashtagService,
+        private hashtagService: HashtagService,
         public bsModalRef: BsModalRef
     ) {
         super(injector);
@@ -36,7 +30,7 @@ export class CreateHashtagDialogComponent extends AppComponentBase
     save(): void {
         this.saving = true;
 
-        this.hastagService
+        this.hashtagService
             .create(this.hashtag)
             .pipe(
                 finalize(() => {

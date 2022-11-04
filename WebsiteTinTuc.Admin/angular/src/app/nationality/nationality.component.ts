@@ -4,8 +4,8 @@ import {NationalityDto} from '../../shared/models/nationality';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {NationalityService} from '../../shared/services/nationality-service';
 import {finalize} from 'rxjs/operators';
-import {EditHashtagDialogComponent} from "../hashtag/edit-hashtag/edit-hashtag-dialog.component";
-import {CreatNationalityComponent} from "./creat-nationality/creat-nationality.component";
+import {CreatNationalityComponent} from './creat-nationality/creat-nationality.component';
+import {EditNationalityComponent} from './edit-nationality/edit-nationality.component';
 
 @Component({
     selector: 'app-nationality',
@@ -14,10 +14,9 @@ import {CreatNationalityComponent} from "./creat-nationality/creat-nationality.c
 })
 export class NationalityComponent extends AppComponentBase implements OnInit {
     public currentPage = 1;
-    public pageSize = 2;
+    public pageSize = 10;
     public searchText = '';
     public isTableLoading = false;
-
     public nationalitys: NationalityDto[];
     public advancedFiltersVisible = false;
     public totalCount = 0;
@@ -39,9 +38,10 @@ export class NationalityComponent extends AppComponentBase implements OnInit {
         this.currentPage = 1;
         this.getDataPagingNationality();
     }
-    showDialog(id?: string): void {
+
+    showDialog(nationality?: NationalityDto): void {
         let diaLog: BsModalRef;
-        if (!id) {
+        if (!nationality) {
             diaLog = this._modalService.show(
                 CreatNationalityComponent,
                 {
@@ -50,23 +50,29 @@ export class NationalityComponent extends AppComponentBase implements OnInit {
             );
         } else {
             diaLog = this._modalService.show(
-                EditHashtagDialogComponent,
+                EditNationalityComponent,
                 {
                     class: 'modal-lg',
                     initialState: {
-                        id: id,
+                        id: nationality.id,
+                        name: nationality.name,
+                        imgSrc: nationality.image.path
                     },
                 }
             );
         }
-
         diaLog.content.onSave.subscribe(() => {
             this.refresh();
         });
     }
+
     createNationality(): void {
         this.showDialog();
     }
+    editNationality(nationality: NationalityDto): void {
+        this.showDialog(nationality);
+    }
+
     getDataPagingNationality() {
         this.isTableLoading = true;
         this.nationalityService

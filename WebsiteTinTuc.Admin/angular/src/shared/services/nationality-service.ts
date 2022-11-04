@@ -21,6 +21,12 @@ export class NationalityService extends BaseApiService {
         );
     }
 
+    put(fileToUpload: FormData): Observable<ResponseApi<NationalityDto>> {
+        return this.http.put<ResponseApi<NationalityDto>>(
+            this.baseUrl + '/api/services/app/Nationality/UpdateNationality', fileToUpload
+        );
+    }
+
     getPagingNationality(
         pageSize: number,
         currentPage: number,
