@@ -17,7 +17,7 @@ export class EditNationalityComponent extends AppComponentBase implements OnInit
     fileToUpload: File | null = null;
     imgSrc: string | ArrayBuffer = '';
     @Output() onSave = new EventEmitter<any>();
-
+    isShow = false;
     constructor(
         injector: Injector,
         private nationalityService: NationalityService,
@@ -35,6 +35,7 @@ export class EditNationalityComponent extends AppComponentBase implements OnInit
         this.imgSrc = null;
         this.fileToUpload = null;
         (document.getElementById('file') as any).value = '';
+        this.isShow =  !this.isShow;
     }
 
     handleFileInput(e) {

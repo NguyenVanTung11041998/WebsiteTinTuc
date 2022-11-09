@@ -38,8 +38,9 @@
             </label>
             <div class="col-md-9">
                 <div class="form-group">
-                    <label class="lable-input" for="file">Choose File</label>
-                    <input [hidden]="true" type="file"
+                    <label *ngIf="isShow" class="lable-input" for="file">Choose File</label>
+                    <input type="file"
+                           hidden="true"
                            id="file"
                            (change)="handleFileInput($event)">
                     <div class="chooseFile" *ngIf="imgSrc">
