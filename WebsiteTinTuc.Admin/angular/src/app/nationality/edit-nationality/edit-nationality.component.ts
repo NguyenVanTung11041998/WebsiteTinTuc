@@ -46,7 +46,6 @@ export class EditNationalityComponent extends AppComponentBase implements OnInit
             this.imgSrc = reader.result;
         };
     }
-
     save(): void {
         this.saving = true;
         const form = new FormData();

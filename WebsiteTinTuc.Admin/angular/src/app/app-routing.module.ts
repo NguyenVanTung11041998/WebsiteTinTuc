@@ -1,15 +1,16 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {AppComponent} from './app.component';
-import {AppRouteGuard} from '@shared/auth/auth-route-guard';
-import {HomeComponent} from './home/home.component';
-import {AboutComponent} from './about/about.component';
-import {UsersComponent} from './users/users.component';
-import {TenantsComponent} from './tenants/tenants.component';
-import {HashtagComponent} from './hashtag/hashtag.component';
-import {RolesComponent} from 'app/roles/roles.component';
-import {ChangePasswordComponent} from './users/change-password/change-password.component';
-import {NationalityComponent} from './nationality/nationality.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { AppRouteGuard } from '@shared/auth/auth-route-guard';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { UsersComponent } from './users/users.component';
+import { TenantsComponent } from './tenants/tenants.component';
+import { HashtagComponent } from './hashtag/hashtag.component';
+import { RolesComponent } from 'app/roles/roles.component';
+import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { NationalityComponent } from './nationality/nationality.component';
+import { LevelComponent } from './level/level.component';
 
 @NgModule({
 	imports: [
@@ -47,12 +48,18 @@ import {NationalityComponent} from './nationality/nationality.component';
 						data: { permission: 'Pages.View.Hashtag' },
 						canActivate: [AppRouteGuard],
 					},
-                    {
-                        path: 'nationality',
-                        component: NationalityComponent,
-                        data: { permission: 'Pages.View.Nationality' },
-                        canActivate: [AppRouteGuard],
-                    },
+					{
+						path: 'nationality',
+						component: NationalityComponent,
+						data: { permission: 'Pages.View.Nationality' },
+						canActivate: [AppRouteGuard],
+					},
+					{
+						path: 'level',
+						component: LevelComponent,
+						data: { permission: 'Pages.View.Level' },
+						canActivate: [AppRouteGuard],
+					},
 					{ path: 'about', component: AboutComponent },
 					{
 						path: 'update-password',
