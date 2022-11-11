@@ -46,6 +46,7 @@
                     >
                         <thead class="bg-light">
                         <tr>
+                            <th>STT</th>
                             <th>Tên Quốc Tịch</th>
                             <th>Thời gian tạo</th>
                             <th style="width: 200px">
@@ -61,7 +62,8 @@
                                         itemsPerPage: pageSize,
                                         currentPage: currentPage,
                                         totalItems: totalCount
-                                  }">
+                                  }; let i = index">
+                            <td>{{(currentPage - 1) * pageSize + 1 + i}}</td>
                             <td>{{ nationality.name }}</td>
                             <td>
                                 {{nationality.creationTime | date: 'dd/MM/yyyy hh:ss:mm'}}
