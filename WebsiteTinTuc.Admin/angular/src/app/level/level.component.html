@@ -2,12 +2,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <h1>{{'Level'}}</h1>
+                <h1>{{ 'Level' }}</h1>
             </div>
             <div class="col-6 text-right">
-                <button class="btn bg-blue"
-                        (click)="createLevel()"
-                >
+                <button class="btn bg-blue" (click)="createLevel()">
                     <i class="fa fa-plus-square"></i>
                     {{ 'Create' }}
                 </button>
@@ -18,11 +16,7 @@
 <section class="content px-2">
     <div class="input-group col-6">
         <div class="input-group-prepend">
-            <button
-                    type="button"
-                    class="btn bg-blue"
-                    (click)="getDataPage(1)"
-            >
+            <button type="button" class="btn bg-blue" (click)="getDataPage(1)">
                 <i class="fas fa-search"></i>
             </button>
         </div>
@@ -34,7 +28,6 @@
                 [(ngModel)]="searchText"
                 (keyup.enter)="getDataPage(1)"
         />
-
     </div>
     <div class="container-fluid">
         <div class="card">
@@ -48,24 +41,30 @@
                         <th>STT</th>
                         <th>Tên Level</th>
                         <th>Thời gian tạo</th>
-                        <th style="width: 200px">
-                            Hành động
-                        </th>
+                        <th style="width: 200px">Hành động</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let level of levels
-                                | paginate
-                                : {
-                                        id: 'server',
-                                        itemsPerPage: pageSize,
-                                        currentPage: currentPage,
-                                        totalItems: totalCount
-                                  }; let i = index">
-                        <td>{{(currentPage - 1)* pageSize +1 + i}}</td>
+                    <tr
+                            *ngFor="
+								let level of levels
+									| paginate
+										: {
+												id: 'server',
+												itemsPerPage: pageSize,
+												currentPage: currentPage,
+												totalItems: totalCount
+										  };
+								let i = index
+							"
+                    >
+                        <td>{{ (currentPage - 1) * pageSize + 1 + i }}</td>
                         <td>{{ level.name }}</td>
                         <td>
-                            {{level.creationTime | date: 'dd/MM/yyyy hh:ss:mm'}}
+                            {{
+                            level.creationTime
+                                | date: 'dd/MM/yyyy hh:ss:mm'
+                            }}
                         </td>
                         <td>
                             <button
@@ -92,10 +91,7 @@
             <div class="card-footer bg-light border-top">
                 <div class="row">
                     <div class="col-sm-4 col-12 text-sm-left text-center">
-                        <button
-                                class="btn btn-secondary"
-                                (click)="refresh()"
-                        >
+                        <button class="btn btn-secondary" (click)="refresh()">
                             <i class="fas fa-redo-alt"></i>
                         </button>
                     </div>
@@ -111,6 +107,11 @@
                                     (pageChange)="getDataPage($event)"
                             >
                             </abp-pagination-controls>
+                        </div>
+                        <div class="btn-group float-sm-right mr-4" dropdown>
+                            <select *ngIf="pageSizeSelects" [(ngModel)]="pageSize">
+                                <option *ngFor="let item of pageSizeSelects" value="{{item.value}}">{{item.name}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>

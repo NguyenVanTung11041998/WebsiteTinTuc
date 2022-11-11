@@ -6,6 +6,7 @@ import {LevelDto} from '../../shared/models/level';
 import {finalize} from 'rxjs/operators';
 import {CreateLevelComponent} from './create-level/create-level.component';
 import {EditLevelComponent} from './edit-level/edit-level.component';
+import {PageSizeModel} from '../../shared/models/page-size-model';
 
 @Component({
     selector: 'app-level',
@@ -14,15 +15,24 @@ import {EditLevelComponent} from './edit-level/edit-level.component';
 })
 export class LevelComponent extends AppComponentBase implements OnInit {
     public currentPage = 1;
-    public pageSize = 4;
+    public pageSize = 5;
     public searchText = '';
     public isTableLoading = false;
     public levels: LevelDto[];
     public advancedFiltersVisible = false;
     public totalCount = 0;
 
+    public pageSizeSelects: PageSizeModel[] = [];
+
+
     constructor(injector: Injector, private levelService: LevelService, private _modalService: BsModalService) {
         super(injector);
+        for (let i = 5; i <= 100; i += 5) {
+            this.pageSizeSelects.push({
+                value: i,
+                name: `${i} bản ghi / page`
+            } as PageSizeModel);
+        }
     }
 
     ngOnInit(): void {
@@ -51,9 +61,11 @@ export class LevelComponent extends AppComponentBase implements OnInit {
     createLevel(): void {
         this.showDialog();
     }
+
     editLevel(level: LevelDto): void {
         this.showDialog(level.id);
     }
+
     showDialog(id?: string): void {
         let diaLog: BsModalRef;
         if (!id) {
