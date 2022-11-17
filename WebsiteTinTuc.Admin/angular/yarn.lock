@@ -122,15 +122,6 @@
   "resolved" "https://registry.npmjs.org/@angular/animations/-/animations-9.1.4.tgz"
   "version" "9.1.4"
 
-"@angular/cdk@^14.2.7":
-  "integrity" "sha512-/tEsYaUbDSnfEmKVvAMramIptmhI67O+9STjOV0i+74XR2NospeK0fkbywIANu1n3w6AHGMotvRWJrjmbCElFg=="
-  "resolved" "https://registry.npmjs.org/@angular/cdk/-/cdk-14.2.7.tgz"
-  "version" "14.2.7"
-  dependencies:
-    "tslib" "^2.3.0"
-  optionalDependencies:
-    "parse5" "^5.0.0"
-
 "@angular/cli@^9.1.4":
   "integrity" "sha512-H9MqoT4zyIv+Yo3cvRVkzafWGHsqt7jUvtvGwMHIDMTfEX+Q8yiYlDLL6WM3Eb6/hDmLcRGC/GI495sKS1z5qA=="
   "resolved" "https://registry.npmjs.org/@angular/cli/-/cli-9.1.4.tgz"
@@ -6172,11 +6163,6 @@
     "error-ex" "^1.3.1"
     "json-parse-better-errors" "^1.0.1"
 
-"parse5@^5.0.0":
-  "integrity" "sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug=="
-  "resolved" "https://registry.npmjs.org/parse5/-/parse5-5.1.1.tgz"
-  "version" "5.1.1"
-
 "parse5@4.0.0":
   "integrity" "sha512-VrZ7eOd3T1Fk4XWNXMgiGBK/z0MG48BWG2uQNU4I72fkQuKUTZpl+u9k+CxEG0twMVzSmXEEz12z5Fnw1jIQFA=="
   "resolved" "https://registry.npmjs.org/parse5/-/parse5-4.0.0.tgz"
@@ -6705,11 +6691,6 @@
   "integrity" "sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g=="
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.7.1.tgz"
   "version" "2.7.1"
-
-"primeng@^9.0.5":
-  "integrity" "sha512-juugoXZaU7TyGyTSFx0PNjObqM+/RTY/arJ/LwyH/0KaIv0V+Oqfvnx8btJ96kLOZ+h0xLWXLuAbxsTXe9EX6w=="
-  "resolved" "https://registry.npmjs.org/primeng/-/primeng-9.0.5.tgz"
-  "version" "9.0.5"
 
 "private@^0.1.8":
   "integrity" "sha512-VvivMrbvd2nKkiG38qjULzlc+4Vx4wm/whI9pQD35YrARNnhxeiRktSOhSukRLFNlzg6Br/cJPet5J/u19r/mg=="
@@ -8352,11 +8333,6 @@
   "integrity" "sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz"
   "version" "1.11.1"
-
-"tslib@^2.3.0":
-  "integrity" "sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA=="
-  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz"
-  "version" "2.4.1"
 
 "tslint@^6.1.2":
   "integrity" "sha512-UyNrLdK3E0fQG/xWNqAFAC5ugtFyPO4JJR1KyyfQAyzR8W0fTRrC91A8Wej4BntFzcvETdCSDa/4PnNYJQLYiA=="

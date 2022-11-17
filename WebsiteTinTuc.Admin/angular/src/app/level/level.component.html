@@ -1,121 +1,125 @@
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <h1>{{ 'Level' }}</h1>
-            </div>
-            <div class="col-6 text-right">
-                <button class="btn bg-blue" (click)="createLevel()">
-                    <i class="fa fa-plus-square"></i>
-                    {{ 'Create' }}
-                </button>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <h1>{{ "Level" }}</h1>
+      </div>
+      <div class="col-6 text-right">
+        <button class="btn bg-blue" (click)="createLevel()">
+          <i class="fa fa-plus-square"></i>
+          {{ "Create" }}
+        </button>
+      </div>
     </div>
+  </div>
 </section>
 <section class="content px-2">
-    <div class="input-group col-6">
-        <div class="input-group-prepend">
-            <button type="button" class="btn bg-blue" (click)="getDataPage(1)">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <input
-                type="text"
-                class="form-control"
-                name="keyword"
-                [placeholder]="'SearchWithThreeDot'"
-                [(ngModel)]="searchText"
-                (keyup.enter)="getDataPage(1)"
-        />
+  <div class="input-group col-6">
+    <div class="input-group-prepend">
+      <button type="button" class="btn bg-blue" (click)="getDataPage(1)">
+        <i class="fas fa-search"></i>
+      </button>
     </div>
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body table-responsive p-0">
-                <table
-                        class="table table-hover text-nowrap"
-                        [busy]="isTableLoading"
+    <input
+      type="text"
+      class="form-control"
+      name="keyword"
+      [placeholder]="'SearchWithThreeDot'"
+      [(ngModel)]="searchText"
+      (keyup.enter)="getDataPage(1)"
+    />
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" [busy]="isTableLoading">
+          <thead class="bg-light">
+            <tr>
+              <th>STT</th>
+              <th>Tên Level</th>
+              <th>Thời gian tạo</th>
+              <th style="width: 200px">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let level of levels
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: pageSize,
+                        currentPage: currentPage,
+                        totalItems: totalCount
+                      };
+                let i = index
+              "
+            >
+              <td>{{ (currentPage - 1) * pageSize + 1 + i }}</td>
+              <td>{{ level.name }}</td>
+              <td>
+                {{ level.creationTime | date: "dd/MM/yyyy hh:ss:mm" }}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-secondary"
+                  (click)="editLevel(level)"
                 >
-                    <thead class="bg-light">
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên Level</th>
-                        <th>Thời gian tạo</th>
-                        <th style="width: 200px">Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr
-                            *ngFor="
-								let level of levels
-									| paginate
-										: {
-												id: 'server',
-												itemsPerPage: pageSize,
-												currentPage: currentPage,
-												totalItems: totalCount
-										  };
-								let i = index
-							"
-                    >
-                        <td>{{ (currentPage - 1) * pageSize + 1 + i }}</td>
-                        <td>{{ level.name }}</td>
-                        <td>
-                            {{
-                            level.creationTime
-                                | date: 'dd/MM/yyyy hh:ss:mm'
-                            }}
-                        </td>
-                        <td>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm bg-secondary"
-                                    (click)="editLevel(level)"
-                            >
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ 'Edit' | localize }}
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm bg-danger mx-2"
-                                    (click)="deleteLevel(level)"
-                            >
-                                <i class="fas fa-trash"></i>
-                                {{ 'Delete' | localize }}
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                  <i class="fas fa-pencil-alt"></i>
+                  {{ "Edit" | localize }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm bg-danger mx-2"
+                  (click)="deleteLevel(level)"
+                >
+                  <i class="fas fa-trash"></i>
+                  {{ "Delete" | localize }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-light border-top">
+        <div class="row">
+          <div class="col-sm-4 col-12 text-sm-left text-center">
+            <button class="btn btn-secondary" (click)="refresh()">
+              <i class="fas fa-redo-alt"></i>
+            </button>
+          </div>
+          <div class="col-sm-4 col-12 text-center">
+            <p class="mb-0 my-2">Tong So Ban Ghi : {{ totalCount }}</p>
+          </div>
+          <div class="col-sm-4 col-12 flex-row">
+            <div class="row justify-content-center">
+              <div class="float-sm-right m-auto">
+                <abp-pagination-controls
+                  id="server"
+                  (pageChange)="getDataPage($event)"
+                >
+                </abp-pagination-controls>
+              </div>
+              <div class="btn-group float-sm-right ml-4 mt-md-2">
+                <select
+                  class="btn btn-outline-primary"
+                  *ngIf="pageSizeSelects"
+                  [(ngModel)]="pageSize"
+                  (change)="onChange()"
+                >
+                  <option
+                    *ngFor="let item of pageSizeSelects"
+                    value="{{ item.value }}"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
             </div>
-            <div class="card-footer bg-light border-top">
-                <div class="row">
-                    <div class="col-sm-4 col-12 text-sm-left text-center">
-                        <button class="btn btn-secondary" (click)="refresh()">
-                            <i class="fas fa-redo-alt"></i>
-                        </button>
-                    </div>
-                    <div class="col-sm-4 col-12 text-center">
-                        <p class="mb-0 my-2">
-                            Tong So Ban Ghi : {{ totalCount }}
-                        </p>
-                    </div>
-                    <div class="col-sm-4 col-12">
-                        <div class="float-sm-right m-auto">
-                            <abp-pagination-controls
-                                    id="server"
-                                    (pageChange)="getDataPage($event)"
-                            >
-                            </abp-pagination-controls>
-                        </div>
-                        <div class="btn-group float-sm-right mr-4" dropdown>
-                            <select *ngIf="pageSizeSelects" [(ngModel)]="pageSize">
-                                <option *ngFor="let item of pageSizeSelects" value="{{item.value}}">{{item.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>

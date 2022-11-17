@@ -1,6 +1,6 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {AppComponentBase} from '@shared/app-component-base';
-import {NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent,} from '@angular/router';
+import {NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, } from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {MenuItem} from '@shared/layout/menu-item';
@@ -72,6 +72,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 '/app/level',
                 'fas fa-layer-group',
                 'Pages.View.Level'
+            ),
+            new MenuItem(
+                'BranchJob',
+                '/app/branchjob',
+                'fas fa-code-branch',
+                'Pages.View.BranchJob'
             ),
             new MenuItem(
                 this.l('Users'),
