@@ -44,6 +44,7 @@
                     >
                         <thead class="bg-light">
                         <tr>
+                            <th>STT</th>
                             <th>Tên hashtag</th>
                             <th>Thời gian tạo</th>
                             <th>Nổi bật</th>
@@ -60,7 +61,8 @@
                                         itemsPerPage: pageSize,
                                         currentPage: currentPage,
                                         totalItems: totalCount
-                                  }">
+                                  }; let i = index">
+                            <td>{{(currentPage - 1)* pageSize +1 + i}}</td>
                             <td>{{ hashtag.name }}</td>
                             <td>
                                 {{hashtag.creationTime | date: 'dd/MM/yyyy hh:ss:mm'}}

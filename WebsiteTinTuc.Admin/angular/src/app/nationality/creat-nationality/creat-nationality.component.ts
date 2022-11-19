@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
-import {BsModalRef} from "ngx-bootstrap/modal";
-import {finalize} from "rxjs/operators";
-import {NationalityService} from "../../../shared/services/nationality-service";
-import {AppComponentBase} from "../../../shared/app-component-base";
+import {BsModalRef} from 'ngx-bootstrap/modal';
+import {finalize} from 'rxjs/operators';
+import {NationalityService} from '../../../shared/services/nationality-service';
+import {AppComponentBase} from '../../../shared/app-component-base';
 
 @Component({
     selector: 'app-creat-nationality',

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Card dis-hover>
-      <div class="page-body">
-        <Form ref="queryForm" :label-width="80" label-position="left" inline>
+         <div class="page-body">
+                 <Form ref="queryForm" :label-width="80" label-position="left" inline>
           <Row :gutter="16">
             <Col span="8">
               <FormItem :label="L('Từ khóa')+':'" style="width:100%">

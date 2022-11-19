@@ -1,37 +1,36 @@
 import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
-import {finalize} from 'rxjs/operators';
+import {AppComponentBase} from '../../../shared/app-component-base';
+import {LevelDto} from '../../../shared/models/level';
 import {BsModalRef} from 'ngx-bootstrap/modal';
-import {AppComponentBase} from '@shared/app-component-base';
-import {HashtagDto} from '../../../shared/models/hashtag';
-import {HashtagService} from '../../../shared/services/hashtag-service';
+import {LevelService} from '../../../shared/services/level-service';
+import {finalize} from 'rxjs/operators';
 
 @Component({
-    templateUrl: 'create-hashtag-dialog.component.html'
+    selector: 'app-create-level',
+    templateUrl: './create-level.component.html',
+    styleUrls: ['./create-level.component.css']
 })
-export class CreateHashtagDialogComponent extends AppComponentBase
-    implements OnInit {
-    saving = false;
-    hashtag: HashtagDto = new HashtagDto();
+export class CreateLevelComponent extends AppComponentBase implements OnInit {
 
+    saving = false;
+    level: LevelDto = new LevelDto();
     @Output() onSave = new EventEmitter<any>();
 
     constructor(
         injector: Injector,
-        private hashtagService: HashtagService,
+        private levelService: LevelService,
         public bsModalRef: BsModalRef
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        this.hashtag.isHot = true;
     }
 
     save(): void {
         this.saving = true;
-
-        this.hashtagService
-            .create(this.hashtag)
+        this.levelService
+            .create(this.level)
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -41,6 +40,8 @@ export class CreateHashtagDialogComponent extends AppComponentBase
                 this.notify.info(this.l('Thêm thành công!'));
                 this.bsModalRef.hide();
                 this.onSave.emit();
+            }, error => {
+                this.notify.error(error.error.error.message, 'Lỗi');
             });
     }
 }

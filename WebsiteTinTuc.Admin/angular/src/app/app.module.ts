@@ -44,7 +44,12 @@ import {HashtagComponent} from './hashtag/hashtag.component';
 import {NationalityComponent} from './nationality/nationality.component';
 import {CreatNationalityComponent} from './nationality/creat-nationality/creat-nationality.component';
 import {EditNationalityComponent} from './nationality/edit-nationality/edit-nationality.component';
-
+import {LevelComponent} from './level/level.component';
+import {CreateLevelComponent} from './level/create-level/create-level.component';
+import {EditLevelComponent} from './level/edit-level/edit-level.component';
+import { BranchjobComponent } from './branchjob/branchjob.component';
+import { CreateBranchjobComponent } from './branchjob/create-branchjob/create-branchjob.component';
+import { EditBranchjobComponent } from './branchjob/edit-branchjob/edit-branchjob.component';
 
 @NgModule({
     declarations: [
@@ -84,6 +89,14 @@ import {EditNationalityComponent} from './nationality/edit-nationality/edit-nati
         NationalityComponent,
         CreatNationalityComponent,
         EditNationalityComponent,
+        // Level
+        LevelComponent,
+        CreateLevelComponent,
+        EditLevelComponent,
+        BranchjobComponent,
+        CreateBranchjobComponent,
+        EditBranchjobComponent,
+
     ],
     imports: [
         CommonModule,
@@ -118,6 +131,9 @@ import {EditNationalityComponent} from './nationality/edit-nationality/edit-nati
         CreateUserDialogComponent,
         EditUserDialogComponent,
         ResetPasswordDialogComponent,
+        // Level
+        CreateLevelComponent,
+        EditLevelComponent,
     ],
 })
 export class AppModule {
