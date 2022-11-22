@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-6">
-        <h1>{{ "Level" }}</h1>
+        <h1>{{ "BranchJob" }}</h1>
       </div>
       <div class="col-6 text-right">
-        <button class="btn bg-blue" (click)="createLevel()">
+        <button class="btn bg-blue">
           <i class="fa fa-plus-square"></i>
           {{ "Create" }}
         </button>
@@ -36,7 +36,7 @@
           <thead class="bg-light">
             <tr>
               <th>STT</th>
-              <th>Tên Level</th>
+              <th>Tên Ngành Nghề</th>
               <th>Thời gian tạo</th>
               <th style="width: 200px">Hành động</th>
             </tr>
@@ -44,7 +44,7 @@
           <tbody>
             <tr
               *ngFor="
-                let level of levels
+                let branchJob of branchJobs
                   | paginate
                     : {
                         id: 'server',
@@ -56,23 +56,19 @@
               "
             >
               <td>{{ (currentPage - 1) * pageSize + 1 + i }}</td>
-              <td>{{ level.name }}</td>
+              <td>{{ branchJob.name }}</td>
               <td>
-                {{ level.creationTime | date: "dd/MM/yyyy hh:ss:mm" }}
+                {{ branchJob.creationTime | date: "dd/MM/yyyy hh:ss:mm" }}
               </td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-sm bg-secondary"
-                  (click)="editLevel(level)"
-                >
+                <button type="button" class="btn btn-sm bg-secondary">
                   <i class="fas fa-pencil-alt"></i>
                   {{ "Edit" | localize }}
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm bg-danger mx-2"
-                  (click)="deleteLevel(level)"
+                  (click)="deleteBranchJob(branchJob)"
                 >
                   <i class="fas fa-trash"></i>
                   {{ "Delete" | localize }}
