@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditBranchjobComponent } from './edit-branchjob.component';
+import { BranchJobComponent } from './branch-job.component';
 
-describe('EditBranchjobComponent', () => {
-  let component: EditBranchjobComponent;
-  let fixture: ComponentFixture<EditBranchjobComponent>;
+describe('BranchJobComponent', () => {
+  let component: BranchJobComponent;
+  let fixture: ComponentFixture<BranchJobComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditBranchjobComponent ]
+      declarations: [ BranchJobComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditBranchjobComponent);
+    fixture = TestBed.createComponent(BranchJobComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
