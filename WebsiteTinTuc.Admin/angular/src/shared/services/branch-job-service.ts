@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { ResponseApi } from "../models/response-api";
 import { PageModel } from "../models/page-model";
 import { BranchJobDto } from "../models/branch-job";
+import { CreateUpdateBranchJob } from "../models/create-update-branch-job";
 
 @Injectable({
   providedIn: "root",
@@ -28,14 +29,34 @@ export class BranchJobService extends BaseApiService {
         (searchText ? "&SearchText=" + searchText : "")
     );
   }
+
   deleteBranchJob(id: string): Observable<any> {
     return this.http.delete(
       this.baseUrl + "/api/services/app/BranchJob/Delete?id=" + id
     );
   }
+
   get(id: string): Observable<ResponseApi<BranchJobDto>> {
     return this.http.get<ResponseApi<BranchJobDto>>(
       this.baseUrl + "/api/services/app/BranchJob/GetBranchJobById?id=" + id
+    );
+  }
+
+  edit(
+    branchJob: CreateUpdateBranchJob
+  ): Observable<ResponseApi<BranchJobDto>> {
+    return this.http.put<ResponseApi<BranchJobDto>>(
+      this.baseUrl + "/api/services/app/BranchJob/UpdateBranchJob",
+      branchJob
+    );
+  }
+
+  create(
+    branchJob: CreateUpdateBranchJob
+  ): Observable<ResponseApi<BranchJobDto>> {
+    return this.http.post<ResponseApi<BranchJobDto>>(
+      this.baseUrl + "/api/services/app/BranchJob/CreateBranchJob",
+      branchJob
     );
   }
 }

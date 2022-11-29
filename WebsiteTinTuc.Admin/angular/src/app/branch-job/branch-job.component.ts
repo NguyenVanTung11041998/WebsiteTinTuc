@@ -2,9 +2,11 @@ import { Component, Injector, OnInit } from "@angular/core";
 import { PageSizeModel } from "../../shared/models/page-size-model";
 import { BranchJobDto } from "../../shared/models/branch-job";
 import { AppComponentBase } from "../../shared/app-component-base";
-import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { BranchJobService } from "../../shared/services/branch-job-service";
 import { finalize } from "rxjs/operators";
+import { CreateBranchJobComponent } from "./create-branch-job/create-branch-job.component";
+import { EditBranchJobComponent } from "./edit-branch-job/edit-branch-job.component";
 
 @Component({
   selector: "app-branch-job",
@@ -79,5 +81,33 @@ export class BranchJobComponent extends AppComponentBase implements OnInit {
         }
       }
     );
+  }
+
+  createBranchJob(): void {
+    this.showDialog();
+  }
+
+  editBranchJob(branchJob: BranchJobDto): void {
+    this.showDialog(branchJob.id);
+  }
+
+  showDialog(id?: string): void {
+    let diaLog: BsModalRef;
+    if (!id) {
+      diaLog = this._modalService.show(CreateBranchJobComponent, {
+        class: "modal-lg",
+      });
+    } else {
+      diaLog = this._modalService.show(EditBranchJobComponent, {
+        class: "modal-lg",
+        initialState: {
+          id: id,
+        },
+      });
+    }
+
+    diaLog.content.onSave.subscribe(() => {
+      this.refresh();
+    });
   }
 }

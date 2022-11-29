@@ -5,7 +5,7 @@
         <h1>{{ "BranchJob" }}</h1>
       </div>
       <div class="col-6 text-right">
-        <button class="btn bg-blue">
+        <button class="btn bg-blue" (click)="createBranchJob()">
           <i class="fa fa-plus-square"></i>
           {{ "Create" }}
         </button>
@@ -61,7 +61,11 @@
                 {{ branchJob.creationTime | date: "dd/MM/yyyy hh:ss:mm" }}
               </td>
               <td>
-                <button type="button" class="btn btn-sm bg-secondary">
+                <button
+                  type="button"
+                  class="btn btn-sm bg-secondary"
+                  (click)="editBranchJob(branchJob)"
+                >
                   <i class="fas fa-pencil-alt"></i>
                   {{ "Edit" | localize }}
                 </button>

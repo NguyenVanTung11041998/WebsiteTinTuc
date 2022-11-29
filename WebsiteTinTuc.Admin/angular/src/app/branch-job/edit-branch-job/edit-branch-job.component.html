@@ -1,1 +1,41 @@
-<p>edit-branch-job works!</p>
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editbranchJobForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Sửa BranchJob'"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="branchJobName">
+        BranchJob Name
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="branchJobName"
+          id="branchJobName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="branchJob.name"
+          #brnachJobNameModel="ngModel"
+          #brnachJobNameEl
+        />
+        <abp-validation-summary
+          [control]="brnachJobNameModel"
+          [controlEl]="brnachJobNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editbranchJobForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
