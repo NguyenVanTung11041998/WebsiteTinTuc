@@ -1,0 +1,116 @@
+<form
+        class="form-horizontal"
+        autocomplete="off"
+        #editHashtagForm="ngForm"
+        (ngSubmit)="save()"
+>
+    <abp-modal-header
+            [title]="'Cập nhật hashtag'"
+            (onCloseClick)="bsModalRef.hide()"
+    ></abp-modal-header>
+    <div class="modal-body"><form
+            class="form-horizontal"
+            autocomplete="off"
+            #editHashtagForm="ngForm"
+            (ngSubmit)="save()"
+    >
+        <abp-modal-header
+                [title]="'Cập nhật hashtag'"
+                (onCloseClick)="bsModalRef.hide()"
+        ></abp-modal-header>
+        <div class="modal-body">
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="hashtagName">
+                    Hashtag Name
+                </label>
+                <div class="col-md-9">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="hashtagName"
+                            id="hashtagName"
+                            minlength="2"
+                            maxlength="64"
+                            required
+                            [(ngModel)]="hashtag.name"
+                            #hashtagNameModel="ngModel"
+                            #hashtagNameEl
+                    />
+                    <abp-validation-summary
+                            [control]="hashtagNameModel"
+                            [controlEl]="hashtagNameEl"
+                    ></abp-validation-summary>
+                </div>
+            </div>
+            <div class="form-group row mb-0">
+                <label class="col-md-3 col-form-label">
+                    {{ "Nổi bật" }}
+                </label>
+                <div class="col-md-9">
+                    <div class="custom-control custom-checkbox">
+                        <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                name="isHot"
+                                id="isHot"
+                                [(ngModel)]="hashtag.isHot"
+                        />
+                        <label class="custom-control-label mt-2" for="isHot"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <abp-modal-footer
+                [cancelDisabled]="saving"
+                [saveDisabled]="!editHashtagForm.form.valid || saving"
+                (onCancelClick)="bsModalRef.hide()"
+        ></abp-modal-footer>
+    </form>
+
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="hashtagName">
+                Hashtag Name
+            </label>
+            <div class="col-md-9">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="hashtagName"
+                        id="hashtagName"
+                        minlength="2"
+                        maxlength="64"
+                        required
+                        [(ngModel)]="hashtag.name"
+                        #hashtagNameModel="ngModel"
+                        #hashtagNameEl
+                />
+                <abp-validation-summary
+                        [control]="hashtagNameModel"
+                        [controlEl]="hashtagNameEl"
+                ></abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row mb-0">
+            <label class="col-md-3 col-form-label">
+                {{ "Nổi bật" }}
+            </label>
+            <div class="col-md-9">
+                <div class="custom-control custom-checkbox">
+                    <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            name="isHot"
+                            id="isHot"
+                            [(ngModel)]="hashtag.isHot"
+                    />
+                    <label class="custom-control-label mt-2" for="isHot"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer
+            [cancelDisabled]="saving"
+            [saveDisabled]="!editHashtagForm.form.valid || saving"
+            (onCancelClick)="bsModalRef.hide()"
+    ></abp-modal-footer>
+</form>

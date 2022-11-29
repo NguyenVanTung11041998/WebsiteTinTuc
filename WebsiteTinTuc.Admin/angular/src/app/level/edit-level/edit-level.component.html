@@ -1,0 +1,41 @@
+<form
+        class="form-horizontal"
+        autocomplete="off"
+        #editLevelForm="ngForm"
+        (ngSubmit)="save()"
+>
+    <abp-modal-header
+            [title]="'Sửa Level'"
+            (onCloseClick)="bsModalRef.hide()"
+    ></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="levelName">
+                level Name
+            </label>
+            <div class="col-md-9">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="levelName"
+                        id="levelName"
+                        minlength="2"
+                        maxlength="64"
+                        required
+                        [(ngModel)]="level.name"
+                        #levelNameModel="ngModel"
+                        #levelNameEl
+                />
+                <abp-validation-summary
+                        [control]="levelNameModel"
+                        [controlEl]="levelNameEl"
+                ></abp-validation-summary>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer
+            [cancelDisabled]="saving"
+            [saveDisabled]="!editLevelForm.form.valid || saving"
+            (onCancelClick)="bsModalRef.hide()"
+    ></abp-modal-footer>
+</form>
