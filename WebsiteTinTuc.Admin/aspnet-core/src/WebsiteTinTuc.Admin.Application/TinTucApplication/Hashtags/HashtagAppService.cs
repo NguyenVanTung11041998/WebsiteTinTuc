@@ -66,7 +66,8 @@ namespace WebsiteTinTuc.Admin.TinTucApplication.Hashtags
             {
                 Id = x.Id,
                 HashtagUrl = x.HashtagUrl,
-                Name = x.Name
+                Name = x.Name,
+                IsHot = x.IsHot
             }).FirstOrDefaultAsync(x => x.Id == id);
             if (hashtag == default)
                 throw new UserFriendlyException("Hashtag không tồn tại");
