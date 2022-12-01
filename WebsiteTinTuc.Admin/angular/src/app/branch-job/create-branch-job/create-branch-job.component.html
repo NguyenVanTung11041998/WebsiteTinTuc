@@ -1,0 +1,41 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editBranchJobForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Thêm BranchJob'"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="branchJobName">
+        Branch Name
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="branchJobName"
+          id="branchJobName"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="branchJob.name"
+          #branchJobNameModel="ngModel"
+          #branchJobNameEl
+        />
+        <abp-validation-summary
+          [control]="branchJobNameModel"
+          [controlEl]="branchJobNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editBranchJobForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
