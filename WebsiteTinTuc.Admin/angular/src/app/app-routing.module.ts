@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from "./users/change-password/change-password
 import { NationalityComponent } from "./nationality/nationality.component";
 import { LevelComponent } from "./level/level.component";
 import { BranchJobComponent } from "./branch-job/branch-job.component";
+import { CompanyComponent } from "./company/company.component";
 
 @NgModule({
   imports: [
@@ -65,6 +66,12 @@ import { BranchJobComponent } from "./branch-job/branch-job.component";
             path: "branchJob",
             component: BranchJobComponent,
             data: { permission: "Pages.View.BranchJob" },
+            canActivate: [AppRouteGuard],
+          },
+          {
+            path: "company",
+            component: CompanyComponent,
+            data: { permission: "Pages.View.Company" },
             canActivate: [AppRouteGuard],
           },
           { path: "about", component: AboutComponent },
